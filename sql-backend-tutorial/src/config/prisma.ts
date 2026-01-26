@@ -60,3 +60,6 @@ export async function disconnectPrisma() {
   await prisma.$disconnect();
   console.log("🔌 Prisma Client disconnect bo'ldi");
 }
+
+
+// fixeeed
