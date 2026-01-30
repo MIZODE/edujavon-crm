@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,8 +7,7 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  email      String    @unique
+  id         Int       @id @default(autoincrement())
   phone      String?   @unique
   password   String
   firstName  String
@@ -22,26 +15,24 @@ model User {
   avatar     String?
   isActive   Boolean   @default(true)
   isVerified Boolean   @default(false)
-  roleId     String
-  role       Role      @relation(fields: [roleId], references: [id])
+  role       Role      @default(USER)
   createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  updatedAt  DateTime? @updatedAt
   deletedAt  DateTime?
+  chatId     String?   @unique
 
-  sessions  Session[]
+  // Relations
   auditLogs AuditLog[]
+  sessions  Session[]
 }
 
-model Role {
-  id          String   @id @default(uuid())
-  name        String   @unique // SUPER_ADMIN, OWNER, MANAGER, LIBRARIAN, USER
-  description String?
-  isSystem    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  users       User[]
-  permissions RolePermission[]
+enum Role {
+  SUPERVISOR
+  ADMIN
+  OWNER
+  MANAGER
+  LIBRARIAN
+  USER
 }
 
 model Permission {
@@ -50,36 +41,25 @@ model Permission {
   action      String // create, read, update, delete, manage
   description String?
 
-  roles RolePermission[]
-
   @@unique([resource, action])
-}
-
-model RolePermission {
-  roleId       String
-  permissionId String
-  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  @@id([roleId, permissionId])
 }
 
 model Session {
   id           String   @id @default(uuid())
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
   refreshToken String   @unique
   deviceInfo   String?
   ipAddress    String?
   expiresAt    DateTime
   createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
 }
 
 model AuditLog {
   id         String   @id @default(uuid())
-  userId     String?
+  userId     Int?
   user       User?    @relation(fields: [userId], references: [id])
-  action     String // LOGIN, LOGOUT, CREATE, UPDATE, DELETE
+  action     Action // LOGIN, LOGOUT, CREATE, UPDATE, DELETE
   resource   String // users, books, etc.
   resourceId String?
   oldValue   Json?
@@ -87,4 +67,12 @@ model AuditLog {
   ipAddress  String?
   userAgent  String?
   createdAt  DateTime @default(now())
+}
+
+enum Action {
+  User_LOGIN
+  User_LOGOUT
+  USER_CREATE
+  USER_UPDATE
+  USER_DELETE
 }

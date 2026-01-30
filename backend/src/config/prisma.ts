@@ -35,7 +35,7 @@ export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     adapter,
-    log: ["query", "error", "warn"],
+    log: ["error", "warn"],
   });
 
 // if (process.env.NODE_ENV !== "production") {
@@ -46,9 +46,6 @@ export async function testPrismaConnection() {
   try {
     await prisma.$connect();
     console.log("✅ Prisma Client muvaffaqiyatli ulandi");
-
-    const result = await prisma.$queryRaw`SELECT version()`;
-    console.log("📊 Database:", result);
   } catch (error) {
     console.error("❌ Prisma connection xatosi:", error);
     process.exit(1);
