@@ -50,6 +50,21 @@ export class UserController {
       return res.status(500).json({ success: false, message: "Server xatosi" });
     }
   };
+
+  update = async (req: Request, res: Response) => {
+    try {
+      const id = +req.params.id;
+      const user = await usersService.findOne(id);
+      if (!user) {
+        return res.status(404).json({ message: "Foydalanuvchi topilmadi" });
+      }
+
+      const updatedUser = await usersService.update(id, req.body);
+      return res.status(200).json({ message: "Muvaffaqiyatli yangilandi", data: updatedUser });
+    } catch (error) {
+      return res.status(500).json({ message: "Server xatosi" });
+    }
+  };
 }
 
 export const userController = new UserController();

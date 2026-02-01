@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 
 export class UsersService {
@@ -45,6 +46,14 @@ export class UsersService {
       },
     });
     return users;
+  }
+
+  async update(id: number, data: UpdateUserDto) {
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data,
+    });
+    return updatedUser;
   }
 
 
