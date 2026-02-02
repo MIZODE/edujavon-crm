@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UsersService } from "./user.service";
-import { prisma } from "../../config";
+import { prisma } from "../../config/prisma";
 
 const usersService = new UsersService();
 
