@@ -23,6 +23,20 @@ export class UsersService {
   async findOne(id: number) {
     const user = await prisma.user.findUnique({
       where: { id },
+      select: {
+        id: true,
+        phone: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+        isActive: true,
+        isVerified: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+        chatId: true,
+      },
     });
 
     return user;
@@ -51,6 +65,20 @@ export class UsersService {
   async update(id: number, data: UpdateUserDto) {
     const updatedUser = await prisma.user.update({
       where: { id },
+      select: {
+        id: true,
+        phone: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+        isActive: true,
+        isVerified: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+        chatId: true,
+      },
       data,
     });
     return updatedUser;
