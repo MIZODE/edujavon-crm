@@ -47,5 +47,21 @@ export class UsersService {
     return users;
   }
 
+  async hardDelete(id: number) {
+    const user = await prisma.user.delete({
+      where: { id },
+    });
+    return user;
+  }
+
+  async softDelete(id: number) {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        isActive: false,
+      },
+    });
+    return user;
+  }
 
 }

@@ -50,6 +50,24 @@ export class UserController {
       return res.status(500).json({ success: false, message: "Server xatosi" });
     }
   };
+
+  hardDelete = async (req: Request, res: Response) => {
+    try {
+      const user = await usersService.hardDelete(+req.params.id);
+      return res.status(200).json({success: true, message: "Foydalanuvchi muvaffaqiyatli o'chirildi", data: user})
+    } catch (error) {
+      return res.status(500).json({success: false, message: "Server xatosi"})
+    }
+  }
+
+  softDelete = async (req: Request, res: Response) => {
+    try {
+      const user = await usersService.softDelete(+req.params.id);
+      return res.status(200).json({success: true, message: "Foydalanuvchi muvaffaqiyatli de-aktivatsiya qilindi", data: user})
+    } catch (error) {
+      return res.status(500).json({success: false, message: "Server xatosi"})
+    }
+  }
 }
 
 export const userController = new UserController();
