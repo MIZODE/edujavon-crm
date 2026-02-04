@@ -9,15 +9,19 @@ export class UserController {
   create = async (req: Request, res: Response) => {
     try {
 
-      const existPhone = await prisma.user.findUnique({
-        where: {
-          phone: req.body.phone
-        }
-      })
+      if (req.body.phone) {
+        const existPhone = await prisma.user.findUnique({
+          where: {
+            phone: req.body.phone
+          }
+        })
 
-      if (existPhone) {
-        return res.status(400).json({ message: "Foydalanuvchi allaqachon mavjud" });
+        if (existPhone) {
+          return res.status(400).json({ message: "Foydalanuvchi allaqachon mavjud" });
+        }
       }
+
+
 
       const user = await usersService.create(req.body);
       return res.status(201).json({ message: "Foydalanuvchi muvaffaqiyatli qo'shildi", data: user });
