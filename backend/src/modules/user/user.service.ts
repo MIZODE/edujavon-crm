@@ -1,41 +1,33 @@
 import { prisma } from "../../config/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-
+// import * as bcrypt from "bcrypt"
 
 export class UsersService {
-
   async create(user: CreateUserDto) {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
     const newUser = await prisma.user.create({
       data: {
         phone: user.phone,
-        password: user.password,
+        password: hashedPassword,
         firstName: user.firstName,
         lastName: user.lastName,
         avatar: user.avatar,
         role: user.role,
-      }
-    })
+      },
+    });
 
     return newUser;
   }
 
   async findOne(id: number) {
     const user = await prisma.user.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        phone: true,
-        firstName: true,
-        lastName: true,
-        avatar: true,
-        isActive: true,
-        isVerified: true,
-        role: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true,
-        chatId: true,
+      where: {
+        id,
+        AND: {
+          isActive: true,
+        },
       },
     });
 
@@ -58,6 +50,7 @@ export class UsersService {
         deletedAt: true,
         chatId: true,
       },
+
     });
     return users;
   }
@@ -84,5 +77,21 @@ export class UsersService {
     return updatedUser;
   }
 
+  async hardDelete(id: number) {
+    const deletedUser = await prisma.user.delete({
+      where: { id },
+    });
 
+    return deletedUser;
+  }
+
+  async softDelete(id: number) {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        isActive: false,
+      }
+    })
+    return user;
+  }
 }

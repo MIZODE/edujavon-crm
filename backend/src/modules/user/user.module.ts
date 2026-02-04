@@ -7,6 +7,7 @@ userRouter.get("/users", userController.getAll);
 userRouter.get("/:id", userController.getOne);
 userRouter.post("/", userController.create);
 userRouter.patch("/up/:id", userController.update);
-
+userRouter.delete('/hard/:id', userController.hardDelete);
+userRouter.put('/soft/:id', userController.softDelete);
 
 export default userRouter;
