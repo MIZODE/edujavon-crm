@@ -1,7 +1,7 @@
 import { prisma } from "../../config/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-// import * as bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 export class UsersService {
   async create(user: CreateUserDto) {
