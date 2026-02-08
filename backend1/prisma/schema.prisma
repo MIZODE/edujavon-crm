@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  phone      String?   @unique
+  password   String
+  firstName  String
+  lastName   String
+  avatar     String?
+  isActive   Boolean   @default(true)
+  isVerified Boolean   @default(false)
+  role       Role      @default(USER)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  deletedAt  DateTime?
+  chatId     String?   @unique
+
+  // Relations
+  auditLogs AuditLog[]
+  sessions  Session[]
+}
+
+enum Role {
+  SUPERVISOR
+  ADMIN
+  OWNER
+  MANAGER
+  LIBRARIAN
+  USER
+}
+
+model Permission {
+  id          String  @id @default(uuid())
+  resource    String // users, books, branches, etc.
+  action      String // create, read, update, delete, manage
+  description String?
+
+  @@unique([resource, action])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       Int
+  refreshToken String   @unique
+  deviceInfo   String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     Int?
+  user       User?    @relation(fields: [userId], references: [id])
+  action     Action // LOGIN, LOGOUT, CREATE, UPDATE, DELETE
+  resource   String // users, books, etc.
+  resourceId String?
+  oldValue   Json?
+  newValue   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+}
+
+enum Action {
+  User_LOGIN
+  User_LOGOUT
+  USER_CREATE
+  USER_UPDATE
+  USER_DELETE
+}
