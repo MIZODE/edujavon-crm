@@ -1,14 +1,12 @@
 import { prisma } from "../../config/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import bcrypt from "bcrypt";
 
-
 export class UsersService {
-  
-  
-  
   async create(user: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(user.password, 10);
+
     const newUser = await prisma.user.create({
       data: {
         phone: user.phone,
@@ -17,15 +15,20 @@ export class UsersService {
         lastName: user.lastName,
         avatar: user.avatar,
         role: user.role,
-      }
-    })
+      },
+    });
 
     return newUser;
   }
 
   async findOne(id: number) {
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: {
+        id,
+        AND: {
+          isActive: true,
+        },
+      },
     });
 
     return user;
@@ -47,15 +50,39 @@ export class UsersService {
         deletedAt: true,
         chatId: true,
       },
+
     });
     return users;
   }
 
+  async update(id: number, data: UpdateUserDto) {
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      select: {
+        id: true,
+        phone: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+        isActive: true,
+        isVerified: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+        chatId: true,
+      },
+      data,
+    });
+    return updatedUser;
+  }
+
   async hardDelete(id: number) {
-    const user = await prisma.user.delete({
+    const deletedUser = await prisma.user.delete({
       where: { id },
     });
-    return user;
+
+    return deletedUser;
   }
 
   async softDelete(id: number) {
@@ -63,9 +90,8 @@ export class UsersService {
       where: { id },
       data: {
         isActive: false,
-      },
-    });
+      }
+    })
     return user;
   }
-
 }
