@@ -44,11 +44,11 @@ const navigation = {
     { name: "Ijaralar", href: "/dashboard/librarian/rentals", icon: Users },
     { name: "Katalog", href: "/dashboard/librarian/catalog", icon: Library },
   ],
-  reader: [
-    { name: "Asosiy", href: "/dashboard/reader", icon: LayoutDashboard },
+  user: [
+    { name: "Asosiy", href: "/dashboard/user", icon: LayoutDashboard },
     {
       name: "Mening Kitoblarim",
-      href: "/dashboard/reader/my-books",
+      href: "/dashboard/user/my-books",
       icon: BookOpen,
     },
     { name: "Katalog", href: "/dashboard/reader/catalog", icon: Library },
@@ -62,7 +62,6 @@ export default function DashboardLayout({ children, role }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("userRole");
     localStorage.removeItem("userinfo");
     navigate("/");
     location.reload();
@@ -114,8 +113,8 @@ export default function DashboardLayout({ children, role }) {
                       {role === "admin"
                         ? "A"
                         : role === "librarian"
-                        ? "L"
-                        : "R"}
+                          ? "L"
+                          : "R"}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -150,7 +149,7 @@ export default function DashboardLayout({ children, role }) {
         <aside
           className={cn(
             "fixed inset-y-0 left-0 z-40 w-64 border-r border-border/50 bg-sidebar pt-16 transition-transform duration-300 md:translate-x-0",
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            sidebarOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
           <nav className="flex flex-col gap-1 p-4">
@@ -163,7 +162,7 @@ export default function DashboardLayout({ children, role }) {
                   className={cn(
                     "justify-start",
                     isActive &&
-                      "bg-sidebar-primary text-sidebar-primary-foreground"
+                      "bg-sidebar-primary text-sidebar-primary-foreground",
                   )}
                   onClick={() => {
                     navigate(item.href);

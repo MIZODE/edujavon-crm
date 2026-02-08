@@ -19,197 +19,72 @@ import axios from "axios";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const registerInfo = [];
   const [loading, setLoading] = useState(false);
-  // foydalanuchilar
-  const [userslist, setUserslist] = useState([]);
-  const [ischekingusername, setChekingusername] = useState(false);
-  const [ischekingphone, setChekingphone] = useState(false);
-  // login
-  const [userlogin, setUserlogin] = useState("");
-  const [passwordlogin, setPasswordlogin] = useState("");
 
-  // register
-  const [username, setUsername] = useState("");
-  const [fullname, setFullname] = useState("");
+  // login-----------------------------------------------------------
+  const [phoneNumberlogin, setPhoneNumberlogin] = useState("");
+  const [passwordlogin, setPasswordlogin] = useState("");
+  const loginInfo = [
+    {
+      id: 1,
+      phoneNumberlogin: phoneNumberlogin
+        .replace("+998 ", "")
+        .replace(" ", "")
+        .replace(" ", "")
+        .replace(" ", ""),
+      passwordlogin: passwordlogin,
+      role: "user",
+    },
+  ];
+
+  // register---------------------------------------------------------
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // o'lchamli parol
-  // const [passwordStrength, setPasswordStrength] = useState(0);
+  const registerInfo = [
+    {
+      id: 1,
+      firstname: firstname,
+      lastname: lastname,
+      phoneNumber: phoneNumber
+        .replace("+998 ", "")
+        .replace(" ", "")
+        .replace(" ", "")
+        .replace(" ", ""),
+      password: password,
+      role: "user",
+    },
+  ];
 
-  // Password visibility states
+  // Parolni ko'rish ------------------------------------------------
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Parol kuchini tekshirish
-  const checkPasswordStrength = (password) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    if (hasUpperCase && hasLowerCase) strength++;
-
-    const hasNumber = /[0-9]/.test(password);
-    if (hasNumber) strength++;
-
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    if (hasSpecialChar) strength++;
-
-    if (password.length >= 12) strength++;
-
-    if (strength <= 2) return 1;
-    if (strength <= 4) return 2;
-    return 3;
-  };
-
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    setPasswordStrength(checkPasswordStrength(newPassword));
-  };
-
-  // const getPasswordStrengthText = () => {
-  //   if (passwordStrength === 0) return "";
-  //   if (passwordStrength === 1) return "Oson";
-  //   if (passwordStrength === 2) return "Yaxshi";
-  //   return "Kuchli";
-  // };
-
-  // const getPasswordStrengthColor = () => {
-  //   if (passwordStrength === 1) return "bg-red-500";
-  //   if (passwordStrength === 2) return "bg-yellow-500";
-  //   if (passwordStrength === 3) return "bg-green-500";
-  //   return "bg-gray-200";
-  // };
-
-  // const getPasswordRequirements = () => {
-  //   const hasLength = password.length >= 8;
-  //   const hasUpperCase = /[A-Z]/.test(password);
-  //   const hasLowerCase = /[a-z]/.test(password);
-  //   const hasNumber = /[0-9]/.test(password);
-  //   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  //   return { hasLength, hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar };
-  // };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  const getUsers = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/v1/users");
-      setUserslist(response.data.users);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
-  const checkUsername = (username) => {
-    setUsername(username);
-    if (!username) {
-      setChekingusername(true);
-      return;
-    }
-    const exists = userslist.some((user) => user.username === username);
-    setChekingusername(exists);
-  };
-
   const checkPhone = (rawValue) => {
     const formatted = formatPhoneNumber(rawValue);
     setPhoneNumber(formatted);
+  };
 
-    if (!formatted || formatted === "+998") {
-      setChekingphone(false); // Reset check if empty or just prefix
-      return;
-    }
-
-    const exists = userslist.some((user) => user.phoneNumber === formatted);
-    setChekingphone(exists);
+  const checkPhoneLogin = (rawValue) => {
+    const formatted = formatPhoneNumber(rawValue);
+    setPhoneNumberlogin(formatted);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const response = await axios.get("http://localhost:3000/api/v1/users");
-    const user = response.data.users.find(
-      (u) => u.username === userlogin && u.password === passwordlogin
-    );
-    if (!user) {
-      toast.error("username yoki parol noto'g'ri!");
-      setLoading(false);
-      return;
-    }
-    localStorage.setItem(
-      "userinfo",
-      JSON.stringify({
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        phone: user.phone,
-        role: user.role,
-        password: user.password,
-      })
-    );
-    console.log({
-      id: user.id,
-      name: user.name,
-      username: user.username,
-      phone: user.phone,
-      role: user.role,
-      password: user.password,
-    });
-
-    toast.success("Tizimga muvaffaqiyatli kirdingiz!");
-    navigate(`/${user.role === "user" ? "" : user.role}`);
+    console.log(loginInfo);
+    localStorage.setItem("userinfo", JSON.stringify(loginInfo));
+    navigate("/");
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Parollar mos kelmayapti!");
-      return;
-    }
-
-    if (ischekingusername) {
-      toast.error("Username allaqachon mavjud!");
-      return;
-    }
-    if (ischekingphone) {
-      toast.error("Telefon raqami allaqachon mavjud!");
-      return;
-    }
-    if (
-      fullname === "" ||
-      username === "" ||
-      phoneNumber === "" ||
-      password === "" ||
-      confirmPassword === ""
-    ) {
-      toast.error("Iltimos, barcha maydonlarni to'ldiring!");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await axios.post("http://localhost:3000/api/v1/users", {
-        name: fullname,
-        username: username,
-        phone: phoneNumber.slice(1).replaceAll(" ", ""),
-        password: password,
-        role: "user",
-      });
-      console.log("User created:", response.data);
-      toast.success("Ro'yxatdan o'tdingiz! Endi tizimga kirishingiz mumkin.");
-      setLoading(false);
-      navigate("/");
-    } catch (error) {
-      toast.error("Ro'yxatdan o'tishda xatolik yuz berdi.");
-      setLoading(false);
-    }
+    console.log(registerInfo);
+    localStorage.setItem("userinfo", JSON.stringify(registerInfo));
+    navigate("/");
   };
 
   return (
@@ -261,29 +136,34 @@ export default function LoginPage() {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Login Tab */}
+              {/* ---------------------------------Login Tab--------------------------------- */}
               <TabsContent value="login" className="space-y-6">
                 <form onSubmit={handleLogin} className="space-y-5">
+                  {/* ---------------------------------Phone Number--------------------------------- */}
                   <div className="space-y-2">
                     <Label
-                      htmlFor="email"
+                      htmlFor="reg-phone"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Taxallus
+                      Telefon
                     </Label>
                     <div className="relative group">
-                      <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                      <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400 group-focus-within:text-purple-600 transition-colors" />
                       <Input
-                        id="email"
-                        name="email"
-                        onChange={(e) => setUserlogin(e.target.value)}
-                        placeholder="taxallus"
-                        className="pl-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all rounded-xl"
+                        id="reg-phone"
+                        name="phone"
+                        type="tel"
+                        value={phoneNumberlogin}
+                        onChange={(e) => checkPhoneLogin(e.target.value)}
+                        placeholder="+998 90 123 45 67"
+                        maxLength="17"
+                        className="pl-11 h-12 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all rounded-xl"
                         required
                       />
                     </div>
                   </div>
 
+                  {/* ---------------------------------Password--------------------------------- */}
                   <div className="space-y-2">
                     <Label
                       htmlFor="password"
@@ -344,23 +224,22 @@ export default function LoginPage() {
                 </form>
               </TabsContent>
 
-              {/* Register Tab */}
+              {/* ---------------------------------Register Tab--------------------------------- */}
               <TabsContent value="register" className="space-y-5">
                 <form onSubmit={handleRegister} className="space-y-5">
                   <div className="space-y-2">
                     <Label
                       htmlFor="reg-name"
-                      onClick={getUsers}
                       className="text-sm font-medium text-gray-700"
                     >
-                      To'liq ism
+                      Ism
                     </Label>
                     <Input
                       id="reg-name"
-                      name="name"
-                      value={fullname}
-                      onChange={(e) => setFullname(e.target.value)}
-                      placeholder="Abdullayev Abdulla"
+                      name="firstname"
+                      value={firstname}
+                      onChange={(e) => setFirstname(e.target.value)}
+                      placeholder="Ism"
                       className="h-12 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all rounded-xl"
                       required
                     />
@@ -368,17 +247,17 @@ export default function LoginPage() {
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="reg-username"
+                      htmlFor="reg-name"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Taxallus
+                      Familiya
                     </Label>
                     <Input
-                      id="reg-username"
-                      name="username"
-                      value={username}
-                      onChange={(e) => checkUsername(e.target.value)}
-                      placeholder="taxallus"
+                      id="reg-name"
+                      name="lastname"
+                      value={lastname}
+                      onChange={(e) => setLastname(e.target.value)}
+                      placeholder="Familiya"
                       className="h-12 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all rounded-xl"
                       required
                     />
@@ -421,7 +300,7 @@ export default function LoginPage() {
                         name="password"
                         type={showRegisterPassword ? "text" : "password"}
                         value={password}
-                        onChange={handlePasswordChange}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
                         className="pl-11 pr-10 h-12 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all rounded-xl"
                         required
@@ -440,115 +319,6 @@ export default function LoginPage() {
                         )}
                       </button>
                     </div>
-                    {/* {password && (
-                      <div className="space-y-2">
-                        <div className="flex gap-1">
-                          <div
-                            className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                              passwordStrength >= 1
-                                ? getPasswordStrengthColor()
-                                : "bg-gray-200"
-                            }`}
-                          />
-                          <div
-                            className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                              passwordStrength >= 2
-                                ? getPasswordStrengthColor()
-                                : "bg-gray-200"
-                            }`}
-                          />
-                          <div
-                            className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                              passwordStrength >= 3
-                                ? getPasswordStrengthColor()
-                                : "bg-gray-200"
-                            }`}
-                          />
-                        </div>
-                        <p
-                          className={`text-xs font-medium ${
-                            passwordStrength === 1
-                              ? "text-red-500"
-                              : passwordStrength === 2
-                              ? "text-yellow-600"
-                              : "text-green-600"
-                          }`}
-                        >
-                          Parol kuchi: {getPasswordStrengthText()}
-                        </p>
-                        <div className="text-xs space-y-1 bg-gray-50 p-3 rounded-lg">
-                          <p className="font-medium text-gray-700 mb-2">
-                            Parol talablari:
-                          </p>
-                          <div
-                            className={`flex items-center gap-2 ${
-                              getPasswordRequirements().hasLength
-                                ? "text-green-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            <span>
-                              {getPasswordRequirements().hasLength ? "✓" : "○"}
-                            </span>
-                            <span>Kamida 8 ta belgi</span>
-                          </div>
-                          <div
-                            className={`flex items-center gap-2 ${
-                              getPasswordRequirements().hasUpperCase
-                                ? "text-green-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            <span>
-                              {getPasswordRequirements().hasUpperCase
-                                ? "✓"
-                                : "○"}
-                            </span>
-                            <span>Kamida 1 ta katta harf (A-Z)</span>
-                          </div>
-                          <div
-                            className={`flex items-center gap-2 ${
-                              getPasswordRequirements().hasLowerCase
-                                ? "text-green-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            <span>
-                              {getPasswordRequirements().hasLowerCase
-                                ? "✓"
-                                : "○"}
-                            </span>
-                            <span>Kamida 1 ta kichik harf (a-z)</span>
-                          </div>
-                          <div
-                            className={`flex items-center gap-2 ${
-                              getPasswordRequirements().hasNumber
-                                ? "text-green-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            <span>
-                              {getPasswordRequirements().hasNumber ? "✓" : "○"}
-                            </span>
-                            <span>Kamida 1 ta raqam (0-9)</span>
-                          </div>
-                          <div
-                            className={`flex items-center gap-2 ${
-                              getPasswordRequirements().hasSpecialChar
-                                ? "text-green-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            <span>
-                              {getPasswordRequirements().hasSpecialChar
-                                ? "✓"
-                                : "○"}
-                            </span>
-                            <span>Kamida 1 ta maxsus belgi (!@#$%...)</span>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
                   </div>
 
                   <div className="space-y-2">

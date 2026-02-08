@@ -6,14 +6,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import LibrarianDashboard from "./pages/dashboard/LibrarianDashboard";
-import ReaderDashboard from "./pages/dashboard/ReaderDashboard";
+import UserDashboard from "./pages/dashboard/UserDashboard";
 import DashboardLayout from "./components/DashboardLayout";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import LandingPage from "./pages/LandingPages/LandingPage";
 
 const queryClient = new QueryClient();
-const userinfo = localStorage.getItem("userinfo");
+const userinfo = JSON.parse(localStorage.getItem("userinfo"));
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,46 +27,21 @@ const App = () => (
           <Route
             path="/"
             element={
-              !userinfo ? (
-                <LandingPage />
-              ) : (
-                <DashboardLayout role="reader">
-                  <ReaderDashboard />
+              userinfo[0] && userinfo[0].role == "user" ? ( 
+                <DashboardLayout role="user">
+                  <UserDashboard />
                 </DashboardLayout>
+              ) : userinfo[0] && userinfo[0].role == "librarian" ? (
+                <DashboardLayout role="librarian">
+                  <LibrarianDashboard />
+                </DashboardLayout>
+              ) : userinfo[0] && userinfo[0].role == "admin" ? (
+                <DashboardLayout role="admin">
+                  <AdminDashboard />
+                </DashboardLayout>
+              ) : (
+                <LandingPage />
               )
-            }
-          />
-
-          {/* <Route
-            path="/home"
-            element={
-              <DashboardLayout role="reader">
-                <ReaderDashboard />
-              </DashboardLayout>
-            }
-          />
-          {/* Admin panal uchun routlar */}
-          <Route
-            path="/admin"
-            element={
-              (!userinfo || userinfo.role !== "admin") ? (
-                <Navigate to="/login" replace />
-              ) : (
-              <DashboardLayout role="admin">
-                <AdminDashboard />
-              </DashboardLayout>)
-            }
-          />
-          {/* Librarian panal uchun routlar */}
-          <Route
-            path="/librarian"
-            element={
-              (!userinfo || userinfo.role !== "librarian") ? (
-                <Navigate to="/login" replace />
-              ) : (
-              <DashboardLayout role="librarian">
-                <LibrarianDashboard />
-              </DashboardLayout>)
             }
           />
 
