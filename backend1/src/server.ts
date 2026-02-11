@@ -1,13 +1,17 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { testPrismaConnection } from "./config/index";
-import {appRouter} from "./app.route";
+import { appRouter } from "./app.route";
+import path from "path";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 9090;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 app.use("/api/v1", appRouter);
 
 async function startServer() {
@@ -22,7 +26,6 @@ async function startServer() {
   }
 }
 
-// Serverni ishga tushirish
 startServer();
 
 export default app;
