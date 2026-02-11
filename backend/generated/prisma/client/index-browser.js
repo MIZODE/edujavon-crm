@@ -166,6 +166,16 @@ exports.Prisma.UserScalarFieldEnum = {
   chatId: 'chatId'
 };
 
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  size: 'size',
+  mimeType: 'mimeType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -208,11 +218,18 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  DELETED: 'DELETED'
+};
+
 exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   Permission: 'Permission',
   Session: 'Session',
-  User: 'User'
+  User: 'User',
+  File: 'File'
 };
 
 /**
