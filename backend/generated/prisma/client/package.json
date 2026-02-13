@@ -6,7 +6,7 @@
   "exports": {
     "./client": {
       "require": {
-        "node": "./index.js",
+        "node": "./index.js", 
         "edge-light": "./edge.js",
         "workerd": "./edge.js",
         "worker": "./edge.js",
