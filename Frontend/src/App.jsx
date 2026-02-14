@@ -13,7 +13,7 @@ import Landing from "./pages/Landing";
 import LandingPage from "./pages/LandingPages/LandingPage";
 
 const queryClient = new QueryClient();
-const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+const userinfo = JSON.parse(localStorage.getItem("userinfo")) || [];
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,7 +27,7 @@ const App = () => (
           <Route
             path="/"
             element={
-              userinfo[0] && userinfo[0].role == "user" ? ( 
+              userinfo[0] && userinfo[0].role == "user" ? (
                 <DashboardLayout role="user">
                   <UserDashboard />
                 </DashboardLayout>

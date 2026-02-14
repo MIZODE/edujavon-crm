@@ -1,10 +1,10 @@
-import { Role } from '@prisma/client';
+// import { Role } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 const ACCESS_SECRET = process.env.JWT_SECRET!;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 
-export function createAccessToken(user: { id: number; role: Role }) {
+export function createAccessToken(user: { id: number; role: string }) {
   return jwt.sign(
     {
       sub: user.id,

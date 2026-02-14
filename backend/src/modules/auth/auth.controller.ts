@@ -16,7 +16,7 @@ export async function loginController(req: Request, res: Response) {
         });
 
         return res.status(200).json({
-            message: "Mucaffaqqiyatli login bo'ldingiz",
+            message: "Muvaffaqiyatli login qilindi",
             accessToken
         });
 
