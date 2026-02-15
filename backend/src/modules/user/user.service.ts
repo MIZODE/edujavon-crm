@@ -13,7 +13,7 @@ export class UsersService {
     });
 
     if (existPhone) {
-      // You can throw error and catch in controller
+    
       throw new Error("PHONE_ALREADY_EXISTS");
     }
     const hashedPassword = await bcrypt.hash(user.password, 10);
