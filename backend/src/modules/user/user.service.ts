@@ -4,7 +4,18 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import bcrypt from "bcrypt";
 
 export class UsersService {
+
   async create(user: CreateUserDto) {
+
+    const existPhone = await prisma.user.findUnique({
+      where: { phone: user.phone },
+      select: { id: true },
+    });
+
+    if (existPhone) {
+      // You can throw error and catch in controller
+      throw new Error("PHONE_ALREADY_EXISTS");
+    }
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     const newUser = await prisma.user.create({
@@ -33,6 +44,14 @@ export class UsersService {
 
     return user;
   }
+
+
+
+
+
+
+
+  //pagination
 
   async findAll() {
     const users = await prisma.user.findMany({
@@ -81,8 +100,8 @@ export class UsersService {
     const deletedUser = await prisma.user.delete({
       where: { id },
     });
-
-    return deletedUser;
+    return ({ message: "User movafaqiyatli o'chirildi"});
+    // return deletedUser;
   }
 
   async softDelete(id: number) {
@@ -92,6 +111,8 @@ export class UsersService {
         isActive: false,
       }
     })
-    return user;
+        return ({ message: "User movafaqiyatli o'chirildi"});
+
+    // return user;
   }
 }

@@ -2,7 +2,7 @@ import { prisma } from '../../config/prisma';
 import bcrypt from 'bcrypt';
 import { cache } from '../../common/service/cache.service';
 import { createAccessToken, createRefreshToken } from '../../common/service/token.service';
-
+import { AppError } from '../../common/errors/AppError';
 
 export async function login(data: { phone: string; password: string }) {
     const user = await prisma.user.findUnique({
@@ -10,7 +10,7 @@ export async function login(data: { phone: string; password: string }) {
     });
 
     if (!user) {
-        throw new Error("Foydalanuvchi topilmadi");
+        throw new AppError("Foydalanuvchi topilmadi",404);
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -19,7 +19,7 @@ export async function login(data: { phone: string; password: string }) {
     );
 
     if (!isPasswordValid) {
-        throw new Error("Parol xato");
+        throw new AppError("Parol xato",401);
     }
 
     const accessToken = createAccessToken({
