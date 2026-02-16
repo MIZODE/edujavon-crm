@@ -23,7 +23,7 @@ import {
   Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navigation = {
   admin: [
@@ -59,12 +59,11 @@ const navigation = {
 export default function DashboardLayout({ children, role }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
+ 
   const handleLogout = () => {
     localStorage.removeItem("userinfo");
-    navigate("/");
-    location.reload();
+    localStorage.setItem("userinfo", "[]");
+    navigate("/login");
   };
 
   const currentNav = navigation[role];
