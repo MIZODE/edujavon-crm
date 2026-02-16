@@ -14,7 +14,7 @@ export class UsersService {
 
     if (existPhone) {
     
-      throw new Error("PHONE_ALREADY_EXISTS");
+      throw new Error("phone already exist");
     }
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
