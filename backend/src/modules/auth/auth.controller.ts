@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import * as authService from './auth.service';
 
 export async function loginController(req: Request, res: Response) {
@@ -46,6 +46,19 @@ export async function registerController(req: Request, res: Response) {
             accessToken
         });
 
+    } catch (err: any) {
+        return res.status(401).json({
+            message: err.message || "Xatolik yuz berdi"
+        });
+    }
+}
+
+export async function logoutController(req: Request, res: Response){
+    try {
+        res.clearCookie('refreshToken');
+        return res.status(200).json({
+            message: "Muvaffaqiyatli logout qilindi"
+        });
     } catch (err: any) {
         return res.status(401).json({
             message: err.message || "Xatolik yuz berdi"
