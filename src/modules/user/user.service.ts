@@ -2,6 +2,7 @@ import { prisma } from "../../config/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import bcrypt from "bcrypt";
+import { AppError } from "../../common/errors/AppError";
 
 export class UsersService {
 
@@ -14,7 +15,7 @@ export class UsersService {
 
     if (existPhone) {
     
-      throw new Error("PHONE_ALREADY_EXISTS");
+      throw new AppError("PHONE_ALREADY_EXISTS",409);
     }
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
