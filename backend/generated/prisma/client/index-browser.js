@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.3.0
- * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+ * Prisma Client JS version: 7.4.0
+ * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
  */
 Prisma.prismaVersion = {
-  client: "7.3.0",
-  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
+  client: "7.4.0",
+  engine: "ab56fe763f921d033a6c195e7ddeb3e255bdbb57"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -176,6 +176,55 @@ exports.Prisma.FileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BookScalarFieldEnum = {
+  id: 'id',
+  isbn10: 'isbn10',
+  isbn13: 'isbn13',
+  titleUz: 'titleUz',
+  titleRu: 'titleRu',
+  titleEn: 'titleEn',
+  publisherId: 'publisherId',
+  publishYear: 'publishYear',
+  languages: 'languages',
+  pageCount: 'pageCount',
+  shortDescription: 'shortDescription',
+  fullDescription: 'fullDescription',
+  coverImageUrl: 'coverImageUrl',
+  coverThumbnailUrl: 'coverThumbnailUrl',
+  weight: 'weight',
+  height: 'height',
+  width: 'width',
+  thickness: 'thickness',
+  seriesName: 'seriesName',
+  seriesNumber: 'seriesNumber',
+  seriesTotal: 'seriesTotal',
+  ddcCode: 'ddcCode',
+  udcCode: 'udcCode',
+  tags: 'tags',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.InventoryLogScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  copyId: 'copyId',
+  branchId: 'branchId',
+  action: 'action',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  oldLocation: 'oldLocation',
+  newLocation: 'newLocation',
+  quantity: 'quantity',
+  reason: 'reason',
+  notes: 'notes',
+  metadata: 'metadata',
+  performedBy: 'performedBy',
+  performedAt: 'performedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -224,12 +273,23 @@ exports.Status = exports.$Enums.Status = {
   DELETED: 'DELETED'
 };
 
+exports.InventoryAction = exports.$Enums.InventoryAction = {
+  BOOKS_ADDED: 'BOOKS_ADDED',
+  COPY_STATUS_CHANGED: 'COPY_STATUS_CHANGED',
+  LOCATION_CHANGED: 'LOCATION_CHANGED',
+  COPY_TRANSFERRED: 'COPY_TRANSFERRED',
+  COPY_REPAIRED: 'COPY_REPAIRED',
+  COPY_WITHDRAWN: 'COPY_WITHDRAWN'
+};
+
 exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   Permission: 'Permission',
   Session: 'Session',
   User: 'User',
-  File: 'File'
+  File: 'File',
+  Book: 'Book',
+  InventoryLog: 'InventoryLog'
 };
 
 /**

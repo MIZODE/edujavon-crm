@@ -38,6 +38,16 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type File = $Result.DefaultSelection<Prisma.$FilePayload>
+/**
+ * Model Book
+ * 
+ */
+export type Book = $Result.DefaultSelection<Prisma.$BookPayload>
+/**
+ * Model InventoryLog
+ * 
+ */
+export type InventoryLog = $Result.DefaultSelection<Prisma.$InventoryLogPayload>
 
 /**
  * Enums
@@ -74,6 +84,37 @@ export const Status: {
 
 export type Status = (typeof Status)[keyof typeof Status]
 
+
+export const AgeCategory: {
+  CHILDREN: 'CHILDREN',
+  TEEN: 'TEEN',
+  ADULT: 'ADULT'
+};
+
+export type AgeCategory = (typeof AgeCategory)[keyof typeof AgeCategory]
+
+
+export const BookCondition: {
+  NEW: 'NEW',
+  GOOD: 'GOOD',
+  SATISFACTORY: 'SATISFACTORY',
+  POOR: 'POOR'
+};
+
+export type BookCondition = (typeof BookCondition)[keyof typeof BookCondition]
+
+
+export const InventoryAction: {
+  BOOKS_ADDED: 'BOOKS_ADDED',
+  COPY_STATUS_CHANGED: 'COPY_STATUS_CHANGED',
+  LOCATION_CHANGED: 'LOCATION_CHANGED',
+  COPY_TRANSFERRED: 'COPY_TRANSFERRED',
+  COPY_REPAIRED: 'COPY_REPAIRED',
+  COPY_WITHDRAWN: 'COPY_WITHDRAWN'
+};
+
+export type InventoryAction = (typeof InventoryAction)[keyof typeof InventoryAction]
+
 }
 
 export type Action = $Enums.Action
@@ -87,6 +128,18 @@ export const Role: typeof $Enums.Role
 export type Status = $Enums.Status
 
 export const Status: typeof $Enums.Status
+
+export type AgeCategory = $Enums.AgeCategory
+
+export const AgeCategory: typeof $Enums.AgeCategory
+
+export type BookCondition = $Enums.BookCondition
+
+export const BookCondition: typeof $Enums.BookCondition
+
+export type InventoryAction = $Enums.InventoryAction
+
+export const InventoryAction: typeof $Enums.InventoryAction
 
 /**
  * ##  Prisma Client ʲˢ
@@ -254,6 +307,26 @@ export class PrismaClient<
     * ```
     */
   get file(): Prisma.FileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.book`: Exposes CRUD operations for the **Book** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Books
+    * const books = await prisma.book.findMany()
+    * ```
+    */
+  get book(): Prisma.BookDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inventoryLog`: Exposes CRUD operations for the **InventoryLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InventoryLogs
+    * const inventoryLogs = await prisma.inventoryLog.findMany()
+    * ```
+    */
+  get inventoryLog(): Prisma.InventoryLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -304,8 +377,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.3.0
-   * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+   * Prisma Client JS version: 7.4.0
+   * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
    */
   export type PrismaVersion = {
     client: string
@@ -692,7 +765,9 @@ export namespace Prisma {
     Permission: 'Permission',
     Session: 'Session',
     User: 'User',
-    File: 'File'
+    File: 'File',
+    Book: 'Book',
+    InventoryLog: 'InventoryLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -708,7 +783,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "auditLog" | "permission" | "session" | "user" | "file"
+      modelProps: "auditLog" | "permission" | "session" | "user" | "file" | "book" | "inventoryLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1082,6 +1157,154 @@ export namespace Prisma {
           }
         }
       }
+      Book: {
+        payload: Prisma.$BookPayload<ExtArgs>
+        fields: Prisma.BookFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BookFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BookFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          findFirst: {
+            args: Prisma.BookFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BookFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          findMany: {
+            args: Prisma.BookFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>[]
+          }
+          create: {
+            args: Prisma.BookCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          createMany: {
+            args: Prisma.BookCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BookCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>[]
+          }
+          delete: {
+            args: Prisma.BookDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          update: {
+            args: Prisma.BookUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          deleteMany: {
+            args: Prisma.BookDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BookUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BookUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>[]
+          }
+          upsert: {
+            args: Prisma.BookUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookPayload>
+          }
+          aggregate: {
+            args: Prisma.BookAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBook>
+          }
+          groupBy: {
+            args: Prisma.BookGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BookGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BookCountArgs<ExtArgs>
+            result: $Utils.Optional<BookCountAggregateOutputType> | number
+          }
+        }
+      }
+      InventoryLog: {
+        payload: Prisma.$InventoryLogPayload<ExtArgs>
+        fields: Prisma.InventoryLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InventoryLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InventoryLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          findFirst: {
+            args: Prisma.InventoryLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InventoryLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          findMany: {
+            args: Prisma.InventoryLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>[]
+          }
+          create: {
+            args: Prisma.InventoryLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          createMany: {
+            args: Prisma.InventoryLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InventoryLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>[]
+          }
+          delete: {
+            args: Prisma.InventoryLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          update: {
+            args: Prisma.InventoryLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.InventoryLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InventoryLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InventoryLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.InventoryLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryLogPayload>
+          }
+          aggregate: {
+            args: Prisma.InventoryLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInventoryLog>
+          }
+          groupBy: {
+            args: Prisma.InventoryLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InventoryLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InventoryLogCountArgs<ExtArgs>
+            result: $Utils.Optional<InventoryLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1195,6 +1418,8 @@ export namespace Prisma {
     session?: SessionOmit
     user?: UserOmit
     file?: FileOmit
+    book?: BookOmit
+    inventoryLog?: InventoryLogOmit
   }
 
   /* Types for Logging */
@@ -1307,6 +1532,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+
+  /**
+   * Count Type BookCountOutputType
+   */
+
+  export type BookCountOutputType = {
+    inventoryLogs: number
+  }
+
+  export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inventoryLogs?: boolean | BookCountOutputTypeCountInventoryLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookCountOutputType
+     */
+    select?: BookCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountInventoryLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryLogWhereInput
   }
 
 
@@ -6874,6 +7130,2658 @@ export namespace Prisma {
 
 
   /**
+   * Model Book
+   */
+
+  export type AggregateBook = {
+    _count: BookCountAggregateOutputType | null
+    _avg: BookAvgAggregateOutputType | null
+    _sum: BookSumAggregateOutputType | null
+    _min: BookMinAggregateOutputType | null
+    _max: BookMaxAggregateOutputType | null
+  }
+
+  export type BookAvgAggregateOutputType = {
+    publishYear: number | null
+    pageCount: number | null
+    weight: number | null
+    height: number | null
+    width: number | null
+    thickness: number | null
+    seriesNumber: number | null
+    seriesTotal: number | null
+  }
+
+  export type BookSumAggregateOutputType = {
+    publishYear: number | null
+    pageCount: number | null
+    weight: number | null
+    height: number | null
+    width: number | null
+    thickness: number | null
+    seriesNumber: number | null
+    seriesTotal: number | null
+  }
+
+  export type BookMinAggregateOutputType = {
+    id: string | null
+    isbn10: string | null
+    isbn13: string | null
+    titleUz: string | null
+    titleRu: string | null
+    titleEn: string | null
+    publisherId: string | null
+    publishYear: number | null
+    pageCount: number | null
+    shortDescription: string | null
+    fullDescription: string | null
+    coverImageUrl: string | null
+    coverThumbnailUrl: string | null
+    weight: number | null
+    height: number | null
+    width: number | null
+    thickness: number | null
+    seriesName: string | null
+    seriesNumber: number | null
+    seriesTotal: number | null
+    ddcCode: string | null
+    udcCode: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type BookMaxAggregateOutputType = {
+    id: string | null
+    isbn10: string | null
+    isbn13: string | null
+    titleUz: string | null
+    titleRu: string | null
+    titleEn: string | null
+    publisherId: string | null
+    publishYear: number | null
+    pageCount: number | null
+    shortDescription: string | null
+    fullDescription: string | null
+    coverImageUrl: string | null
+    coverThumbnailUrl: string | null
+    weight: number | null
+    height: number | null
+    width: number | null
+    thickness: number | null
+    seriesName: string | null
+    seriesNumber: number | null
+    seriesTotal: number | null
+    ddcCode: string | null
+    udcCode: string | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type BookCountAggregateOutputType = {
+    id: number
+    isbn10: number
+    isbn13: number
+    titleUz: number
+    titleRu: number
+    titleEn: number
+    publisherId: number
+    publishYear: number
+    languages: number
+    pageCount: number
+    shortDescription: number
+    fullDescription: number
+    coverImageUrl: number
+    coverThumbnailUrl: number
+    weight: number
+    height: number
+    width: number
+    thickness: number
+    seriesName: number
+    seriesNumber: number
+    seriesTotal: number
+    ddcCode: number
+    udcCode: number
+    tags: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type BookAvgAggregateInputType = {
+    publishYear?: true
+    pageCount?: true
+    weight?: true
+    height?: true
+    width?: true
+    thickness?: true
+    seriesNumber?: true
+    seriesTotal?: true
+  }
+
+  export type BookSumAggregateInputType = {
+    publishYear?: true
+    pageCount?: true
+    weight?: true
+    height?: true
+    width?: true
+    thickness?: true
+    seriesNumber?: true
+    seriesTotal?: true
+  }
+
+  export type BookMinAggregateInputType = {
+    id?: true
+    isbn10?: true
+    isbn13?: true
+    titleUz?: true
+    titleRu?: true
+    titleEn?: true
+    publisherId?: true
+    publishYear?: true
+    pageCount?: true
+    shortDescription?: true
+    fullDescription?: true
+    coverImageUrl?: true
+    coverThumbnailUrl?: true
+    weight?: true
+    height?: true
+    width?: true
+    thickness?: true
+    seriesName?: true
+    seriesNumber?: true
+    seriesTotal?: true
+    ddcCode?: true
+    udcCode?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type BookMaxAggregateInputType = {
+    id?: true
+    isbn10?: true
+    isbn13?: true
+    titleUz?: true
+    titleRu?: true
+    titleEn?: true
+    publisherId?: true
+    publishYear?: true
+    pageCount?: true
+    shortDescription?: true
+    fullDescription?: true
+    coverImageUrl?: true
+    coverThumbnailUrl?: true
+    weight?: true
+    height?: true
+    width?: true
+    thickness?: true
+    seriesName?: true
+    seriesNumber?: true
+    seriesTotal?: true
+    ddcCode?: true
+    udcCode?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type BookCountAggregateInputType = {
+    id?: true
+    isbn10?: true
+    isbn13?: true
+    titleUz?: true
+    titleRu?: true
+    titleEn?: true
+    publisherId?: true
+    publishYear?: true
+    languages?: true
+    pageCount?: true
+    shortDescription?: true
+    fullDescription?: true
+    coverImageUrl?: true
+    coverThumbnailUrl?: true
+    weight?: true
+    height?: true
+    width?: true
+    thickness?: true
+    seriesName?: true
+    seriesNumber?: true
+    seriesTotal?: true
+    ddcCode?: true
+    udcCode?: true
+    tags?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type BookAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Book to aggregate.
+     */
+    where?: BookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Books to fetch.
+     */
+    orderBy?: BookOrderByWithRelationInput | BookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Books from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Books.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Books
+    **/
+    _count?: true | BookCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BookAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BookSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BookMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BookMaxAggregateInputType
+  }
+
+  export type GetBookAggregateType<T extends BookAggregateArgs> = {
+        [P in keyof T & keyof AggregateBook]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBook[P]>
+      : GetScalarType<T[P], AggregateBook[P]>
+  }
+
+
+
+
+  export type BookGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookWhereInput
+    orderBy?: BookOrderByWithAggregationInput | BookOrderByWithAggregationInput[]
+    by: BookScalarFieldEnum[] | BookScalarFieldEnum
+    having?: BookScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BookCountAggregateInputType | true
+    _avg?: BookAvgAggregateInputType
+    _sum?: BookSumAggregateInputType
+    _min?: BookMinAggregateInputType
+    _max?: BookMaxAggregateInputType
+  }
+
+  export type BookGroupByOutputType = {
+    id: string
+    isbn10: string | null
+    isbn13: string
+    titleUz: string
+    titleRu: string | null
+    titleEn: string | null
+    publisherId: string
+    publishYear: number
+    languages: string[]
+    pageCount: number | null
+    shortDescription: string | null
+    fullDescription: string | null
+    coverImageUrl: string | null
+    coverThumbnailUrl: string | null
+    weight: number | null
+    height: number | null
+    width: number | null
+    thickness: number | null
+    seriesName: string | null
+    seriesNumber: number | null
+    seriesTotal: number | null
+    ddcCode: string | null
+    udcCode: string | null
+    tags: string[]
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: BookCountAggregateOutputType | null
+    _avg: BookAvgAggregateOutputType | null
+    _sum: BookSumAggregateOutputType | null
+    _min: BookMinAggregateOutputType | null
+    _max: BookMaxAggregateOutputType | null
+  }
+
+  type GetBookGroupByPayload<T extends BookGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BookGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BookGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BookGroupByOutputType[P]>
+            : GetScalarType<T[P], BookGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BookSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    isbn10?: boolean
+    isbn13?: boolean
+    titleUz?: boolean
+    titleRu?: boolean
+    titleEn?: boolean
+    publisherId?: boolean
+    publishYear?: boolean
+    languages?: boolean
+    pageCount?: boolean
+    shortDescription?: boolean
+    fullDescription?: boolean
+    coverImageUrl?: boolean
+    coverThumbnailUrl?: boolean
+    weight?: boolean
+    height?: boolean
+    width?: boolean
+    thickness?: boolean
+    seriesName?: boolean
+    seriesNumber?: boolean
+    seriesTotal?: boolean
+    ddcCode?: boolean
+    udcCode?: boolean
+    tags?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    inventoryLogs?: boolean | Book$inventoryLogsArgs<ExtArgs>
+    _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["book"]>
+
+  export type BookSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    isbn10?: boolean
+    isbn13?: boolean
+    titleUz?: boolean
+    titleRu?: boolean
+    titleEn?: boolean
+    publisherId?: boolean
+    publishYear?: boolean
+    languages?: boolean
+    pageCount?: boolean
+    shortDescription?: boolean
+    fullDescription?: boolean
+    coverImageUrl?: boolean
+    coverThumbnailUrl?: boolean
+    weight?: boolean
+    height?: boolean
+    width?: boolean
+    thickness?: boolean
+    seriesName?: boolean
+    seriesNumber?: boolean
+    seriesTotal?: boolean
+    ddcCode?: boolean
+    udcCode?: boolean
+    tags?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["book"]>
+
+  export type BookSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    isbn10?: boolean
+    isbn13?: boolean
+    titleUz?: boolean
+    titleRu?: boolean
+    titleEn?: boolean
+    publisherId?: boolean
+    publishYear?: boolean
+    languages?: boolean
+    pageCount?: boolean
+    shortDescription?: boolean
+    fullDescription?: boolean
+    coverImageUrl?: boolean
+    coverThumbnailUrl?: boolean
+    weight?: boolean
+    height?: boolean
+    width?: boolean
+    thickness?: boolean
+    seriesName?: boolean
+    seriesNumber?: boolean
+    seriesTotal?: boolean
+    ddcCode?: boolean
+    udcCode?: boolean
+    tags?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["book"]>
+
+  export type BookSelectScalar = {
+    id?: boolean
+    isbn10?: boolean
+    isbn13?: boolean
+    titleUz?: boolean
+    titleRu?: boolean
+    titleEn?: boolean
+    publisherId?: boolean
+    publishYear?: boolean
+    languages?: boolean
+    pageCount?: boolean
+    shortDescription?: boolean
+    fullDescription?: boolean
+    coverImageUrl?: boolean
+    coverThumbnailUrl?: boolean
+    weight?: boolean
+    height?: boolean
+    width?: boolean
+    thickness?: boolean
+    seriesName?: boolean
+    seriesNumber?: boolean
+    seriesTotal?: boolean
+    ddcCode?: boolean
+    udcCode?: boolean
+    tags?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isbn10" | "isbn13" | "titleUz" | "titleRu" | "titleEn" | "publisherId" | "publishYear" | "languages" | "pageCount" | "shortDescription" | "fullDescription" | "coverImageUrl" | "coverThumbnailUrl" | "weight" | "height" | "width" | "thickness" | "seriesName" | "seriesNumber" | "seriesTotal" | "ddcCode" | "udcCode" | "tags" | "createdBy" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["book"]>
+  export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inventoryLogs?: boolean | Book$inventoryLogsArgs<ExtArgs>
+    _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type BookIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $BookPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Book"
+    objects: {
+      inventoryLogs: Prisma.$InventoryLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      isbn10: string | null
+      isbn13: string
+      titleUz: string
+      titleRu: string | null
+      titleEn: string | null
+      publisherId: string
+      publishYear: number
+      languages: string[]
+      pageCount: number | null
+      shortDescription: string | null
+      fullDescription: string | null
+      coverImageUrl: string | null
+      coverThumbnailUrl: string | null
+      weight: number | null
+      height: number | null
+      width: number | null
+      thickness: number | null
+      seriesName: string | null
+      seriesNumber: number | null
+      seriesTotal: number | null
+      ddcCode: string | null
+      udcCode: string | null
+      tags: string[]
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["book"]>
+    composites: {}
+  }
+
+  type BookGetPayload<S extends boolean | null | undefined | BookDefaultArgs> = $Result.GetResult<Prisma.$BookPayload, S>
+
+  type BookCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BookFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BookCountAggregateInputType | true
+    }
+
+  export interface BookDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Book'], meta: { name: 'Book' } }
+    /**
+     * Find zero or one Book that matches the filter.
+     * @param {BookFindUniqueArgs} args - Arguments to find a Book
+     * @example
+     * // Get one Book
+     * const book = await prisma.book.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BookFindUniqueArgs>(args: SelectSubset<T, BookFindUniqueArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Book that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BookFindUniqueOrThrowArgs} args - Arguments to find a Book
+     * @example
+     * // Get one Book
+     * const book = await prisma.book.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BookFindUniqueOrThrowArgs>(args: SelectSubset<T, BookFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Book that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookFindFirstArgs} args - Arguments to find a Book
+     * @example
+     * // Get one Book
+     * const book = await prisma.book.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BookFindFirstArgs>(args?: SelectSubset<T, BookFindFirstArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Book that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookFindFirstOrThrowArgs} args - Arguments to find a Book
+     * @example
+     * // Get one Book
+     * const book = await prisma.book.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BookFindFirstOrThrowArgs>(args?: SelectSubset<T, BookFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Books that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Books
+     * const books = await prisma.book.findMany()
+     * 
+     * // Get first 10 Books
+     * const books = await prisma.book.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bookWithIdOnly = await prisma.book.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BookFindManyArgs>(args?: SelectSubset<T, BookFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Book.
+     * @param {BookCreateArgs} args - Arguments to create a Book.
+     * @example
+     * // Create one Book
+     * const Book = await prisma.book.create({
+     *   data: {
+     *     // ... data to create a Book
+     *   }
+     * })
+     * 
+     */
+    create<T extends BookCreateArgs>(args: SelectSubset<T, BookCreateArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Books.
+     * @param {BookCreateManyArgs} args - Arguments to create many Books.
+     * @example
+     * // Create many Books
+     * const book = await prisma.book.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BookCreateManyArgs>(args?: SelectSubset<T, BookCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Books and returns the data saved in the database.
+     * @param {BookCreateManyAndReturnArgs} args - Arguments to create many Books.
+     * @example
+     * // Create many Books
+     * const book = await prisma.book.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Books and only return the `id`
+     * const bookWithIdOnly = await prisma.book.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BookCreateManyAndReturnArgs>(args?: SelectSubset<T, BookCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Book.
+     * @param {BookDeleteArgs} args - Arguments to delete one Book.
+     * @example
+     * // Delete one Book
+     * const Book = await prisma.book.delete({
+     *   where: {
+     *     // ... filter to delete one Book
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BookDeleteArgs>(args: SelectSubset<T, BookDeleteArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Book.
+     * @param {BookUpdateArgs} args - Arguments to update one Book.
+     * @example
+     * // Update one Book
+     * const book = await prisma.book.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BookUpdateArgs>(args: SelectSubset<T, BookUpdateArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Books.
+     * @param {BookDeleteManyArgs} args - Arguments to filter Books to delete.
+     * @example
+     * // Delete a few Books
+     * const { count } = await prisma.book.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BookDeleteManyArgs>(args?: SelectSubset<T, BookDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Books.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Books
+     * const book = await prisma.book.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BookUpdateManyArgs>(args: SelectSubset<T, BookUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Books and returns the data updated in the database.
+     * @param {BookUpdateManyAndReturnArgs} args - Arguments to update many Books.
+     * @example
+     * // Update many Books
+     * const book = await prisma.book.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Books and only return the `id`
+     * const bookWithIdOnly = await prisma.book.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BookUpdateManyAndReturnArgs>(args: SelectSubset<T, BookUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Book.
+     * @param {BookUpsertArgs} args - Arguments to update or create a Book.
+     * @example
+     * // Update or create a Book
+     * const book = await prisma.book.upsert({
+     *   create: {
+     *     // ... data to create a Book
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Book we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BookUpsertArgs>(args: SelectSubset<T, BookUpsertArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Books.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookCountArgs} args - Arguments to filter Books to count.
+     * @example
+     * // Count the number of Books
+     * const count = await prisma.book.count({
+     *   where: {
+     *     // ... the filter for the Books we want to count
+     *   }
+     * })
+    **/
+    count<T extends BookCountArgs>(
+      args?: Subset<T, BookCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BookCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Book.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BookAggregateArgs>(args: Subset<T, BookAggregateArgs>): Prisma.PrismaPromise<GetBookAggregateType<T>>
+
+    /**
+     * Group by Book.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BookGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BookGroupByArgs['orderBy'] }
+        : { orderBy?: BookGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BookGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Book model
+   */
+  readonly fields: BookFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Book.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BookClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    inventoryLogs<T extends Book$inventoryLogsArgs<ExtArgs> = {}>(args?: Subset<T, Book$inventoryLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Book model
+   */
+  interface BookFieldRefs {
+    readonly id: FieldRef<"Book", 'String'>
+    readonly isbn10: FieldRef<"Book", 'String'>
+    readonly isbn13: FieldRef<"Book", 'String'>
+    readonly titleUz: FieldRef<"Book", 'String'>
+    readonly titleRu: FieldRef<"Book", 'String'>
+    readonly titleEn: FieldRef<"Book", 'String'>
+    readonly publisherId: FieldRef<"Book", 'String'>
+    readonly publishYear: FieldRef<"Book", 'Int'>
+    readonly languages: FieldRef<"Book", 'String[]'>
+    readonly pageCount: FieldRef<"Book", 'Int'>
+    readonly shortDescription: FieldRef<"Book", 'String'>
+    readonly fullDescription: FieldRef<"Book", 'String'>
+    readonly coverImageUrl: FieldRef<"Book", 'String'>
+    readonly coverThumbnailUrl: FieldRef<"Book", 'String'>
+    readonly weight: FieldRef<"Book", 'Int'>
+    readonly height: FieldRef<"Book", 'Int'>
+    readonly width: FieldRef<"Book", 'Int'>
+    readonly thickness: FieldRef<"Book", 'Int'>
+    readonly seriesName: FieldRef<"Book", 'String'>
+    readonly seriesNumber: FieldRef<"Book", 'Int'>
+    readonly seriesTotal: FieldRef<"Book", 'Int'>
+    readonly ddcCode: FieldRef<"Book", 'String'>
+    readonly udcCode: FieldRef<"Book", 'String'>
+    readonly tags: FieldRef<"Book", 'String[]'>
+    readonly createdBy: FieldRef<"Book", 'String'>
+    readonly createdAt: FieldRef<"Book", 'DateTime'>
+    readonly updatedAt: FieldRef<"Book", 'DateTime'>
+    readonly deletedAt: FieldRef<"Book", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Book findUnique
+   */
+  export type BookFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter, which Book to fetch.
+     */
+    where: BookWhereUniqueInput
+  }
+
+  /**
+   * Book findUniqueOrThrow
+   */
+  export type BookFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter, which Book to fetch.
+     */
+    where: BookWhereUniqueInput
+  }
+
+  /**
+   * Book findFirst
+   */
+  export type BookFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter, which Book to fetch.
+     */
+    where?: BookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Books to fetch.
+     */
+    orderBy?: BookOrderByWithRelationInput | BookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Books.
+     */
+    cursor?: BookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Books from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Books.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Books.
+     */
+    distinct?: BookScalarFieldEnum | BookScalarFieldEnum[]
+  }
+
+  /**
+   * Book findFirstOrThrow
+   */
+  export type BookFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter, which Book to fetch.
+     */
+    where?: BookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Books to fetch.
+     */
+    orderBy?: BookOrderByWithRelationInput | BookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Books.
+     */
+    cursor?: BookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Books from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Books.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Books.
+     */
+    distinct?: BookScalarFieldEnum | BookScalarFieldEnum[]
+  }
+
+  /**
+   * Book findMany
+   */
+  export type BookFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter, which Books to fetch.
+     */
+    where?: BookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Books to fetch.
+     */
+    orderBy?: BookOrderByWithRelationInput | BookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Books.
+     */
+    cursor?: BookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Books from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Books.
+     */
+    skip?: number
+    distinct?: BookScalarFieldEnum | BookScalarFieldEnum[]
+  }
+
+  /**
+   * Book create
+   */
+  export type BookCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Book.
+     */
+    data: XOR<BookCreateInput, BookUncheckedCreateInput>
+  }
+
+  /**
+   * Book createMany
+   */
+  export type BookCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Books.
+     */
+    data: BookCreateManyInput | BookCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Book createManyAndReturn
+   */
+  export type BookCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * The data used to create many Books.
+     */
+    data: BookCreateManyInput | BookCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Book update
+   */
+  export type BookUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Book.
+     */
+    data: XOR<BookUpdateInput, BookUncheckedUpdateInput>
+    /**
+     * Choose, which Book to update.
+     */
+    where: BookWhereUniqueInput
+  }
+
+  /**
+   * Book updateMany
+   */
+  export type BookUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Books.
+     */
+    data: XOR<BookUpdateManyMutationInput, BookUncheckedUpdateManyInput>
+    /**
+     * Filter which Books to update
+     */
+    where?: BookWhereInput
+    /**
+     * Limit how many Books to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Book updateManyAndReturn
+   */
+  export type BookUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * The data used to update Books.
+     */
+    data: XOR<BookUpdateManyMutationInput, BookUncheckedUpdateManyInput>
+    /**
+     * Filter which Books to update
+     */
+    where?: BookWhereInput
+    /**
+     * Limit how many Books to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Book upsert
+   */
+  export type BookUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Book to update in case it exists.
+     */
+    where: BookWhereUniqueInput
+    /**
+     * In case the Book found by the `where` argument doesn't exist, create a new Book with this data.
+     */
+    create: XOR<BookCreateInput, BookUncheckedCreateInput>
+    /**
+     * In case the Book was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BookUpdateInput, BookUncheckedUpdateInput>
+  }
+
+  /**
+   * Book delete
+   */
+  export type BookDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    /**
+     * Filter which Book to delete.
+     */
+    where: BookWhereUniqueInput
+  }
+
+  /**
+   * Book deleteMany
+   */
+  export type BookDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Books to delete
+     */
+    where?: BookWhereInput
+    /**
+     * Limit how many Books to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Book.inventoryLogs
+   */
+  export type Book$inventoryLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    where?: InventoryLogWhereInput
+    orderBy?: InventoryLogOrderByWithRelationInput | InventoryLogOrderByWithRelationInput[]
+    cursor?: InventoryLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InventoryLogScalarFieldEnum | InventoryLogScalarFieldEnum[]
+  }
+
+  /**
+   * Book without action
+   */
+  export type BookDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InventoryLog
+   */
+
+  export type AggregateInventoryLog = {
+    _count: InventoryLogCountAggregateOutputType | null
+    _avg: InventoryLogAvgAggregateOutputType | null
+    _sum: InventoryLogSumAggregateOutputType | null
+    _min: InventoryLogMinAggregateOutputType | null
+    _max: InventoryLogMaxAggregateOutputType | null
+  }
+
+  export type InventoryLogAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type InventoryLogSumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type InventoryLogMinAggregateOutputType = {
+    id: string | null
+    bookId: string | null
+    copyId: string | null
+    branchId: string | null
+    action: $Enums.InventoryAction | null
+    oldStatus: string | null
+    newStatus: string | null
+    quantity: number | null
+    reason: string | null
+    notes: string | null
+    performedBy: string | null
+    performedAt: Date | null
+  }
+
+  export type InventoryLogMaxAggregateOutputType = {
+    id: string | null
+    bookId: string | null
+    copyId: string | null
+    branchId: string | null
+    action: $Enums.InventoryAction | null
+    oldStatus: string | null
+    newStatus: string | null
+    quantity: number | null
+    reason: string | null
+    notes: string | null
+    performedBy: string | null
+    performedAt: Date | null
+  }
+
+  export type InventoryLogCountAggregateOutputType = {
+    id: number
+    bookId: number
+    copyId: number
+    branchId: number
+    action: number
+    oldStatus: number
+    newStatus: number
+    oldLocation: number
+    newLocation: number
+    quantity: number
+    reason: number
+    notes: number
+    metadata: number
+    performedBy: number
+    performedAt: number
+    _all: number
+  }
+
+
+  export type InventoryLogAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type InventoryLogSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type InventoryLogMinAggregateInputType = {
+    id?: true
+    bookId?: true
+    copyId?: true
+    branchId?: true
+    action?: true
+    oldStatus?: true
+    newStatus?: true
+    quantity?: true
+    reason?: true
+    notes?: true
+    performedBy?: true
+    performedAt?: true
+  }
+
+  export type InventoryLogMaxAggregateInputType = {
+    id?: true
+    bookId?: true
+    copyId?: true
+    branchId?: true
+    action?: true
+    oldStatus?: true
+    newStatus?: true
+    quantity?: true
+    reason?: true
+    notes?: true
+    performedBy?: true
+    performedAt?: true
+  }
+
+  export type InventoryLogCountAggregateInputType = {
+    id?: true
+    bookId?: true
+    copyId?: true
+    branchId?: true
+    action?: true
+    oldStatus?: true
+    newStatus?: true
+    oldLocation?: true
+    newLocation?: true
+    quantity?: true
+    reason?: true
+    notes?: true
+    metadata?: true
+    performedBy?: true
+    performedAt?: true
+    _all?: true
+  }
+
+  export type InventoryLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryLog to aggregate.
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryLogs to fetch.
+     */
+    orderBy?: InventoryLogOrderByWithRelationInput | InventoryLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InventoryLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InventoryLogs
+    **/
+    _count?: true | InventoryLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InventoryLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InventoryLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InventoryLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InventoryLogMaxAggregateInputType
+  }
+
+  export type GetInventoryLogAggregateType<T extends InventoryLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateInventoryLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInventoryLog[P]>
+      : GetScalarType<T[P], AggregateInventoryLog[P]>
+  }
+
+
+
+
+  export type InventoryLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryLogWhereInput
+    orderBy?: InventoryLogOrderByWithAggregationInput | InventoryLogOrderByWithAggregationInput[]
+    by: InventoryLogScalarFieldEnum[] | InventoryLogScalarFieldEnum
+    having?: InventoryLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InventoryLogCountAggregateInputType | true
+    _avg?: InventoryLogAvgAggregateInputType
+    _sum?: InventoryLogSumAggregateInputType
+    _min?: InventoryLogMinAggregateInputType
+    _max?: InventoryLogMaxAggregateInputType
+  }
+
+  export type InventoryLogGroupByOutputType = {
+    id: string
+    bookId: string | null
+    copyId: string | null
+    branchId: string | null
+    action: $Enums.InventoryAction
+    oldStatus: string | null
+    newStatus: string | null
+    oldLocation: JsonValue | null
+    newLocation: JsonValue | null
+    quantity: number | null
+    reason: string | null
+    notes: string | null
+    metadata: JsonValue | null
+    performedBy: string
+    performedAt: Date
+    _count: InventoryLogCountAggregateOutputType | null
+    _avg: InventoryLogAvgAggregateOutputType | null
+    _sum: InventoryLogSumAggregateOutputType | null
+    _min: InventoryLogMinAggregateOutputType | null
+    _max: InventoryLogMaxAggregateOutputType | null
+  }
+
+  type GetInventoryLogGroupByPayload<T extends InventoryLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InventoryLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InventoryLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InventoryLogGroupByOutputType[P]>
+            : GetScalarType<T[P], InventoryLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InventoryLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    copyId?: boolean
+    branchId?: boolean
+    action?: boolean
+    oldStatus?: boolean
+    newStatus?: boolean
+    oldLocation?: boolean
+    newLocation?: boolean
+    quantity?: boolean
+    reason?: boolean
+    notes?: boolean
+    metadata?: boolean
+    performedBy?: boolean
+    performedAt?: boolean
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryLog"]>
+
+  export type InventoryLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    copyId?: boolean
+    branchId?: boolean
+    action?: boolean
+    oldStatus?: boolean
+    newStatus?: boolean
+    oldLocation?: boolean
+    newLocation?: boolean
+    quantity?: boolean
+    reason?: boolean
+    notes?: boolean
+    metadata?: boolean
+    performedBy?: boolean
+    performedAt?: boolean
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryLog"]>
+
+  export type InventoryLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    copyId?: boolean
+    branchId?: boolean
+    action?: boolean
+    oldStatus?: boolean
+    newStatus?: boolean
+    oldLocation?: boolean
+    newLocation?: boolean
+    quantity?: boolean
+    reason?: boolean
+    notes?: boolean
+    metadata?: boolean
+    performedBy?: boolean
+    performedAt?: boolean
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryLog"]>
+
+  export type InventoryLogSelectScalar = {
+    id?: boolean
+    bookId?: boolean
+    copyId?: boolean
+    branchId?: boolean
+    action?: boolean
+    oldStatus?: boolean
+    newStatus?: boolean
+    oldLocation?: boolean
+    newLocation?: boolean
+    quantity?: boolean
+    reason?: boolean
+    notes?: boolean
+    metadata?: boolean
+    performedBy?: boolean
+    performedAt?: boolean
+  }
+
+  export type InventoryLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "copyId" | "branchId" | "action" | "oldStatus" | "newStatus" | "oldLocation" | "newLocation" | "quantity" | "reason" | "notes" | "metadata" | "performedBy" | "performedAt", ExtArgs["result"]["inventoryLog"]>
+  export type InventoryLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }
+  export type InventoryLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }
+  export type InventoryLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | InventoryLog$bookArgs<ExtArgs>
+  }
+
+  export type $InventoryLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InventoryLog"
+    objects: {
+      book: Prisma.$BookPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bookId: string | null
+      copyId: string | null
+      branchId: string | null
+      action: $Enums.InventoryAction
+      oldStatus: string | null
+      newStatus: string | null
+      oldLocation: Prisma.JsonValue | null
+      newLocation: Prisma.JsonValue | null
+      quantity: number | null
+      reason: string | null
+      notes: string | null
+      metadata: Prisma.JsonValue | null
+      performedBy: string
+      performedAt: Date
+    }, ExtArgs["result"]["inventoryLog"]>
+    composites: {}
+  }
+
+  type InventoryLogGetPayload<S extends boolean | null | undefined | InventoryLogDefaultArgs> = $Result.GetResult<Prisma.$InventoryLogPayload, S>
+
+  type InventoryLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InventoryLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InventoryLogCountAggregateInputType | true
+    }
+
+  export interface InventoryLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InventoryLog'], meta: { name: 'InventoryLog' } }
+    /**
+     * Find zero or one InventoryLog that matches the filter.
+     * @param {InventoryLogFindUniqueArgs} args - Arguments to find a InventoryLog
+     * @example
+     * // Get one InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InventoryLogFindUniqueArgs>(args: SelectSubset<T, InventoryLogFindUniqueArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InventoryLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InventoryLogFindUniqueOrThrowArgs} args - Arguments to find a InventoryLog
+     * @example
+     * // Get one InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InventoryLogFindUniqueOrThrowArgs>(args: SelectSubset<T, InventoryLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogFindFirstArgs} args - Arguments to find a InventoryLog
+     * @example
+     * // Get one InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InventoryLogFindFirstArgs>(args?: SelectSubset<T, InventoryLogFindFirstArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogFindFirstOrThrowArgs} args - Arguments to find a InventoryLog
+     * @example
+     * // Get one InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InventoryLogFindFirstOrThrowArgs>(args?: SelectSubset<T, InventoryLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InventoryLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InventoryLogs
+     * const inventoryLogs = await prisma.inventoryLog.findMany()
+     * 
+     * // Get first 10 InventoryLogs
+     * const inventoryLogs = await prisma.inventoryLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inventoryLogWithIdOnly = await prisma.inventoryLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InventoryLogFindManyArgs>(args?: SelectSubset<T, InventoryLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InventoryLog.
+     * @param {InventoryLogCreateArgs} args - Arguments to create a InventoryLog.
+     * @example
+     * // Create one InventoryLog
+     * const InventoryLog = await prisma.inventoryLog.create({
+     *   data: {
+     *     // ... data to create a InventoryLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends InventoryLogCreateArgs>(args: SelectSubset<T, InventoryLogCreateArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InventoryLogs.
+     * @param {InventoryLogCreateManyArgs} args - Arguments to create many InventoryLogs.
+     * @example
+     * // Create many InventoryLogs
+     * const inventoryLog = await prisma.inventoryLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InventoryLogCreateManyArgs>(args?: SelectSubset<T, InventoryLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InventoryLogs and returns the data saved in the database.
+     * @param {InventoryLogCreateManyAndReturnArgs} args - Arguments to create many InventoryLogs.
+     * @example
+     * // Create many InventoryLogs
+     * const inventoryLog = await prisma.inventoryLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InventoryLogs and only return the `id`
+     * const inventoryLogWithIdOnly = await prisma.inventoryLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InventoryLogCreateManyAndReturnArgs>(args?: SelectSubset<T, InventoryLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InventoryLog.
+     * @param {InventoryLogDeleteArgs} args - Arguments to delete one InventoryLog.
+     * @example
+     * // Delete one InventoryLog
+     * const InventoryLog = await prisma.inventoryLog.delete({
+     *   where: {
+     *     // ... filter to delete one InventoryLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InventoryLogDeleteArgs>(args: SelectSubset<T, InventoryLogDeleteArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InventoryLog.
+     * @param {InventoryLogUpdateArgs} args - Arguments to update one InventoryLog.
+     * @example
+     * // Update one InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InventoryLogUpdateArgs>(args: SelectSubset<T, InventoryLogUpdateArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InventoryLogs.
+     * @param {InventoryLogDeleteManyArgs} args - Arguments to filter InventoryLogs to delete.
+     * @example
+     * // Delete a few InventoryLogs
+     * const { count } = await prisma.inventoryLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InventoryLogDeleteManyArgs>(args?: SelectSubset<T, InventoryLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InventoryLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InventoryLogs
+     * const inventoryLog = await prisma.inventoryLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InventoryLogUpdateManyArgs>(args: SelectSubset<T, InventoryLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InventoryLogs and returns the data updated in the database.
+     * @param {InventoryLogUpdateManyAndReturnArgs} args - Arguments to update many InventoryLogs.
+     * @example
+     * // Update many InventoryLogs
+     * const inventoryLog = await prisma.inventoryLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InventoryLogs and only return the `id`
+     * const inventoryLogWithIdOnly = await prisma.inventoryLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InventoryLogUpdateManyAndReturnArgs>(args: SelectSubset<T, InventoryLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InventoryLog.
+     * @param {InventoryLogUpsertArgs} args - Arguments to update or create a InventoryLog.
+     * @example
+     * // Update or create a InventoryLog
+     * const inventoryLog = await prisma.inventoryLog.upsert({
+     *   create: {
+     *     // ... data to create a InventoryLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InventoryLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InventoryLogUpsertArgs>(args: SelectSubset<T, InventoryLogUpsertArgs<ExtArgs>>): Prisma__InventoryLogClient<$Result.GetResult<Prisma.$InventoryLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InventoryLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogCountArgs} args - Arguments to filter InventoryLogs to count.
+     * @example
+     * // Count the number of InventoryLogs
+     * const count = await prisma.inventoryLog.count({
+     *   where: {
+     *     // ... the filter for the InventoryLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends InventoryLogCountArgs>(
+      args?: Subset<T, InventoryLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InventoryLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InventoryLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InventoryLogAggregateArgs>(args: Subset<T, InventoryLogAggregateArgs>): Prisma.PrismaPromise<GetInventoryLogAggregateType<T>>
+
+    /**
+     * Group by InventoryLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InventoryLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InventoryLogGroupByArgs['orderBy'] }
+        : { orderBy?: InventoryLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InventoryLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInventoryLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InventoryLog model
+   */
+  readonly fields: InventoryLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InventoryLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InventoryLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    book<T extends InventoryLog$bookArgs<ExtArgs> = {}>(args?: Subset<T, InventoryLog$bookArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InventoryLog model
+   */
+  interface InventoryLogFieldRefs {
+    readonly id: FieldRef<"InventoryLog", 'String'>
+    readonly bookId: FieldRef<"InventoryLog", 'String'>
+    readonly copyId: FieldRef<"InventoryLog", 'String'>
+    readonly branchId: FieldRef<"InventoryLog", 'String'>
+    readonly action: FieldRef<"InventoryLog", 'InventoryAction'>
+    readonly oldStatus: FieldRef<"InventoryLog", 'String'>
+    readonly newStatus: FieldRef<"InventoryLog", 'String'>
+    readonly oldLocation: FieldRef<"InventoryLog", 'Json'>
+    readonly newLocation: FieldRef<"InventoryLog", 'Json'>
+    readonly quantity: FieldRef<"InventoryLog", 'Int'>
+    readonly reason: FieldRef<"InventoryLog", 'String'>
+    readonly notes: FieldRef<"InventoryLog", 'String'>
+    readonly metadata: FieldRef<"InventoryLog", 'Json'>
+    readonly performedBy: FieldRef<"InventoryLog", 'String'>
+    readonly performedAt: FieldRef<"InventoryLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InventoryLog findUnique
+   */
+  export type InventoryLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryLog to fetch.
+     */
+    where: InventoryLogWhereUniqueInput
+  }
+
+  /**
+   * InventoryLog findUniqueOrThrow
+   */
+  export type InventoryLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryLog to fetch.
+     */
+    where: InventoryLogWhereUniqueInput
+  }
+
+  /**
+   * InventoryLog findFirst
+   */
+  export type InventoryLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryLog to fetch.
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryLogs to fetch.
+     */
+    orderBy?: InventoryLogOrderByWithRelationInput | InventoryLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryLogs.
+     */
+    cursor?: InventoryLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryLogs.
+     */
+    distinct?: InventoryLogScalarFieldEnum | InventoryLogScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryLog findFirstOrThrow
+   */
+  export type InventoryLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryLog to fetch.
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryLogs to fetch.
+     */
+    orderBy?: InventoryLogOrderByWithRelationInput | InventoryLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryLogs.
+     */
+    cursor?: InventoryLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryLogs.
+     */
+    distinct?: InventoryLogScalarFieldEnum | InventoryLogScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryLog findMany
+   */
+  export type InventoryLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryLogs to fetch.
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryLogs to fetch.
+     */
+    orderBy?: InventoryLogOrderByWithRelationInput | InventoryLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InventoryLogs.
+     */
+    cursor?: InventoryLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryLogs.
+     */
+    skip?: number
+    distinct?: InventoryLogScalarFieldEnum | InventoryLogScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryLog create
+   */
+  export type InventoryLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InventoryLog.
+     */
+    data: XOR<InventoryLogCreateInput, InventoryLogUncheckedCreateInput>
+  }
+
+  /**
+   * InventoryLog createMany
+   */
+  export type InventoryLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InventoryLogs.
+     */
+    data: InventoryLogCreateManyInput | InventoryLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InventoryLog createManyAndReturn
+   */
+  export type InventoryLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many InventoryLogs.
+     */
+    data: InventoryLogCreateManyInput | InventoryLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InventoryLog update
+   */
+  export type InventoryLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InventoryLog.
+     */
+    data: XOR<InventoryLogUpdateInput, InventoryLogUncheckedUpdateInput>
+    /**
+     * Choose, which InventoryLog to update.
+     */
+    where: InventoryLogWhereUniqueInput
+  }
+
+  /**
+   * InventoryLog updateMany
+   */
+  export type InventoryLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InventoryLogs.
+     */
+    data: XOR<InventoryLogUpdateManyMutationInput, InventoryLogUncheckedUpdateManyInput>
+    /**
+     * Filter which InventoryLogs to update
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * Limit how many InventoryLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryLog updateManyAndReturn
+   */
+  export type InventoryLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * The data used to update InventoryLogs.
+     */
+    data: XOR<InventoryLogUpdateManyMutationInput, InventoryLogUncheckedUpdateManyInput>
+    /**
+     * Filter which InventoryLogs to update
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * Limit how many InventoryLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InventoryLog upsert
+   */
+  export type InventoryLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InventoryLog to update in case it exists.
+     */
+    where: InventoryLogWhereUniqueInput
+    /**
+     * In case the InventoryLog found by the `where` argument doesn't exist, create a new InventoryLog with this data.
+     */
+    create: XOR<InventoryLogCreateInput, InventoryLogUncheckedCreateInput>
+    /**
+     * In case the InventoryLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InventoryLogUpdateInput, InventoryLogUncheckedUpdateInput>
+  }
+
+  /**
+   * InventoryLog delete
+   */
+  export type InventoryLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+    /**
+     * Filter which InventoryLog to delete.
+     */
+    where: InventoryLogWhereUniqueInput
+  }
+
+  /**
+   * InventoryLog deleteMany
+   */
+  export type InventoryLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryLogs to delete
+     */
+    where?: InventoryLogWhereInput
+    /**
+     * Limit how many InventoryLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryLog.book
+   */
+  export type InventoryLog$bookArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    where?: BookWhereInput
+  }
+
+  /**
+   * InventoryLog without action
+   */
+  export type InventoryLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryLog
+     */
+    select?: InventoryLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryLog
+     */
+    omit?: InventoryLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6956,6 +9864,61 @@ export namespace Prisma {
   };
 
   export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
+
+
+  export const BookScalarFieldEnum: {
+    id: 'id',
+    isbn10: 'isbn10',
+    isbn13: 'isbn13',
+    titleUz: 'titleUz',
+    titleRu: 'titleRu',
+    titleEn: 'titleEn',
+    publisherId: 'publisherId',
+    publishYear: 'publishYear',
+    languages: 'languages',
+    pageCount: 'pageCount',
+    shortDescription: 'shortDescription',
+    fullDescription: 'fullDescription',
+    coverImageUrl: 'coverImageUrl',
+    coverThumbnailUrl: 'coverThumbnailUrl',
+    weight: 'weight',
+    height: 'height',
+    width: 'width',
+    thickness: 'thickness',
+    seriesName: 'seriesName',
+    seriesNumber: 'seriesNumber',
+    seriesTotal: 'seriesTotal',
+    ddcCode: 'ddcCode',
+    udcCode: 'udcCode',
+    tags: 'tags',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+
+
+  export const InventoryLogScalarFieldEnum: {
+    id: 'id',
+    bookId: 'bookId',
+    copyId: 'copyId',
+    branchId: 'branchId',
+    action: 'action',
+    oldStatus: 'oldStatus',
+    newStatus: 'newStatus',
+    oldLocation: 'oldLocation',
+    newLocation: 'newLocation',
+    quantity: 'quantity',
+    reason: 'reason',
+    notes: 'notes',
+    metadata: 'metadata',
+    performedBy: 'performedBy',
+    performedAt: 'performedAt'
+  };
+
+  export type InventoryLogScalarFieldEnum = (typeof InventoryLogScalarFieldEnum)[keyof typeof InventoryLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7106,6 +10069,20 @@ export namespace Prisma {
    * Reference to a field of type 'Status[]'
    */
   export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InventoryAction'
+   */
+  export type EnumInventoryActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InventoryAction'>
+    
+
+
+  /**
+   * Reference to a field of type 'InventoryAction[]'
+   */
+  export type ListEnumInventoryActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InventoryAction[]'>
     
 
 
@@ -7485,6 +10462,285 @@ export namespace Prisma {
     status?: EnumStatusWithAggregatesFilter<"File"> | $Enums.Status
     createdAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
+  }
+
+  export type BookWhereInput = {
+    AND?: BookWhereInput | BookWhereInput[]
+    OR?: BookWhereInput[]
+    NOT?: BookWhereInput | BookWhereInput[]
+    id?: StringFilter<"Book"> | string
+    isbn10?: StringNullableFilter<"Book"> | string | null
+    isbn13?: StringFilter<"Book"> | string
+    titleUz?: StringFilter<"Book"> | string
+    titleRu?: StringNullableFilter<"Book"> | string | null
+    titleEn?: StringNullableFilter<"Book"> | string | null
+    publisherId?: StringFilter<"Book"> | string
+    publishYear?: IntFilter<"Book"> | number
+    languages?: StringNullableListFilter<"Book">
+    pageCount?: IntNullableFilter<"Book"> | number | null
+    shortDescription?: StringNullableFilter<"Book"> | string | null
+    fullDescription?: StringNullableFilter<"Book"> | string | null
+    coverImageUrl?: StringNullableFilter<"Book"> | string | null
+    coverThumbnailUrl?: StringNullableFilter<"Book"> | string | null
+    weight?: IntNullableFilter<"Book"> | number | null
+    height?: IntNullableFilter<"Book"> | number | null
+    width?: IntNullableFilter<"Book"> | number | null
+    thickness?: IntNullableFilter<"Book"> | number | null
+    seriesName?: StringNullableFilter<"Book"> | string | null
+    seriesNumber?: IntNullableFilter<"Book"> | number | null
+    seriesTotal?: IntNullableFilter<"Book"> | number | null
+    ddcCode?: StringNullableFilter<"Book"> | string | null
+    udcCode?: StringNullableFilter<"Book"> | string | null
+    tags?: StringNullableListFilter<"Book">
+    createdBy?: StringFilter<"Book"> | string
+    createdAt?: DateTimeFilter<"Book"> | Date | string
+    updatedAt?: DateTimeFilter<"Book"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Book"> | Date | string | null
+    inventoryLogs?: InventoryLogListRelationFilter
+  }
+
+  export type BookOrderByWithRelationInput = {
+    id?: SortOrder
+    isbn10?: SortOrderInput | SortOrder
+    isbn13?: SortOrder
+    titleUz?: SortOrder
+    titleRu?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
+    publisherId?: SortOrder
+    publishYear?: SortOrder
+    languages?: SortOrder
+    pageCount?: SortOrderInput | SortOrder
+    shortDescription?: SortOrderInput | SortOrder
+    fullDescription?: SortOrderInput | SortOrder
+    coverImageUrl?: SortOrderInput | SortOrder
+    coverThumbnailUrl?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    thickness?: SortOrderInput | SortOrder
+    seriesName?: SortOrderInput | SortOrder
+    seriesNumber?: SortOrderInput | SortOrder
+    seriesTotal?: SortOrderInput | SortOrder
+    ddcCode?: SortOrderInput | SortOrder
+    udcCode?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    inventoryLogs?: InventoryLogOrderByRelationAggregateInput
+  }
+
+  export type BookWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    isbn10?: string
+    isbn13?: string
+    AND?: BookWhereInput | BookWhereInput[]
+    OR?: BookWhereInput[]
+    NOT?: BookWhereInput | BookWhereInput[]
+    titleUz?: StringFilter<"Book"> | string
+    titleRu?: StringNullableFilter<"Book"> | string | null
+    titleEn?: StringNullableFilter<"Book"> | string | null
+    publisherId?: StringFilter<"Book"> | string
+    publishYear?: IntFilter<"Book"> | number
+    languages?: StringNullableListFilter<"Book">
+    pageCount?: IntNullableFilter<"Book"> | number | null
+    shortDescription?: StringNullableFilter<"Book"> | string | null
+    fullDescription?: StringNullableFilter<"Book"> | string | null
+    coverImageUrl?: StringNullableFilter<"Book"> | string | null
+    coverThumbnailUrl?: StringNullableFilter<"Book"> | string | null
+    weight?: IntNullableFilter<"Book"> | number | null
+    height?: IntNullableFilter<"Book"> | number | null
+    width?: IntNullableFilter<"Book"> | number | null
+    thickness?: IntNullableFilter<"Book"> | number | null
+    seriesName?: StringNullableFilter<"Book"> | string | null
+    seriesNumber?: IntNullableFilter<"Book"> | number | null
+    seriesTotal?: IntNullableFilter<"Book"> | number | null
+    ddcCode?: StringNullableFilter<"Book"> | string | null
+    udcCode?: StringNullableFilter<"Book"> | string | null
+    tags?: StringNullableListFilter<"Book">
+    createdBy?: StringFilter<"Book"> | string
+    createdAt?: DateTimeFilter<"Book"> | Date | string
+    updatedAt?: DateTimeFilter<"Book"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Book"> | Date | string | null
+    inventoryLogs?: InventoryLogListRelationFilter
+  }, "id" | "isbn10" | "isbn13">
+
+  export type BookOrderByWithAggregationInput = {
+    id?: SortOrder
+    isbn10?: SortOrderInput | SortOrder
+    isbn13?: SortOrder
+    titleUz?: SortOrder
+    titleRu?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
+    publisherId?: SortOrder
+    publishYear?: SortOrder
+    languages?: SortOrder
+    pageCount?: SortOrderInput | SortOrder
+    shortDescription?: SortOrderInput | SortOrder
+    fullDescription?: SortOrderInput | SortOrder
+    coverImageUrl?: SortOrderInput | SortOrder
+    coverThumbnailUrl?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    thickness?: SortOrderInput | SortOrder
+    seriesName?: SortOrderInput | SortOrder
+    seriesNumber?: SortOrderInput | SortOrder
+    seriesTotal?: SortOrderInput | SortOrder
+    ddcCode?: SortOrderInput | SortOrder
+    udcCode?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: BookCountOrderByAggregateInput
+    _avg?: BookAvgOrderByAggregateInput
+    _max?: BookMaxOrderByAggregateInput
+    _min?: BookMinOrderByAggregateInput
+    _sum?: BookSumOrderByAggregateInput
+  }
+
+  export type BookScalarWhereWithAggregatesInput = {
+    AND?: BookScalarWhereWithAggregatesInput | BookScalarWhereWithAggregatesInput[]
+    OR?: BookScalarWhereWithAggregatesInput[]
+    NOT?: BookScalarWhereWithAggregatesInput | BookScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Book"> | string
+    isbn10?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    isbn13?: StringWithAggregatesFilter<"Book"> | string
+    titleUz?: StringWithAggregatesFilter<"Book"> | string
+    titleRu?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    titleEn?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    publisherId?: StringWithAggregatesFilter<"Book"> | string
+    publishYear?: IntWithAggregatesFilter<"Book"> | number
+    languages?: StringNullableListFilter<"Book">
+    pageCount?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    shortDescription?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    fullDescription?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    coverImageUrl?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    coverThumbnailUrl?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    weight?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    height?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    width?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    thickness?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    seriesName?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    seriesNumber?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    seriesTotal?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    ddcCode?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    udcCode?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    tags?: StringNullableListFilter<"Book">
+    createdBy?: StringWithAggregatesFilter<"Book"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Book"> | Date | string | null
+  }
+
+  export type InventoryLogWhereInput = {
+    AND?: InventoryLogWhereInput | InventoryLogWhereInput[]
+    OR?: InventoryLogWhereInput[]
+    NOT?: InventoryLogWhereInput | InventoryLogWhereInput[]
+    id?: StringFilter<"InventoryLog"> | string
+    bookId?: StringNullableFilter<"InventoryLog"> | string | null
+    copyId?: StringNullableFilter<"InventoryLog"> | string | null
+    branchId?: StringNullableFilter<"InventoryLog"> | string | null
+    action?: EnumInventoryActionFilter<"InventoryLog"> | $Enums.InventoryAction
+    oldStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    newStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    oldLocation?: JsonNullableFilter<"InventoryLog">
+    newLocation?: JsonNullableFilter<"InventoryLog">
+    quantity?: IntNullableFilter<"InventoryLog"> | number | null
+    reason?: StringNullableFilter<"InventoryLog"> | string | null
+    notes?: StringNullableFilter<"InventoryLog"> | string | null
+    metadata?: JsonNullableFilter<"InventoryLog">
+    performedBy?: StringFilter<"InventoryLog"> | string
+    performedAt?: DateTimeFilter<"InventoryLog"> | Date | string
+    book?: XOR<BookNullableScalarRelationFilter, BookWhereInput> | null
+  }
+
+  export type InventoryLogOrderByWithRelationInput = {
+    id?: SortOrder
+    bookId?: SortOrderInput | SortOrder
+    copyId?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    oldStatus?: SortOrderInput | SortOrder
+    newStatus?: SortOrderInput | SortOrder
+    oldLocation?: SortOrderInput | SortOrder
+    newLocation?: SortOrderInput | SortOrder
+    quantity?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    performedBy?: SortOrder
+    performedAt?: SortOrder
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type InventoryLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InventoryLogWhereInput | InventoryLogWhereInput[]
+    OR?: InventoryLogWhereInput[]
+    NOT?: InventoryLogWhereInput | InventoryLogWhereInput[]
+    bookId?: StringNullableFilter<"InventoryLog"> | string | null
+    copyId?: StringNullableFilter<"InventoryLog"> | string | null
+    branchId?: StringNullableFilter<"InventoryLog"> | string | null
+    action?: EnumInventoryActionFilter<"InventoryLog"> | $Enums.InventoryAction
+    oldStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    newStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    oldLocation?: JsonNullableFilter<"InventoryLog">
+    newLocation?: JsonNullableFilter<"InventoryLog">
+    quantity?: IntNullableFilter<"InventoryLog"> | number | null
+    reason?: StringNullableFilter<"InventoryLog"> | string | null
+    notes?: StringNullableFilter<"InventoryLog"> | string | null
+    metadata?: JsonNullableFilter<"InventoryLog">
+    performedBy?: StringFilter<"InventoryLog"> | string
+    performedAt?: DateTimeFilter<"InventoryLog"> | Date | string
+    book?: XOR<BookNullableScalarRelationFilter, BookWhereInput> | null
+  }, "id">
+
+  export type InventoryLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    bookId?: SortOrderInput | SortOrder
+    copyId?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    oldStatus?: SortOrderInput | SortOrder
+    newStatus?: SortOrderInput | SortOrder
+    oldLocation?: SortOrderInput | SortOrder
+    newLocation?: SortOrderInput | SortOrder
+    quantity?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    performedBy?: SortOrder
+    performedAt?: SortOrder
+    _count?: InventoryLogCountOrderByAggregateInput
+    _avg?: InventoryLogAvgOrderByAggregateInput
+    _max?: InventoryLogMaxOrderByAggregateInput
+    _min?: InventoryLogMinOrderByAggregateInput
+    _sum?: InventoryLogSumOrderByAggregateInput
+  }
+
+  export type InventoryLogScalarWhereWithAggregatesInput = {
+    AND?: InventoryLogScalarWhereWithAggregatesInput | InventoryLogScalarWhereWithAggregatesInput[]
+    OR?: InventoryLogScalarWhereWithAggregatesInput[]
+    NOT?: InventoryLogScalarWhereWithAggregatesInput | InventoryLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InventoryLog"> | string
+    bookId?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    copyId?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    branchId?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    action?: EnumInventoryActionWithAggregatesFilter<"InventoryLog"> | $Enums.InventoryAction
+    oldStatus?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    newStatus?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    oldLocation?: JsonNullableWithAggregatesFilter<"InventoryLog">
+    newLocation?: JsonNullableWithAggregatesFilter<"InventoryLog">
+    quantity?: IntNullableWithAggregatesFilter<"InventoryLog"> | number | null
+    reason?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"InventoryLog"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"InventoryLog">
+    performedBy?: StringWithAggregatesFilter<"InventoryLog"> | string
+    performedAt?: DateTimeWithAggregatesFilter<"InventoryLog"> | Date | string
   }
 
   export type AuditLogCreateInput = {
@@ -7880,6 +11136,352 @@ export namespace Prisma {
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookCreateInput = {
+    id?: string
+    isbn10?: string | null
+    isbn13: string
+    titleUz: string
+    titleRu?: string | null
+    titleEn?: string | null
+    publisherId: string
+    publishYear: number
+    languages?: BookCreatelanguagesInput | string[]
+    pageCount?: number | null
+    shortDescription?: string | null
+    fullDescription?: string | null
+    coverImageUrl?: string | null
+    coverThumbnailUrl?: string | null
+    weight?: number | null
+    height?: number | null
+    width?: number | null
+    thickness?: number | null
+    seriesName?: string | null
+    seriesNumber?: number | null
+    seriesTotal?: number | null
+    ddcCode?: string | null
+    udcCode?: string | null
+    tags?: BookCreatetagsInput | string[]
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    inventoryLogs?: InventoryLogCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateInput = {
+    id?: string
+    isbn10?: string | null
+    isbn13: string
+    titleUz: string
+    titleRu?: string | null
+    titleEn?: string | null
+    publisherId: string
+    publishYear: number
+    languages?: BookCreatelanguagesInput | string[]
+    pageCount?: number | null
+    shortDescription?: string | null
+    fullDescription?: string | null
+    coverImageUrl?: string | null
+    coverThumbnailUrl?: string | null
+    weight?: number | null
+    height?: number | null
+    width?: number | null
+    thickness?: number | null
+    seriesName?: string | null
+    seriesNumber?: number | null
+    seriesTotal?: number | null
+    ddcCode?: string | null
+    udcCode?: string | null
+    tags?: BookCreatetagsInput | string[]
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    inventoryLogs?: InventoryLogUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inventoryLogs?: InventoryLogUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inventoryLogs?: InventoryLogUncheckedUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookCreateManyInput = {
+    id?: string
+    isbn10?: string | null
+    isbn13: string
+    titleUz: string
+    titleRu?: string | null
+    titleEn?: string | null
+    publisherId: string
+    publishYear: number
+    languages?: BookCreatelanguagesInput | string[]
+    pageCount?: number | null
+    shortDescription?: string | null
+    fullDescription?: string | null
+    coverImageUrl?: string | null
+    coverThumbnailUrl?: string | null
+    weight?: number | null
+    height?: number | null
+    width?: number | null
+    thickness?: number | null
+    seriesName?: string | null
+    seriesNumber?: number | null
+    seriesTotal?: number | null
+    ddcCode?: string | null
+    udcCode?: string | null
+    tags?: BookCreatetagsInput | string[]
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type BookUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type BookUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InventoryLogCreateInput = {
+    id?: string
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+    book?: BookCreateNestedOneWithoutInventoryLogsInput
+  }
+
+  export type InventoryLogUncheckedCreateInput = {
+    id?: string
+    bookId?: string | null
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+  }
+
+  export type InventoryLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneWithoutInventoryLogsNestedInput
+  }
+
+  export type InventoryLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryLogCreateManyInput = {
+    id?: string
+    bookId?: string | null
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+  }
+
+  export type InventoryLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8401,6 +12003,213 @@ export namespace Prisma {
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type InventoryLogListRelationFilter = {
+    every?: InventoryLogWhereInput
+    some?: InventoryLogWhereInput
+    none?: InventoryLogWhereInput
+  }
+
+  export type InventoryLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BookCountOrderByAggregateInput = {
+    id?: SortOrder
+    isbn10?: SortOrder
+    isbn13?: SortOrder
+    titleUz?: SortOrder
+    titleRu?: SortOrder
+    titleEn?: SortOrder
+    publisherId?: SortOrder
+    publishYear?: SortOrder
+    languages?: SortOrder
+    pageCount?: SortOrder
+    shortDescription?: SortOrder
+    fullDescription?: SortOrder
+    coverImageUrl?: SortOrder
+    coverThumbnailUrl?: SortOrder
+    weight?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    thickness?: SortOrder
+    seriesName?: SortOrder
+    seriesNumber?: SortOrder
+    seriesTotal?: SortOrder
+    ddcCode?: SortOrder
+    udcCode?: SortOrder
+    tags?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type BookAvgOrderByAggregateInput = {
+    publishYear?: SortOrder
+    pageCount?: SortOrder
+    weight?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    thickness?: SortOrder
+    seriesNumber?: SortOrder
+    seriesTotal?: SortOrder
+  }
+
+  export type BookMaxOrderByAggregateInput = {
+    id?: SortOrder
+    isbn10?: SortOrder
+    isbn13?: SortOrder
+    titleUz?: SortOrder
+    titleRu?: SortOrder
+    titleEn?: SortOrder
+    publisherId?: SortOrder
+    publishYear?: SortOrder
+    pageCount?: SortOrder
+    shortDescription?: SortOrder
+    fullDescription?: SortOrder
+    coverImageUrl?: SortOrder
+    coverThumbnailUrl?: SortOrder
+    weight?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    thickness?: SortOrder
+    seriesName?: SortOrder
+    seriesNumber?: SortOrder
+    seriesTotal?: SortOrder
+    ddcCode?: SortOrder
+    udcCode?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type BookMinOrderByAggregateInput = {
+    id?: SortOrder
+    isbn10?: SortOrder
+    isbn13?: SortOrder
+    titleUz?: SortOrder
+    titleRu?: SortOrder
+    titleEn?: SortOrder
+    publisherId?: SortOrder
+    publishYear?: SortOrder
+    pageCount?: SortOrder
+    shortDescription?: SortOrder
+    fullDescription?: SortOrder
+    coverImageUrl?: SortOrder
+    coverThumbnailUrl?: SortOrder
+    weight?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    thickness?: SortOrder
+    seriesName?: SortOrder
+    seriesNumber?: SortOrder
+    seriesTotal?: SortOrder
+    ddcCode?: SortOrder
+    udcCode?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type BookSumOrderByAggregateInput = {
+    publishYear?: SortOrder
+    pageCount?: SortOrder
+    weight?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    thickness?: SortOrder
+    seriesNumber?: SortOrder
+    seriesTotal?: SortOrder
+  }
+
+  export type EnumInventoryActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.InventoryAction | EnumInventoryActionFieldRefInput<$PrismaModel>
+    in?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumInventoryActionFilter<$PrismaModel> | $Enums.InventoryAction
+  }
+
+  export type BookNullableScalarRelationFilter = {
+    is?: BookWhereInput | null
+    isNot?: BookWhereInput | null
+  }
+
+  export type InventoryLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    copyId?: SortOrder
+    branchId?: SortOrder
+    action?: SortOrder
+    oldStatus?: SortOrder
+    newStatus?: SortOrder
+    oldLocation?: SortOrder
+    newLocation?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    notes?: SortOrder
+    metadata?: SortOrder
+    performedBy?: SortOrder
+    performedAt?: SortOrder
+  }
+
+  export type InventoryLogAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type InventoryLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    copyId?: SortOrder
+    branchId?: SortOrder
+    action?: SortOrder
+    oldStatus?: SortOrder
+    newStatus?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    notes?: SortOrder
+    performedBy?: SortOrder
+    performedAt?: SortOrder
+  }
+
+  export type InventoryLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    copyId?: SortOrder
+    branchId?: SortOrder
+    action?: SortOrder
+    oldStatus?: SortOrder
+    newStatus?: SortOrder
+    quantity?: SortOrder
+    reason?: SortOrder
+    notes?: SortOrder
+    performedBy?: SortOrder
+    performedAt?: SortOrder
+  }
+
+  export type InventoryLogSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumInventoryActionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InventoryAction | EnumInventoryActionFieldRefInput<$PrismaModel>
+    in?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumInventoryActionWithAggregatesFilter<$PrismaModel> | $Enums.InventoryAction
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInventoryActionFilter<$PrismaModel>
+    _max?: NestedEnumInventoryActionFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedOneWithoutAuditLogInput = {
     create?: XOR<UserCreateWithoutAuditLogInput, UserUncheckedCreateWithoutAuditLogInput>
     connectOrCreate?: UserCreateOrConnectWithoutAuditLogInput
@@ -8561,6 +12370,86 @@ export namespace Prisma {
 
   export type EnumStatusFieldUpdateOperationsInput = {
     set?: $Enums.Status
+  }
+
+  export type BookCreatelanguagesInput = {
+    set: string[]
+  }
+
+  export type BookCreatetagsInput = {
+    set: string[]
+  }
+
+  export type InventoryLogCreateNestedManyWithoutBookInput = {
+    create?: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput> | InventoryLogCreateWithoutBookInput[] | InventoryLogUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: InventoryLogCreateOrConnectWithoutBookInput | InventoryLogCreateOrConnectWithoutBookInput[]
+    createMany?: InventoryLogCreateManyBookInputEnvelope
+    connect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+  }
+
+  export type InventoryLogUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput> | InventoryLogCreateWithoutBookInput[] | InventoryLogUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: InventoryLogCreateOrConnectWithoutBookInput | InventoryLogCreateOrConnectWithoutBookInput[]
+    createMany?: InventoryLogCreateManyBookInputEnvelope
+    connect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+  }
+
+  export type BookUpdatelanguagesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BookUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type InventoryLogUpdateManyWithoutBookNestedInput = {
+    create?: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput> | InventoryLogCreateWithoutBookInput[] | InventoryLogUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: InventoryLogCreateOrConnectWithoutBookInput | InventoryLogCreateOrConnectWithoutBookInput[]
+    upsert?: InventoryLogUpsertWithWhereUniqueWithoutBookInput | InventoryLogUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: InventoryLogCreateManyBookInputEnvelope
+    set?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    disconnect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    delete?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    connect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    update?: InventoryLogUpdateWithWhereUniqueWithoutBookInput | InventoryLogUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: InventoryLogUpdateManyWithWhereWithoutBookInput | InventoryLogUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: InventoryLogScalarWhereInput | InventoryLogScalarWhereInput[]
+  }
+
+  export type InventoryLogUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput> | InventoryLogCreateWithoutBookInput[] | InventoryLogUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: InventoryLogCreateOrConnectWithoutBookInput | InventoryLogCreateOrConnectWithoutBookInput[]
+    upsert?: InventoryLogUpsertWithWhereUniqueWithoutBookInput | InventoryLogUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: InventoryLogCreateManyBookInputEnvelope
+    set?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    disconnect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    delete?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    connect?: InventoryLogWhereUniqueInput | InventoryLogWhereUniqueInput[]
+    update?: InventoryLogUpdateWithWhereUniqueWithoutBookInput | InventoryLogUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: InventoryLogUpdateManyWithWhereWithoutBookInput | InventoryLogUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: InventoryLogScalarWhereInput | InventoryLogScalarWhereInput[]
+  }
+
+  export type BookCreateNestedOneWithoutInventoryLogsInput = {
+    create?: XOR<BookCreateWithoutInventoryLogsInput, BookUncheckedCreateWithoutInventoryLogsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutInventoryLogsInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type EnumInventoryActionFieldUpdateOperationsInput = {
+    set?: $Enums.InventoryAction
+  }
+
+  export type BookUpdateOneWithoutInventoryLogsNestedInput = {
+    create?: XOR<BookCreateWithoutInventoryLogsInput, BookUncheckedCreateWithoutInventoryLogsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutInventoryLogsInput
+    upsert?: BookUpsertWithoutInventoryLogsInput
+    disconnect?: BookWhereInput | boolean
+    delete?: BookWhereInput | boolean
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutInventoryLogsInput, BookUpdateWithoutInventoryLogsInput>, BookUncheckedUpdateWithoutInventoryLogsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8836,6 +12725,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusFilter<$PrismaModel>
     _max?: NestedEnumStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInventoryActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.InventoryAction | EnumInventoryActionFieldRefInput<$PrismaModel>
+    in?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumInventoryActionFilter<$PrismaModel> | $Enums.InventoryAction
+  }
+
+  export type NestedEnumInventoryActionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InventoryAction | EnumInventoryActionFieldRefInput<$PrismaModel>
+    in?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InventoryAction[] | ListEnumInventoryActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumInventoryActionWithAggregatesFilter<$PrismaModel> | $Enums.InventoryAction
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInventoryActionFilter<$PrismaModel>
+    _max?: NestedEnumInventoryActionFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutAuditLogInput = {
@@ -9125,6 +13031,227 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type InventoryLogCreateWithoutBookInput = {
+    id?: string
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+  }
+
+  export type InventoryLogUncheckedCreateWithoutBookInput = {
+    id?: string
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+  }
+
+  export type InventoryLogCreateOrConnectWithoutBookInput = {
+    where: InventoryLogWhereUniqueInput
+    create: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput>
+  }
+
+  export type InventoryLogCreateManyBookInputEnvelope = {
+    data: InventoryLogCreateManyBookInput | InventoryLogCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InventoryLogUpsertWithWhereUniqueWithoutBookInput = {
+    where: InventoryLogWhereUniqueInput
+    update: XOR<InventoryLogUpdateWithoutBookInput, InventoryLogUncheckedUpdateWithoutBookInput>
+    create: XOR<InventoryLogCreateWithoutBookInput, InventoryLogUncheckedCreateWithoutBookInput>
+  }
+
+  export type InventoryLogUpdateWithWhereUniqueWithoutBookInput = {
+    where: InventoryLogWhereUniqueInput
+    data: XOR<InventoryLogUpdateWithoutBookInput, InventoryLogUncheckedUpdateWithoutBookInput>
+  }
+
+  export type InventoryLogUpdateManyWithWhereWithoutBookInput = {
+    where: InventoryLogScalarWhereInput
+    data: XOR<InventoryLogUpdateManyMutationInput, InventoryLogUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type InventoryLogScalarWhereInput = {
+    AND?: InventoryLogScalarWhereInput | InventoryLogScalarWhereInput[]
+    OR?: InventoryLogScalarWhereInput[]
+    NOT?: InventoryLogScalarWhereInput | InventoryLogScalarWhereInput[]
+    id?: StringFilter<"InventoryLog"> | string
+    bookId?: StringNullableFilter<"InventoryLog"> | string | null
+    copyId?: StringNullableFilter<"InventoryLog"> | string | null
+    branchId?: StringNullableFilter<"InventoryLog"> | string | null
+    action?: EnumInventoryActionFilter<"InventoryLog"> | $Enums.InventoryAction
+    oldStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    newStatus?: StringNullableFilter<"InventoryLog"> | string | null
+    oldLocation?: JsonNullableFilter<"InventoryLog">
+    newLocation?: JsonNullableFilter<"InventoryLog">
+    quantity?: IntNullableFilter<"InventoryLog"> | number | null
+    reason?: StringNullableFilter<"InventoryLog"> | string | null
+    notes?: StringNullableFilter<"InventoryLog"> | string | null
+    metadata?: JsonNullableFilter<"InventoryLog">
+    performedBy?: StringFilter<"InventoryLog"> | string
+    performedAt?: DateTimeFilter<"InventoryLog"> | Date | string
+  }
+
+  export type BookCreateWithoutInventoryLogsInput = {
+    id?: string
+    isbn10?: string | null
+    isbn13: string
+    titleUz: string
+    titleRu?: string | null
+    titleEn?: string | null
+    publisherId: string
+    publishYear: number
+    languages?: BookCreatelanguagesInput | string[]
+    pageCount?: number | null
+    shortDescription?: string | null
+    fullDescription?: string | null
+    coverImageUrl?: string | null
+    coverThumbnailUrl?: string | null
+    weight?: number | null
+    height?: number | null
+    width?: number | null
+    thickness?: number | null
+    seriesName?: string | null
+    seriesNumber?: number | null
+    seriesTotal?: number | null
+    ddcCode?: string | null
+    udcCode?: string | null
+    tags?: BookCreatetagsInput | string[]
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type BookUncheckedCreateWithoutInventoryLogsInput = {
+    id?: string
+    isbn10?: string | null
+    isbn13: string
+    titleUz: string
+    titleRu?: string | null
+    titleEn?: string | null
+    publisherId: string
+    publishYear: number
+    languages?: BookCreatelanguagesInput | string[]
+    pageCount?: number | null
+    shortDescription?: string | null
+    fullDescription?: string | null
+    coverImageUrl?: string | null
+    coverThumbnailUrl?: string | null
+    weight?: number | null
+    height?: number | null
+    width?: number | null
+    thickness?: number | null
+    seriesName?: string | null
+    seriesNumber?: number | null
+    seriesTotal?: number | null
+    ddcCode?: string | null
+    udcCode?: string | null
+    tags?: BookCreatetagsInput | string[]
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type BookCreateOrConnectWithoutInventoryLogsInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutInventoryLogsInput, BookUncheckedCreateWithoutInventoryLogsInput>
+  }
+
+  export type BookUpsertWithoutInventoryLogsInput = {
+    update: XOR<BookUpdateWithoutInventoryLogsInput, BookUncheckedUpdateWithoutInventoryLogsInput>
+    create: XOR<BookCreateWithoutInventoryLogsInput, BookUncheckedCreateWithoutInventoryLogsInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutInventoryLogsInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutInventoryLogsInput, BookUncheckedUpdateWithoutInventoryLogsInput>
+  }
+
+  export type BookUpdateWithoutInventoryLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type BookUncheckedUpdateWithoutInventoryLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isbn10?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn13?: StringFieldUpdateOperationsInput | string
+    titleUz?: StringFieldUpdateOperationsInput | string
+    titleRu?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    publisherId?: StringFieldUpdateOperationsInput | string
+    publishYear?: IntFieldUpdateOperationsInput | number
+    languages?: BookUpdatelanguagesInput | string[]
+    pageCount?: NullableIntFieldUpdateOperationsInput | number | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    fullDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    thickness?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesName?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    ddcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    udcCode?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: BookUpdatetagsInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type AuditLogCreateManyUserInput = {
     id: string
     action: $Enums.Action
@@ -9207,6 +13334,74 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryLogCreateManyBookInput = {
+    id?: string
+    copyId?: string | null
+    branchId?: string | null
+    action: $Enums.InventoryAction
+    oldStatus?: string | null
+    newStatus?: string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: number | null
+    reason?: string | null
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy: string
+    performedAt?: Date | string
+  }
+
+  export type InventoryLogUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryLogUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryLogUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    copyId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumInventoryActionFieldUpdateOperationsInput | $Enums.InventoryAction
+    oldStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    newStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    oldLocation?: NullableJsonNullValueInput | InputJsonValue
+    newLocation?: NullableJsonNullValueInput | InputJsonValue
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    performedBy?: StringFieldUpdateOperationsInput | string
+    performedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -91,3 +91,105 @@ model File {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Book {
+  id String @id @default(uuid())
+
+  // ISBN
+  isbn10 String? @unique
+  isbn13 String  @unique
+
+  // Sarlavha (ko'p tilli)
+  titleUz String
+  titleRu String?
+  titleEn String?
+
+  // Asosiy ma'lumotlar
+  publisherId String
+  // publisher           Publisher @relation(fields: [publisherId], references: [id])
+  publishYear Int
+  languages   String[] // ['uz', 'ru', 'en']
+  pageCount   Int?
+  // ageCategory         AgeCategory @default(ADULT)
+  // coverType           CoverType   @default(SOFT)
+
+  // Tavsif
+  shortDescription String? @db.VarChar(200)
+  fullDescription  String? @db.Text
+
+  // Rasm
+  coverImageUrl     String?
+  coverThumbnailUrl String?
+
+  // Fizik o'lchamlar
+  weight    Int? // gramm
+  height    Int? // mm
+  width     Int? // mm
+  thickness Int? // mm
+
+  // Seriya
+  seriesName   String?
+  seriesNumber Int?
+  seriesTotal  Int?
+
+  // Kataloglash
+  ddcCode String?
+  udcCode String?
+  tags    String[]
+
+  // Meta
+  createdBy String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // authors             BookAuthor[]
+  // genres              BookGenre[]
+  // copies              BookCopy[]
+  // inventoryLogs       InventoryLog[]
+  inventoryLogs InventoryLog[]
+}
+
+enum AgeCategory {
+  CHILDREN // 0-12
+  TEEN // 13-17
+  ADULT // 18+
+}
+
+enum BookCondition {
+  NEW // Yangi
+  GOOD // Yaxshi
+  SATISFACTORY // Qoniqarli
+  POOR // Yomon
+}
+
+model InventoryLog {
+  id       String  @id @default(uuid())
+  bookId   String?
+  book     Book?   @relation(fields: [bookId], references: [id])
+  copyId   String?
+  // copy     BookCopy? @relation(fields: [copyId], references: [id])
+  branchId String?
+
+  action      InventoryAction
+  oldStatus   String?
+  newStatus   String?
+  oldLocation Json?
+  newLocation Json?
+  quantity    Int?
+  reason      String?
+  notes       String?
+  metadata    Json? // qo'shimcha ma'lumotlar
+
+  performedBy String
+  performedAt DateTime @default(now())
+}
+
+enum InventoryAction {
+  BOOKS_ADDED
+  COPY_STATUS_CHANGED
+  LOCATION_CHANGED
+  COPY_TRANSFERRED
+  COPY_REPAIRED
+  COPY_WITHDRAWN
+}
