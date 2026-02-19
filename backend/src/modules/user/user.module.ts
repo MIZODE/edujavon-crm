@@ -9,7 +9,6 @@ export const userRouter = Router();
 userRouter.get(
     "/users",
     authenticate,
-    rolePermission([Role.ADMIN, Role.OWNER, Role.SUPERVISOR]),
     userController.getAll
 );
 
