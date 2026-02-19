@@ -80,3 +80,4 @@ export async function register(data: { phone: string; firstName: string; lastNam
         refreshToken
     };
 }
+
