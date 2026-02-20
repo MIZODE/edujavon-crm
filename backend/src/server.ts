@@ -23,6 +23,7 @@ RegisterRoutes(appRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+
 async function startServer() {
   try {
     await testPrismaConnection();
