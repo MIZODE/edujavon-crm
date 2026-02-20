@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsoa": "tsoa spec-and-routes",
     "run:dev": "concurrently \"nodemon server.ts\" \"nodemon -x tsoa spec-and-routes\"",
-    "dev": "concurrently \"nodemon --exec ts-node src/server.ts\" \"nodemon -x tsoa spec-and-routes\"",
+    "dev": "concurrently \"nodemon\" \"nodemon --watch src/modules -x tsoa spec-and-routes\"",
     "migrate:rollback": "ts-node src/config/migrations/index.ts"
   },
   "author": "ozim",
@@ -27,6 +27,7 @@
     "multer": "^2.0.2",
     "pg": "^8.17.2",
     "role": "^1.1.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tsoa": "^7.0.0-alpha.0"
   },
