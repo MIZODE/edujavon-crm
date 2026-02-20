@@ -4,7 +4,7 @@ import { prisma } from "../../config/prisma";
 
 const usersService = new UsersService();
 
-export class UserController {
+export class UserController    {
   create = async (req: Request, res: Response) => {
     try {
       const existPhone = await prisma.user.findUnique({
