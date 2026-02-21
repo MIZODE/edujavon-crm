@@ -39,3 +39,7 @@ export interface RegisterDto {
      */
     password: string;
 }
+
+export interface LogoutDto{
+    refreshToken: string;
+}

@@ -1,7 +1,8 @@
 import { prisma } from '../../config/prisma';
 import bcrypt from 'bcrypt';
 import { cache } from '../../common/service/cache.service';
-import { createAccessToken, createRefreshToken } from '../../common/service/token.service';
+import { createAccessToken, createRefreshToken, verifyRefreshToken } from '../../common/service/token.service';
+import { AppError } from '../../common/errors/AppError';
 
 
 export async function login(data: { phone: string; password: string }) {
@@ -81,3 +82,20 @@ export async function register(data: { phone: string; firstName: string; lastNam
     };
 }
 
+export async function logout(refreshToken: string){
+
+    if(!refreshToken){
+        throw new AppError("Token kiritilmagan", 400)
+    }
+
+    const decoded = verifyRefreshToken(refreshToken) as {sub: string};
+
+    const cacheKey = `refresh:${decoded.sub}:${refreshToken}`
+
+    const exists = await cache.get(cacheKey);
+        if(!exists){
+            throw new AppError("Logout qilingan", 401)
+        }
+
+    await cache.del(cacheKey);
+}

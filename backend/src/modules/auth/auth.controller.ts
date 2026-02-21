@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Route, Tags, SuccessResponse } from 'tsoa';
 import * as authService from './auth.service';
-import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { LoginDto, RegisterDto, LogoutDto } from './dto/auth.dto';
 
 @Route("auth")
 @Tags("Auth")
@@ -46,6 +46,20 @@ export class AuthController extends Controller {
             return {
                 message: err.message || "Xatolik yuz berdi"
             };
+        }
+    }
+
+    @Post("logout")
+    public async logout(@Body() requestBody: LogoutDto): Promise<any>{
+        try {
+            await authService.logout(requestBody.refreshToken);
+        this.setStatus(200);
+        return { 
+                message: "Muvaffaqiyatli logout qilindi" 
+            };
+        } catch (err: any) {
+            this.setStatus(err.statusCode || 400);
+            return { message: err.message || "Xatolik yuz berdi" };
         }
     }
 }
