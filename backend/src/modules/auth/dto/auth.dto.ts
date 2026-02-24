@@ -39,3 +39,30 @@ export interface RegisterDto {
      */
     password: string;
 }
+
+/**
+ * Send verification code DTO
+ */
+export interface SendCodeDto {
+    /**
+     * User's phone number
+     * @example "+998901234567"
+     */
+    phone: string;
+}
+
+/**
+ * Verify code DTO
+ */
+export interface VerifyCodeDto {
+    /**
+     * User's phone number
+     * @example "+998901234567"
+     */
+    phone: string;
+    /**
+     * 6-digit verification code
+     * @example "123456"
+     */
+    code: string;
+}

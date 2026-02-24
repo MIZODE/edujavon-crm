@@ -60,6 +60,42 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"SendCodeDto": {
+				"description": "Send verification code DTO",
+				"properties": {
+					"phone": {
+						"type": "string",
+						"description": "User's phone number",
+						"example": "+998901234567"
+					}
+				},
+				"required": [
+					"phone"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VerifyCodeDto": {
+				"description": "Verify code DTO",
+				"properties": {
+					"phone": {
+						"type": "string",
+						"description": "User's phone number",
+						"example": "+998901234567"
+					},
+					"code": {
+						"type": "string",
+						"description": "6-digit verification code",
+						"example": "123456"
+					}
+				},
+				"required": [
+					"phone",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -88,20 +124,20 @@
 						}
 					}
 				},
-				"description": "Login user",
+				"description": "Foydalanuvchi tizimga kirishi",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Login credentials",
+					"description": "Login ma'lumotlari",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/LoginDto",
-								"description": "Login credentials"
+								"description": "Login ma'lumotlari"
 							}
 						}
 					}
@@ -121,20 +157,86 @@
 						}
 					}
 				},
-				"description": "Register new user",
+				"description": "Yangi foydalanuvchini ro'yxatdan o'tkazish.\r\nAvval telefon raqamini Telegram bot orqali tasdiqlash talab qilinadi.\r\nAgar foydalanuvchi botda raqamini ulashgan bo'lsa, chatId avtomatik bog'lanadi.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Registration details",
+					"description": "Ro'yxatdan o'tish ma'lumotlari",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/RegisterDto",
-								"description": "Registration details"
+								"description": "Ro'yxatdan o'tish ma'lumotlari"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/send-code": {
+			"post": {
+				"operationId": "SendCode",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Telegram bot orqali tasdiqlash kodini yuborish.\r\nFoydalanuvchi avval botga kirib /start bosgan bo'lishi kerak.",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Telefon raqami",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SendCodeDto",
+								"description": "Telefon raqami"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/verify-code": {
+			"post": {
+				"operationId": "VerifyCode",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Telegram bot orqali yuborilgan kodni tekshirish.\r\nKod to'g'ri bo'lsa, foydalanuvchiga ro'yxatdan o'tish uchun ruxsat beriladi.",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Telefon raqami va tasdiqlash kodi",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/VerifyCodeDto",
+								"description": "Telefon raqami va tasdiqlash kodi"
 							}
 						}
 					}
@@ -144,7 +246,7 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "/api/v1"
 		}
 	]
 }

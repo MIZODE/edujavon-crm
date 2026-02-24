@@ -6,10 +6,12 @@
     ],
     "spec": {
         "outputDirectory": "src",
-        "specVersion": 3
+        "specVersion": 3,
+        "basePath": "/api/v1"
     },
     "routes": {
         "routesDir": "src/routes",
-        "middleware": "express"
+        "middleware": "express",
+        "basePath": "/api/v1"
     }
 }
