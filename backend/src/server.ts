@@ -1,13 +1,13 @@
 import express from "express";
 import * as dotenv from "dotenv";
+import path from "path";
 import { testPrismaConnection } from "./config/index";
 import { RegisterRoutes } from "./routes/routes";
 import { appRouter } from "./app.route";
 import swaggerUi from "swagger-ui-express";
+import { startBot } from "./modules/bot/bot";
 const swaggerDocument = require("./swagger.json");
 
-
-import path from "path";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 9090;
@@ -17,12 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/v1", appRouter);
 
-
-
-RegisterRoutes(appRouter);
+RegisterRoutes(app);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 
 async function startServer() {
   try {
@@ -31,8 +28,11 @@ async function startServer() {
       console.log(`🚀 Server http://localhost:${port} portda ishga tushdi`);
       console.log(`🚀 Swagger http://localhost:${port}/api-docs portda ishga tushdi`);
     });
+
+    // Telegram botni ishga tushirish (polling rejimida)
+    startBot();
   } catch (error) {
-    console.error("❌ Server ishga tushmadi:", error);
+    console.error("Server ishga tushmadi:", error);
     process.exit(1);
   }
 }

@@ -2,6 +2,7 @@ import { prisma } from '../../config/prisma';
 import bcrypt from 'bcrypt';
 import { cache } from '../../common/service/cache.service';
 import { createAccessToken, createRefreshToken } from '../../common/service/token.service';
+import { sendVerificationCode as botSendCode } from '../bot/bot.service';
 
 
 export async function login(data: { phone: string; password: string }) {
@@ -41,7 +42,41 @@ export async function login(data: { phone: string; password: string }) {
     };
 }
 
+export async function sendVerificationCode(phone: string) {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await cache.set(`verify:${phone}`, code, 5 * 60 * 1000);
+
+    await botSendCode(phone, code);
+
+    return { message: 'Tasdiqlash kodi Telegram bot orqali yuborildi' };
+}
+
+export async function verifyCode(phone: string, code: string) {
+    const cachedCode = (await cache.get(`verify:${phone}`)) as string | null;
+
+    if (!cachedCode) {
+        throw new Error('Kod muddati tugagan yoki yuborilmagan');
+    }
+
+    if (cachedCode !== code) {
+        throw new Error('Kod noto\'g\'ri');
+    }
+
+    // Kod to'g'ri — kodni o'chirib, "verified" belgisini qo'yish
+    await cache.del(`verify:${phone}`);
+    await cache.set(`verified:${phone}`, true, 10 * 60 * 1000); // 10 daqiqa ro'yxatdan o'tishga vaqt
+
+    return { message: 'Kod tasdiqlandi' };
+}
+
 export async function register(data: { phone: string; firstName: string; lastName: string; password: string }) {
+    // Verifikatsiya tekshiruvi
+    const isVerified = (await cache.get(`verified:${data.phone}`)) as boolean | null;
+    if (!isVerified) {
+        throw new Error("Iltimos avval telefon raqamingizni tasdiqlang");
+    }
+
     const user = await prisma.user.findUnique({
         where: { phone: data.phone }
     });
@@ -52,15 +87,28 @@ export async function register(data: { phone: string; firstName: string; lastNam
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
+    // Telegram chatID ni keshdan qidiramiz
+    const chatId = await cache.get(`bot:chatid:${data.phone}`);
+
     const newUser = await prisma.user.create({
         data: {
             phone: data.phone,
             password: hashedPassword,
             firstName: data.firstName,
             lastName: data.lastName,
-            role: "USER"
+            role: "USER",
+            chatId: chatId ? String(chatId) : null,
+            isVerified: true
         }
     });
+
+    // Keshdagi chatId ni o'chirib yuboramiz
+    if (chatId) {
+        await cache.del(`bot:chatid:${data.phone}`);
+    }
+
+    // Verified flagni o'chirish
+    await cache.del(`verified:${data.phone}`);
 
     const accessToken = createAccessToken({
         id: newUser.id,
