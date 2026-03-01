@@ -7,6 +7,79 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"_36_Enums.Role": {
+				"type": "string",
+				"enum": [
+					"SUPERVISOR",
+					"ADMIN",
+					"OWNER",
+					"MANAGER",
+					"LIBRARIAN",
+					"USER"
+				]
+			},
+			"Role": {
+				"$ref": "#/components/schemas/_36_Enums.Role"
+			},
+			"CreateUserDto": {
+				"properties": {
+					"phone": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					}
+				},
+				"required": [
+					"password",
+					"firstName",
+					"lastName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserDto": {
+				"properties": {
+					"phone": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"isVerified": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"LoginDto": {
 				"description": "Login credentials DTO",
 				"properties": {
@@ -111,6 +184,686 @@
 		}
 	},
 	"paths": {
+		"/users": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"properties": {
+											"chatId": {
+												"type": "string"
+											},
+											"deletedAt": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"updatedAt": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"role": {
+												"$ref": "#/components/schemas/_36_Enums.Role"
+											},
+											"isVerified": {
+												"type": "boolean"
+											},
+											"isActive": {
+												"type": "boolean"
+											},
+											"avatar": {
+												"type": "string"
+											},
+											"lastName": {
+												"type": "string"
+											},
+											"firstName": {
+												"type": "string"
+											},
+											"phone": {
+												"type": "string"
+											},
+											"createdAt": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"id": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"required": [
+											"chatId",
+											"deletedAt",
+											"updatedAt",
+											"role",
+											"isVerified",
+											"isActive",
+											"avatar",
+											"lastName",
+											"firstName",
+											"phone",
+											"createdAt",
+											"id"
+										],
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"data": {
+													"properties": {
+														"chatId": {
+															"type": "string"
+														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.Role"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"lastName": {
+															"type": "string"
+														},
+														"firstName": {
+															"type": "string"
+														},
+														"password": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"chatId",
+														"deletedAt",
+														"updatedAt",
+														"role",
+														"isVerified",
+														"isActive",
+														"avatar",
+														"lastName",
+														"firstName",
+														"password",
+														"phone",
+														"createdAt",
+														"id"
+													],
+													"type": "object"
+												},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"data",
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"message": {},
+												"data": {
+													"properties": {
+														"chatId": {
+															"type": "string"
+														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.Role"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"lastName": {
+															"type": "string"
+														},
+														"firstName": {
+															"type": "string"
+														},
+														"password": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"chatId",
+														"deletedAt",
+														"updatedAt",
+														"role",
+														"isVerified",
+														"isActive",
+														"avatar",
+														"lastName",
+														"firstName",
+														"password",
+														"phone",
+														"createdAt",
+														"id"
+													],
+													"type": "object"
+												}
+											},
+											"required": [
+												"data"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"data": {
+													"properties": {
+														"chatId": {
+															"type": "string"
+														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.Role"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"lastName": {
+															"type": "string"
+														},
+														"firstName": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"chatId",
+														"deletedAt",
+														"updatedAt",
+														"role",
+														"isVerified",
+														"isActive",
+														"avatar",
+														"lastName",
+														"firstName",
+														"phone",
+														"createdAt",
+														"id"
+													],
+													"type": "object"
+												},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"data",
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/hard/{id}": {
+			"delete": {
+				"operationId": "HardDelete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"data": {
+													"properties": {
+														"chatId": {
+															"type": "string"
+														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.Role"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"lastName": {
+															"type": "string"
+														},
+														"firstName": {
+															"type": "string"
+														},
+														"password": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"chatId",
+														"deletedAt",
+														"updatedAt",
+														"role",
+														"isVerified",
+														"isActive",
+														"avatar",
+														"lastName",
+														"firstName",
+														"password",
+														"phone",
+														"createdAt",
+														"id"
+													],
+													"type": "object"
+												},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"data",
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/soft/{id}": {
+			"delete": {
+				"operationId": "SoftDelete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"data": {
+													"properties": {
+														"chatId": {
+															"type": "string"
+														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.Role"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"lastName": {
+															"type": "string"
+														},
+														"firstName": {
+															"type": "string"
+														},
+														"password": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"chatId",
+														"deletedAt",
+														"updatedAt",
+														"role",
+														"isVerified",
+														"isActive",
+														"avatar",
+														"lastName",
+														"firstName",
+														"password",
+														"phone",
+														"createdAt",
+														"id"
+													],
+													"type": "object"
+												},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"data",
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/auth/login": {
 			"post": {
 				"operationId": "Login",

@@ -1,113 +1,99 @@
-import { Request, Response } from "express";
+import {Body, Controller,Delete,Get,Path,Post,Put,Route,Tags, SuccessResponse,} from "tsoa";
+
 import { UsersService } from "./user.service";
 import { prisma } from "../../config/prisma";
 
-const usersService = new UsersService();
+import { CreateUserDto } from "./dto/create-user.dto"
+import { UpdateUserDto } from "./dto/update-user.dto";
 
-export class UserController    {
-  create = async (req: Request, res: Response) => {
-    try {
-      const existPhone = await prisma.user.findUnique({
-        where: {
-          phone: req.body.phone,
-        },
-      });
+@Route("users")
+@Tags("Users")
+export class UserController extends Controller {
+  private usersService = new UsersService();
 
-      if (existPhone) {
-        return res
-          .status(400)
-          .json({ message: "Foydalanuvchi allaqachon mavjud" });
-      }
+ 
+  @Get("/")
+  public async getUsers() {
+    return await this.usersService.findAll();
+  }
 
+  
+  @Get("{id}")
+  public async getUserById(@Path() id: number) {
+    const user = await this.usersService.findOne(id);
 
-
-      const user = await usersService.create(req.body);
-      return res.status(201).json({
-        message: "Foydalanuvchi muvaffaqiyatli qo'shildi",
-        data: user,
-      });
-    } catch (error) {
-      return res.status(500).json({ message: "Server xatosi" });
+    if (!user) {
+      this.setStatus(404);
+      return { message: "Foydalanuvchi topilmadi" };
     }
-  };
 
-  getOne = async (req: Request, res: Response) => {
-    try {
-      const user = await usersService.findOne(+req.params.id);
+    return { data: user };
+  }
 
-      if (!user) {
-        return res.status(404).json({
-          message: "Foydalanuvchi topilmadi",
-        });
-      }
+  @SuccessResponse("201", "Created")
+  @Post("/")
+  public async createUser(@Body() body: CreateUserDto) {
+    const existPhone = await prisma.user.findUnique({
+      where: { phone: body.phone },
+    });
 
-      return res.status(200).json({ data: user });
-    } catch (error) {
-      return res.status(500).json({ message: "Server xatosi" });
+    if (existPhone) {
+      this.setStatus(400);
+      return { message: "Foydalanuvchi allaqachon mavjud" };
     }
-  };
 
-  getAll = async (req: Request, res: Response) => {
-    try {
-      const result = await usersService.findAll();
-      return res.status(200).json({ success: true, data: result });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "Server xatosi" });
+    const user = await this.usersService.create(body);
+    this.setStatus(201);
+
+    return {
+      message: "Foydalanuvchi muvaffaqiyatli qo'shildi",
+      data: user,
+    };
+  }
+  @Put("{id}")
+  public async updateUser(@Path() id: number, @Body() body: UpdateUserDto) {
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      this.setStatus(404);
+      return { message: "Foydalanuvchi topilmadi" };
     }
-  };
 
-  update = async (req: Request, res: Response) => {
-    try {
-      const id = +req.params.id;
-      const user = await usersService.findOne(id);
-      if (!user) {
-        return res.status(404).json({ message: "Foydalanuvchi topilmadi" });
-      }
+    const updatedUser = await this.usersService.update(id, body);
+    return { message: "Muvaffaqiyatli yangilandi", data: updatedUser };
+  }
 
-      const updatedUser = await usersService.update(id, req.body);
-      return res.status(200).json({ message: "Muvaffaqiyatli yangilandi", data: updatedUser });
-    } catch (error) {
-      return res.status(500).json({ message: "Server xatosi" });
+  
+  @Delete("hard/{id}")
+  public async hardDelete(@Path() id: number) {
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      this.setStatus(404);
+      return { message: "Foydalanuvchi topilmadi" };
     }
-  };
 
-  hardDelete = async (req: Request, res: Response) => {
-    try {
-      const user = await usersService.findOne(+req.params.id);
+    const deletedUser = await this.usersService.hardDelete(id);
+    return {
+      message: "Foydalanuvchi muvaffaqiyatli o'chirildi",
+      data: deletedUser,
+    };
+  }
 
-      if (!user) {
-        return res.status(404).json({ message: "Foydalanuvchi topilmadi" });
-      }
+  
+  @Delete("soft/{id}")
+  public async softDelete(@Path() id: number) {
+    const user = await this.usersService.findOne(id);
 
-      const deletedUser = await usersService.hardDelete(+req.params.id);
-      return res
-        .status(200)
-        .json({
-          message: "Foydalanuvchi muvaffaqiyatli o'chirildi",
-          data: deletedUser,
-        });
-    } catch (error) {
-      return res.status(500).json({ message: "Server xatosi" });
+    if (!user) {
+      this.setStatus(404);
+      return { message: "Foydalanuvchi topilmadi yoki aktiv emas" };
     }
-  };
 
-  softDelete = async (req: Request, res: Response) => {
-    try {
-      const user = await usersService.findOne(+req.params.id);
-      if (!user) {
-        return res.status(404).json({ message: "Foydalanuvchi topilmadi yoki Activ emas" });
-      }
-      const deletedUser = await usersService.softDelete(+req.params.id);
-      return res
-        .status(200)
-        .json({
-          message: "Foydalanuvchi muvaffaqiyatli o'chirildi",
-          data: deletedUser,
-        });
-    } catch (error) {
-      return res.status(500).json({ message: "Server xatosi" });
-    }
-  };
+    const deletedUser = await this.usersService.softDelete(id);
+    return {
+      message: "Foydalanuvchi muvaffaqiyatli o'chirildi",
+      data: deletedUser,
+    };
+  }
 }
-
-export const userController = new UserController();
