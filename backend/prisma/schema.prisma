@@ -1,6 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../generated/prisma/client"
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
 }
 
 datasource db {
@@ -90,4 +90,216 @@ model File {
   status    Status   @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Book {
+  id String @id @default(uuid())
+
+  // ISBN
+  isbn10 String? @unique
+  isbn13 String  @unique
+
+  // Sarlavha (ko'p tilli)
+  titleUz String
+  titleRu String?
+  titleEn String?
+
+  // Asosiy ma'lumotlar
+  publisherId String
+  publisher   Publisher   @relation(fields: [publisherId], references: [id])
+  publishYear Int
+  languages   String[] // ['uz', 'ru', 'en']
+  pageCount   Int?
+  ageCategory AgeCategory @default(ADULT)
+  coverType   CoverType   @default(SOFT)
+
+  // Tavsif
+  shortDescription String? @db.VarChar(200)
+  fullDescription  String? @db.Text
+
+  // Rasm
+  coverImageUrl     String?
+  coverThumbnailUrl String?
+
+  // Fizik o'lchamlar
+  weight    Int? // gramm
+  height    Int? // mm
+  width     Int? // mm
+  thickness Int? // mm
+
+  // Seriya
+  seriesName   String?
+  seriesNumber Int?
+  seriesTotal  Int?
+
+  // Kataloglash
+  ddcCode String?
+  udcCode String?
+  tags    String[]
+
+  // Meta
+  createdBy String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  authors       BookAuthor[]
+  genres        BookGenre[]
+  copies        BookCopy[]
+  inventoryLogs InventoryLog[]
+}
+
+enum AgeCategory {
+  CHILDREN // 0-12
+  TEEN // 13-17
+  ADULT // 18+
+}
+
+enum CoverType {
+  HARD
+  SOFT
+}
+
+model Author {
+  id          String    @id @default(uuid())
+  firstName   String
+  lastName    String
+  biography   String?   @db.Text
+  birthDate   DateTime? @db.Date
+  nationality String?
+  avatarUrl   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  books BookAuthor[]
+}
+
+model BookAuthor {
+  bookId      String
+  authorId    String
+  authorOrder Int    @default(1) // birinchi muallif, ikkinchi, ...
+  book        Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  author      Author @relation(fields: [authorId], references: [id])
+
+  @@id([bookId, authorId])
+}
+
+model Publisher {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  country   String?
+  website   String?
+  createdAt DateTime @default(now())
+
+  books Book[]
+}
+
+model Genre {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  parentId    String? // sub-janr uchun
+  parent      Genre?  @relation("SubGenres", fields: [parentId], references: [id])
+  children    Genre[] @relation("SubGenres")
+
+  books BookGenre[]
+}
+
+model BookGenre {
+  bookId    String
+  genreId   String
+  isPrimary Boolean @default(false)
+  book      Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  genre     Genre   @relation(fields: [genreId], references: [id])
+
+  @@id([bookId, genreId])
+}
+
+model BookCopy {
+  id       String @id @default(uuid())
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id])
+  branchId String
+  // branch   Branch @relation(fields: [branchId], references: [id])
+
+  copyNumber Int // 1, 2, 3, ...
+  barcode    String  @unique
+  qrCode     String? @unique
+  qrCodeUrl  String?
+
+  // Holat
+  condition       BookCondition @default(NEW)
+  status          CopyStatus    @default(AVAILABLE)
+  statusChangedAt DateTime?
+  statusChangedBy String?
+  statusReason    String?
+
+  // Joylashuv
+  locationRoom     String?
+  locationShelf    String?
+  locationRow      Int?
+  locationSide     String?
+  locationPosition Int?
+
+  // Moliyaviy
+  purchaseDate DateTime? @db.Date
+  price        Decimal?  @db.Decimal(12, 2)
+
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // inventoryLogs InventoryLog[]
+  // rents         Rent[]
+  // reservations  Reservation[]
+  inventoryLogs InventoryLog[]
+}
+
+enum BookCondition {
+  NEW // Yangi
+  GOOD // Yaxshi
+  SATISFACTORY // Qoniqarli
+  POOR // Yomon
+}
+
+enum CopyStatus {
+  AVAILABLE // Mavjud
+  RESERVED // Bronlangan
+  ON_RENT // Ijarada
+  LOST // Yo'qolgan
+  DAMAGED // Shikastlangan
+  UNDER_REPAIR // Ta'mirda
+  WITHDRAWN // Foydalanishdan chiqarilgan
+  IN_TRANSIT // Ko'chirishda
+}
+
+model InventoryLog {
+  id       String    @id @default(uuid())
+  bookId   String?
+  book     Book?     @relation(fields: [bookId], references: [id])
+  copyId   String?
+  copy     BookCopy? @relation(fields: [copyId], references: [id])
+  branchId String?
+
+  action      InventoryAction
+  oldStatus   String?
+  newStatus   String?
+  oldLocation Json?
+  newLocation Json?
+  quantity    Int?
+  reason      String?
+  notes       String?
+  metadata    Json? // qo'shimcha ma'lumotlar
+
+  performedBy String
+  performedAt DateTime @default(now())
+}
+
+enum InventoryAction {
+  BOOKS_ADDED
+  COPY_STATUS_CHANGED
+  LOCATION_CHANGED
+  COPY_TRANSFERRED
+  COPY_REPAIRED
+  COPY_WITHDRAWN
 }

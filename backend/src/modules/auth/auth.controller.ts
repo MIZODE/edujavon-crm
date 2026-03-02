@@ -1,6 +1,6 @@
-import { Controller, Post, Body, Route, Tags, SuccessResponse } from 'tsoa';
+import { Controller, Post, Body, Route, Tags, SuccessResponse, Get, Security } from 'tsoa';
 import * as authService from './auth.service';
-import { LoginDto, RegisterDto, SendCodeDto, VerifyCodeDto } from './dto/auth.dto';
+import { LoginDto, RegisterDto, SendCodeDto, VerifyCodeDto, LogOutDto} from './dto/auth.dto';
 
 @Route("auth")
 @Tags("Auth")
@@ -86,6 +86,34 @@ export class AuthController extends Controller {
             return {
                 message: err.message || "Kodni tekshirishda xatolik yuz berdi"
             };
+        }
+    }
+
+    /**
+     * Admin paneli uchun test marshruti
+     */
+    @Security("jwt", ["admin"])
+    @Get("admin-test")
+    public async adminTest(): Promise<any> {
+        this.setStatus(200);
+        return { message: "Siz adminsiz va bu yo'lga kira olasiz!" };
+    }
+
+    /**
+     * Foydalanuvchi tizimdan chiqishi
+     * @param requestBody Faqatgina refresh token
+     */
+    @Post("logout")
+    public async logOut(@Body() requestBody: LogOutDto): Promise<any> {
+        try {
+            const result = await authService.logOut({refreshToken: requestBody.refreshToken});
+            this.setStatus(200);
+            return result;
+        } catch (err: any) {
+            this.setStatus(400);
+            return {
+                message: err.message || "Xatolik yuz berdi"
+            }
         }
     }
 }

@@ -66,3 +66,14 @@ export interface VerifyCodeDto {
      */
     code: string;
 }
+
+/**
+ * Log Out DTO
+ */
+export interface LogOutDto {
+    /**
+     * User's refresh token
+     * @example "refresh_token"
+     */
+    refreshToken: string;
+}
