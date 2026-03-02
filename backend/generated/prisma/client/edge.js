@@ -148,6 +148,121 @@ exports.Prisma.FileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BookScalarFieldEnum = {
+  id: 'id',
+  isbn10: 'isbn10',
+  isbn13: 'isbn13',
+  titleUz: 'titleUz',
+  titleRu: 'titleRu',
+  titleEn: 'titleEn',
+  publisherId: 'publisherId',
+  publishYear: 'publishYear',
+  languages: 'languages',
+  pageCount: 'pageCount',
+  ageCategory: 'ageCategory',
+  coverType: 'coverType',
+  shortDescription: 'shortDescription',
+  fullDescription: 'fullDescription',
+  coverImageUrl: 'coverImageUrl',
+  coverThumbnailUrl: 'coverThumbnailUrl',
+  weight: 'weight',
+  height: 'height',
+  width: 'width',
+  thickness: 'thickness',
+  seriesName: 'seriesName',
+  seriesNumber: 'seriesNumber',
+  seriesTotal: 'seriesTotal',
+  ddcCode: 'ddcCode',
+  udcCode: 'udcCode',
+  tags: 'tags',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.AuthorScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  biography: 'biography',
+  birthDate: 'birthDate',
+  nationality: 'nationality',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BookAuthorScalarFieldEnum = {
+  bookId: 'bookId',
+  authorId: 'authorId',
+  authorOrder: 'authorOrder'
+};
+
+exports.Prisma.PublisherScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  country: 'country',
+  website: 'website',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId'
+};
+
+exports.Prisma.BookGenreScalarFieldEnum = {
+  bookId: 'bookId',
+  genreId: 'genreId',
+  isPrimary: 'isPrimary'
+};
+
+exports.Prisma.BookCopyScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  branchId: 'branchId',
+  copyNumber: 'copyNumber',
+  barcode: 'barcode',
+  qrCode: 'qrCode',
+  qrCodeUrl: 'qrCodeUrl',
+  condition: 'condition',
+  status: 'status',
+  statusChangedAt: 'statusChangedAt',
+  statusChangedBy: 'statusChangedBy',
+  statusReason: 'statusReason',
+  locationRoom: 'locationRoom',
+  locationShelf: 'locationShelf',
+  locationRow: 'locationRow',
+  locationSide: 'locationSide',
+  locationPosition: 'locationPosition',
+  purchaseDate: 'purchaseDate',
+  price: 'price',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InventoryLogScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  copyId: 'copyId',
+  branchId: 'branchId',
+  action: 'action',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  oldLocation: 'oldLocation',
+  newLocation: 'newLocation',
+  quantity: 'quantity',
+  reason: 'reason',
+  notes: 'notes',
+  metadata: 'metadata',
+  performedBy: 'performedBy',
+  performedAt: 'performedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -196,12 +311,58 @@ exports.Status = exports.$Enums.Status = {
   DELETED: 'DELETED'
 };
 
+exports.AgeCategory = exports.$Enums.AgeCategory = {
+  CHILDREN: 'CHILDREN',
+  TEEN: 'TEEN',
+  ADULT: 'ADULT'
+};
+
+exports.CoverType = exports.$Enums.CoverType = {
+  HARD: 'HARD',
+  SOFT: 'SOFT'
+};
+
+exports.BookCondition = exports.$Enums.BookCondition = {
+  NEW: 'NEW',
+  GOOD: 'GOOD',
+  SATISFACTORY: 'SATISFACTORY',
+  POOR: 'POOR'
+};
+
+exports.CopyStatus = exports.$Enums.CopyStatus = {
+  AVAILABLE: 'AVAILABLE',
+  RESERVED: 'RESERVED',
+  ON_RENT: 'ON_RENT',
+  LOST: 'LOST',
+  DAMAGED: 'DAMAGED',
+  UNDER_REPAIR: 'UNDER_REPAIR',
+  WITHDRAWN: 'WITHDRAWN',
+  IN_TRANSIT: 'IN_TRANSIT'
+};
+
+exports.InventoryAction = exports.$Enums.InventoryAction = {
+  BOOKS_ADDED: 'BOOKS_ADDED',
+  COPY_STATUS_CHANGED: 'COPY_STATUS_CHANGED',
+  LOCATION_CHANGED: 'LOCATION_CHANGED',
+  COPY_TRANSFERRED: 'COPY_TRANSFERRED',
+  COPY_REPAIRED: 'COPY_REPAIRED',
+  COPY_WITHDRAWN: 'COPY_WITHDRAWN'
+};
+
 exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   Permission: 'Permission',
   Session: 'Session',
   User: 'User',
-  File: 'File'
+  File: 'File',
+  Book: 'Book',
+  Author: 'Author',
+  BookAuthor: 'BookAuthor',
+  Publisher: 'Publisher',
+  Genre: 'Genre',
+  BookGenre: 'BookGenre',
+  BookCopy: 'BookCopy',
+  InventoryLog: 'InventoryLog'
 };
 /**
  * Create the Client
@@ -211,10 +372,10 @@ const config = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AuditLog {\n  id         String   @id\n  userId     Int?\n  action     Action\n  resource   String\n  resourceId String?\n  oldValue   Json?\n  newValue   Json?\n  ipAddress  String?\n  userAgent  String?\n  createdAt  DateTime @default(now())\n  User       User?    @relation(fields: [userId], references: [id])\n}\n\nmodel Permission {\n  id          String  @id\n  resource    String\n  action      String\n  description String?\n\n  @@unique([resource, action])\n}\n\nmodel Session {\n  id           String   @id\n  userId       Int\n  refreshToken String   @unique\n  deviceInfo   String?\n  ipAddress    String?\n  expiresAt    DateTime\n  createdAt    DateTime @default(now())\n  User         User     @relation(fields: [userId], references: [id])\n}\n\nmodel User {\n  id         Int        @id @default(autoincrement())\n  phone      String?    @unique\n  password   String\n  firstName  String\n  lastName   String\n  avatar     String?\n  isActive   Boolean    @default(true)\n  isVerified Boolean    @default(false)\n  role       Role       @default(USER)\n  createdAt  DateTime   @default(now())\n  updatedAt  DateTime?\n  deletedAt  DateTime?\n  chatId     String?    @unique\n  AuditLog   AuditLog[]\n  Session    Session[]\n}\n\nenum Action {\n  User_LOGIN\n  User_LOGOUT\n  USER_CREATE\n  USER_UPDATE\n  USER_DELETE\n}\n\nenum Role {\n  SUPERVISOR\n  ADMIN\n  OWNER\n  MANAGER\n  LIBRARIAN\n  USER\n}\n\nenum Status {\n  ACTIVE\n  INACTIVE\n  DELETED\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  path      String\n  size      Int\n  mimeType  String\n  status    Status   @default(ACTIVE)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AuditLog {\n  id         String   @id\n  userId     Int?\n  action     Action\n  resource   String\n  resourceId String?\n  oldValue   Json?\n  newValue   Json?\n  ipAddress  String?\n  userAgent  String?\n  createdAt  DateTime @default(now())\n  User       User?    @relation(fields: [userId], references: [id])\n}\n\nmodel Permission {\n  id          String  @id\n  resource    String\n  action      String\n  description String?\n\n  @@unique([resource, action])\n}\n\nmodel Session {\n  id           String   @id\n  userId       Int\n  refreshToken String   @unique\n  deviceInfo   String?\n  ipAddress    String?\n  expiresAt    DateTime\n  createdAt    DateTime @default(now())\n  User         User     @relation(fields: [userId], references: [id])\n}\n\nmodel User {\n  id         Int        @id @default(autoincrement())\n  phone      String?    @unique\n  password   String\n  firstName  String\n  lastName   String\n  avatar     String?\n  isActive   Boolean    @default(true)\n  isVerified Boolean    @default(false)\n  role       Role       @default(USER)\n  createdAt  DateTime   @default(now())\n  updatedAt  DateTime?\n  deletedAt  DateTime?\n  chatId     String?    @unique\n  AuditLog   AuditLog[]\n  Session    Session[]\n}\n\nenum Action {\n  User_LOGIN\n  User_LOGOUT\n  USER_CREATE\n  USER_UPDATE\n  USER_DELETE\n}\n\nenum Role {\n  SUPERVISOR\n  ADMIN\n  OWNER\n  MANAGER\n  LIBRARIAN\n  USER\n}\n\nenum Status {\n  ACTIVE\n  INACTIVE\n  DELETED\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  path      String\n  size      Int\n  mimeType  String\n  status    Status   @default(ACTIVE)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Book {\n  id String @id @default(uuid())\n\n  // ISBN\n  isbn10 String? @unique\n  isbn13 String  @unique\n\n  // Sarlavha (ko'p tilli)\n  titleUz String\n  titleRu String?\n  titleEn String?\n\n  // Asosiy ma'lumotlar\n  publisherId String\n  publisher   Publisher   @relation(fields: [publisherId], references: [id])\n  publishYear Int\n  languages   String[] // ['uz', 'ru', 'en']\n  pageCount   Int?\n  ageCategory AgeCategory @default(ADULT)\n  coverType   CoverType   @default(SOFT)\n\n  // Tavsif\n  shortDescription String? @db.VarChar(200)\n  fullDescription  String? @db.Text\n\n  // Rasm\n  coverImageUrl     String?\n  coverThumbnailUrl String?\n\n  // Fizik o'lchamlar\n  weight    Int? // gramm\n  height    Int? // mm\n  width     Int? // mm\n  thickness Int? // mm\n\n  // Seriya\n  seriesName   String?\n  seriesNumber Int?\n  seriesTotal  Int?\n\n  // Kataloglash\n  ddcCode String?\n  udcCode String?\n  tags    String[]\n\n  // Meta\n  createdBy String\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  authors       BookAuthor[]\n  genres        BookGenre[]\n  copies        BookCopy[]\n  inventoryLogs InventoryLog[]\n}\n\nenum AgeCategory {\n  CHILDREN // 0-12\n  TEEN // 13-17\n  ADULT // 18+\n}\n\nenum CoverType {\n  HARD\n  SOFT\n}\n\nmodel Author {\n  id          String    @id @default(uuid())\n  firstName   String\n  lastName    String\n  biography   String?   @db.Text\n  birthDate   DateTime? @db.Date\n  nationality String?\n  avatarUrl   String?\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n\n  books BookAuthor[]\n}\n\nmodel BookAuthor {\n  bookId      String\n  authorId    String\n  authorOrder Int    @default(1) // birinchi muallif, ikkinchi, ...\n  book        Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)\n  author      Author @relation(fields: [authorId], references: [id])\n\n  @@id([bookId, authorId])\n}\n\nmodel Publisher {\n  id        String   @id @default(uuid())\n  name      String   @unique\n  country   String?\n  website   String?\n  createdAt DateTime @default(now())\n\n  books Book[]\n}\n\nmodel Genre {\n  id          String  @id @default(uuid())\n  name        String  @unique\n  description String?\n  parentId    String? // sub-janr uchun\n  parent      Genre?  @relation(\"SubGenres\", fields: [parentId], references: [id])\n  children    Genre[] @relation(\"SubGenres\")\n\n  books BookGenre[]\n}\n\nmodel BookGenre {\n  bookId    String\n  genreId   String\n  isPrimary Boolean @default(false)\n  book      Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)\n  genre     Genre   @relation(fields: [genreId], references: [id])\n\n  @@id([bookId, genreId])\n}\n\nmodel BookCopy {\n  id       String @id @default(uuid())\n  bookId   String\n  book     Book   @relation(fields: [bookId], references: [id])\n  branchId String\n  // branch   Branch @relation(fields: [branchId], references: [id])\n\n  copyNumber Int // 1, 2, 3, ...\n  barcode    String  @unique\n  qrCode     String? @unique\n  qrCodeUrl  String?\n\n  // Holat\n  condition       BookCondition @default(NEW)\n  status          CopyStatus    @default(AVAILABLE)\n  statusChangedAt DateTime?\n  statusChangedBy String?\n  statusReason    String?\n\n  // Joylashuv\n  locationRoom     String?\n  locationShelf    String?\n  locationRow      Int?\n  locationSide     String?\n  locationPosition Int?\n\n  // Moliyaviy\n  purchaseDate DateTime? @db.Date\n  price        Decimal?  @db.Decimal(12, 2)\n\n  createdBy String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // inventoryLogs InventoryLog[]\n  // rents         Rent[]\n  // reservations  Reservation[]\n  inventoryLogs InventoryLog[]\n}\n\nenum BookCondition {\n  NEW // Yangi\n  GOOD // Yaxshi\n  SATISFACTORY // Qoniqarli\n  POOR // Yomon\n}\n\nenum CopyStatus {\n  AVAILABLE // Mavjud\n  RESERVED // Bronlangan\n  ON_RENT // Ijarada\n  LOST // Yo'qolgan\n  DAMAGED // Shikastlangan\n  UNDER_REPAIR // Ta'mirda\n  WITHDRAWN // Foydalanishdan chiqarilgan\n  IN_TRANSIT // Ko'chirishda\n}\n\nmodel InventoryLog {\n  id       String    @id @default(uuid())\n  bookId   String?\n  book     Book?     @relation(fields: [bookId], references: [id])\n  copyId   String?\n  copy     BookCopy? @relation(fields: [copyId], references: [id])\n  branchId String?\n\n  action      InventoryAction\n  oldStatus   String?\n  newStatus   String?\n  oldLocation Json?\n  newLocation Json?\n  quantity    Int?\n  reason      String?\n  notes       String?\n  metadata    Json? // qo'shimcha ma'lumotlar\n\n  performedBy String\n  performedAt DateTime @default(now())\n}\n\nenum InventoryAction {\n  BOOKS_ADDED\n  COPY_STATUS_CHANGED\n  LOCATION_CHANGED\n  COPY_TRANSFERRED\n  COPY_REPAIRED\n  COPY_WITHDRAWN\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"action\",\"kind\":\"enum\",\"type\":\"Action\"},{\"name\":\"resource\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resourceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":null},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resource\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceInfo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"AuditLog\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"Session\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"File\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"path\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"mimeType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"Status\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"action\",\"kind\":\"enum\",\"type\":\"Action\"},{\"name\":\"resource\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resourceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":null},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resource\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceInfo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"AuditLog\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"Session\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"File\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"path\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"mimeType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"Status\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Book\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isbn10\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isbn13\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"titleUz\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"titleRu\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"titleEn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publisherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publisher\",\"kind\":\"object\",\"type\":\"Publisher\",\"relationName\":\"BookToPublisher\"},{\"name\":\"publishYear\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"languages\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pageCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ageCategory\",\"kind\":\"enum\",\"type\":\"AgeCategory\"},{\"name\":\"coverType\",\"kind\":\"enum\",\"type\":\"CoverType\"},{\"name\":\"shortDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverThumbnailUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"height\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"width\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"thickness\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"seriesName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seriesNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"seriesTotal\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ddcCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"udcCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authors\",\"kind\":\"object\",\"type\":\"BookAuthor\",\"relationName\":\"BookToBookAuthor\"},{\"name\":\"genres\",\"kind\":\"object\",\"type\":\"BookGenre\",\"relationName\":\"BookToBookGenre\"},{\"name\":\"copies\",\"kind\":\"object\",\"type\":\"BookCopy\",\"relationName\":\"BookToBookCopy\"},{\"name\":\"inventoryLogs\",\"kind\":\"object\",\"type\":\"InventoryLog\",\"relationName\":\"BookToInventoryLog\"}],\"dbName\":null},\"Author\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"biography\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nationality\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"books\",\"kind\":\"object\",\"type\":\"BookAuthor\",\"relationName\":\"AuthorToBookAuthor\"}],\"dbName\":null},\"BookAuthor\":{\"fields\":[{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToBookAuthor\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"Author\",\"relationName\":\"AuthorToBookAuthor\"}],\"dbName\":null},\"Publisher\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"website\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"books\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToPublisher\"}],\"dbName\":null},\"Genre\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Genre\",\"relationName\":\"SubGenres\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Genre\",\"relationName\":\"SubGenres\"},{\"name\":\"books\",\"kind\":\"object\",\"type\":\"BookGenre\",\"relationName\":\"BookGenreToGenre\"}],\"dbName\":null},\"BookGenre\":{\"fields\":[{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"genreId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isPrimary\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToBookGenre\"},{\"name\":\"genre\",\"kind\":\"object\",\"type\":\"Genre\",\"relationName\":\"BookGenreToGenre\"}],\"dbName\":null},\"BookCopy\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToBookCopy\"},{\"name\":\"branchId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"copyNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"barcode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"qrCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"qrCodeUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"condition\",\"kind\":\"enum\",\"type\":\"BookCondition\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CopyStatus\"},{\"name\":\"statusChangedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"statusChangedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"statusReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locationRoom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locationShelf\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locationRow\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"locationSide\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locationPosition\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"purchaseDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"inventoryLogs\",\"kind\":\"object\",\"type\":\"InventoryLog\",\"relationName\":\"BookCopyToInventoryLog\"}],\"dbName\":null},\"InventoryLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToInventoryLog\"},{\"name\":\"copyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"copy\",\"kind\":\"object\",\"type\":\"BookCopy\",\"relationName\":\"BookCopyToInventoryLog\"},{\"name\":\"branchId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"enum\",\"type\":\"InventoryAction\"},{\"name\":\"oldStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"newStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldLocation\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"newLocation\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"performedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"performedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_fast_bg.js'),
