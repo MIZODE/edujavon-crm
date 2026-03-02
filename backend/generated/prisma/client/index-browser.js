@@ -176,6 +176,121 @@ exports.Prisma.FileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BookScalarFieldEnum = {
+  id: 'id',
+  isbn10: 'isbn10',
+  isbn13: 'isbn13',
+  titleUz: 'titleUz',
+  titleRu: 'titleRu',
+  titleEn: 'titleEn',
+  publisherId: 'publisherId',
+  publishYear: 'publishYear',
+  languages: 'languages',
+  pageCount: 'pageCount',
+  ageCategory: 'ageCategory',
+  coverType: 'coverType',
+  shortDescription: 'shortDescription',
+  fullDescription: 'fullDescription',
+  coverImageUrl: 'coverImageUrl',
+  coverThumbnailUrl: 'coverThumbnailUrl',
+  weight: 'weight',
+  height: 'height',
+  width: 'width',
+  thickness: 'thickness',
+  seriesName: 'seriesName',
+  seriesNumber: 'seriesNumber',
+  seriesTotal: 'seriesTotal',
+  ddcCode: 'ddcCode',
+  udcCode: 'udcCode',
+  tags: 'tags',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.AuthorScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  biography: 'biography',
+  birthDate: 'birthDate',
+  nationality: 'nationality',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BookAuthorScalarFieldEnum = {
+  bookId: 'bookId',
+  authorId: 'authorId',
+  authorOrder: 'authorOrder'
+};
+
+exports.Prisma.PublisherScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  country: 'country',
+  website: 'website',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId'
+};
+
+exports.Prisma.BookGenreScalarFieldEnum = {
+  bookId: 'bookId',
+  genreId: 'genreId',
+  isPrimary: 'isPrimary'
+};
+
+exports.Prisma.BookCopyScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  branchId: 'branchId',
+  copyNumber: 'copyNumber',
+  barcode: 'barcode',
+  qrCode: 'qrCode',
+  qrCodeUrl: 'qrCodeUrl',
+  condition: 'condition',
+  status: 'status',
+  statusChangedAt: 'statusChangedAt',
+  statusChangedBy: 'statusChangedBy',
+  statusReason: 'statusReason',
+  locationRoom: 'locationRoom',
+  locationShelf: 'locationShelf',
+  locationRow: 'locationRow',
+  locationSide: 'locationSide',
+  locationPosition: 'locationPosition',
+  purchaseDate: 'purchaseDate',
+  price: 'price',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InventoryLogScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  copyId: 'copyId',
+  branchId: 'branchId',
+  action: 'action',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  oldLocation: 'oldLocation',
+  newLocation: 'newLocation',
+  quantity: 'quantity',
+  reason: 'reason',
+  notes: 'notes',
+  metadata: 'metadata',
+  performedBy: 'performedBy',
+  performedAt: 'performedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -224,12 +339,58 @@ exports.Status = exports.$Enums.Status = {
   DELETED: 'DELETED'
 };
 
+exports.AgeCategory = exports.$Enums.AgeCategory = {
+  CHILDREN: 'CHILDREN',
+  TEEN: 'TEEN',
+  ADULT: 'ADULT'
+};
+
+exports.CoverType = exports.$Enums.CoverType = {
+  HARD: 'HARD',
+  SOFT: 'SOFT'
+};
+
+exports.BookCondition = exports.$Enums.BookCondition = {
+  NEW: 'NEW',
+  GOOD: 'GOOD',
+  SATISFACTORY: 'SATISFACTORY',
+  POOR: 'POOR'
+};
+
+exports.CopyStatus = exports.$Enums.CopyStatus = {
+  AVAILABLE: 'AVAILABLE',
+  RESERVED: 'RESERVED',
+  ON_RENT: 'ON_RENT',
+  LOST: 'LOST',
+  DAMAGED: 'DAMAGED',
+  UNDER_REPAIR: 'UNDER_REPAIR',
+  WITHDRAWN: 'WITHDRAWN',
+  IN_TRANSIT: 'IN_TRANSIT'
+};
+
+exports.InventoryAction = exports.$Enums.InventoryAction = {
+  BOOKS_ADDED: 'BOOKS_ADDED',
+  COPY_STATUS_CHANGED: 'COPY_STATUS_CHANGED',
+  LOCATION_CHANGED: 'LOCATION_CHANGED',
+  COPY_TRANSFERRED: 'COPY_TRANSFERRED',
+  COPY_REPAIRED: 'COPY_REPAIRED',
+  COPY_WITHDRAWN: 'COPY_WITHDRAWN'
+};
+
 exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   Permission: 'Permission',
   Session: 'Session',
   User: 'User',
-  File: 'File'
+  File: 'File',
+  Book: 'Book',
+  Author: 'Author',
+  BookAuthor: 'BookAuthor',
+  Publisher: 'Publisher',
+  Genre: 'Genre',
+  BookGenre: 'BookGenre',
+  BookCopy: 'BookCopy',
+  InventoryLog: 'InventoryLog'
 };
 
 /**

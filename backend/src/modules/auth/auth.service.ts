@@ -1,8 +1,9 @@
 import { prisma } from '../../config/prisma';
 import bcrypt from 'bcrypt';
 import { cache } from '../../common/service/cache.service';
-import { createAccessToken, createRefreshToken } from '../../common/service/token.service';
+import { createAccessToken, createRefreshToken, verifyRefreshToken } from '../../common/service/token.service';
 import { sendVerificationCode as botSendCode } from '../bot/bot.service';
+import { AppError } from '../../common/errors/AppError';
 
 
 export async function login(data: { phone: string; password: string }) {
@@ -129,3 +130,25 @@ export async function register(data: { phone: string; firstName: string; lastNam
     };
 }
 
+export async function logOut(data: { refreshToken: string}) {
+    if(!data.refreshToken) {
+        throw new AppError("Refresh token kiritilishi kerak", 400);
+    }
+
+    if(!await cache.get(`refresh:${data.refreshToken}`)){
+        throw new AppError("Refresh token topilmadi", 404);
+    }
+
+    const decoded: any = await new Promise((resolve, reject) => {
+        try {
+            const payload = verifyRefreshToken(data.refreshToken);
+            resolve(payload);
+        } catch (err) {
+            reject(new AppError("Noto'g'ri refresh token", 400));
+        }
+    });
+
+    const cacheKey = `refresh:${decoded.sub}:${data.refreshToken}`;
+    await cache.del(cacheKey);
+    return { message: "Muvaffaqiyatli chiqish qilindi" };
+}
