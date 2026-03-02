@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-  "build": "tsoa spec-and-routes && tsc",
-  "dev": "tsoa spec-and-routes && ts-node-dev --respawn --transpile-only src/server.ts"
-},
+    "build": "tsoa spec-and-routes && tsc",
+    "dev": "tsoa spec-and-routes && ts-node-dev --respawn --transpile-only src/server.ts"
+  },
   "author": "ozim",
   "license": "ISC",
   "description": "",

@@ -1,5 +1,4 @@
-import { Role } from "@prisma/client";
-
+import { Role } from "../../../../generated/prisma/client";
 export interface UpdateUserDto {
     phone?: string;
     password?: string;
