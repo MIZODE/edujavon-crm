@@ -501,7 +501,14 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"admin",
+							"superadmin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
