@@ -24,7 +24,8 @@
 			"CreateUserDto": {
 				"properties": {
 					"phone": {
-						"type": "string"
+						"type": "number",
+						"format": "double"
 					},
 					"password": {
 						"type": "string"
