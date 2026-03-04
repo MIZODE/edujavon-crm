@@ -35,7 +35,7 @@ export class UserController extends Controller {
   public async createUser(@Body() body: CreateUserDto) {
     const existPhone = await prisma.user.findUnique({
       where: { phone: body.phone },
-    });
+    }  );
 
     if (existPhone) {
       this.setStatus(400);

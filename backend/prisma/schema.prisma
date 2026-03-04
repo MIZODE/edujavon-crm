@@ -43,7 +43,7 @@ model Session {
 
 model User {
   id         Int        @id @default(autoincrement())
-  phone      String?    @unique
+  phone      String   @unique
   password   String
   firstName  String
   lastName   String
