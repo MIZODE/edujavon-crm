@@ -135,10 +135,6 @@ export async function logOut(data: { refreshToken: string}) {
         throw new AppError("Refresh token kiritilishi kerak", 400);
     }
 
-    if(!await cache.get(`refresh:${data.refreshToken}`)){
-        throw new AppError("Refresh token topilmadi", 404);
-    }
-
     const decoded: any = await new Promise((resolve, reject) => {
         try {
             const payload = verifyRefreshToken(data.refreshToken);
@@ -149,6 +145,11 @@ export async function logOut(data: { refreshToken: string}) {
     });
 
     const cacheKey = `refresh:${decoded.sub}:${data.refreshToken}`;
+
+    if(!await cache.get(cacheKey)){
+        throw new AppError("Refresh token topilmadi", 404);
+    }
+
     await cache.del(cacheKey);
     return { message: "Muvaffaqiyatli chiqish qilindi" };
 }

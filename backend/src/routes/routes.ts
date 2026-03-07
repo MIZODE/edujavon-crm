@@ -30,7 +30,7 @@ const models: TsoaRoute.Models = {
     "CreateUserDto": {
         "dataType": "refObject",
         "properties": {
-            "phone": {"dataType":"string"},
+            "phone": {"dataType":"double"},
             "password": {"dataType":"string","required":true},
             "firstName": {"dataType":"string","required":true},
             "lastName": {"dataType":"string","required":true},
