@@ -1,10 +1,20 @@
 {
   "dependencies": {
     "bcrypt": "^6.0.0",
+<<<<<<< HEAD
     "swagger-ui-express": "^5.0.1",
     "tsoa": "^7.0.0-alpha.0"
   },
   "devDependencies": {
+=======
+    "dotenv": "^17.3.1",
+    "swagger-ui-express": "^5.0.1",
+    "telegraf": "^4.16.3",
+    "tsoa": "^7.0.0-alpha.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+>>>>>>> e3e253836f41a90d7a6fd007a09e288beb9673ee
     "@types/swagger-ui-express": "^4.1.8"
   }
 }
