@@ -71,7 +71,7 @@ export async function verifyCode(phone: string, code: string) {
     return { message: 'Kod tasdiqlandi' };
 }
 
-export async function register(data: { phone: string; firstName: string; lastName: string; password: string }) {
+export async function register(data: { phone: string; fullName: string; password: string }) {
     // Verifikatsiya tekshiruvi
     const isVerified = (await cache.get(`verified:${data.phone}`)) as boolean | null;
     if (!isVerified) {
@@ -95,10 +95,9 @@ export async function register(data: { phone: string; firstName: string; lastNam
         data: {
             phone: data.phone,
             password: hashedPassword,
-            firstName: data.firstName,
-            lastName: data.lastName,
+            fullName: data.fullName,
             role: "USER",
-            chatId: chatId ? String(chatId) : null,
+            telegramChatId: chatId ? String(chatId) : null,
             isVerified: true
         }
     });

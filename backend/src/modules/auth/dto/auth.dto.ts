@@ -24,15 +24,10 @@ export interface RegisterDto {
      */
     phone: string;
     /**
-     * User's first name
-     * @example "John"
+     * User's Full name
+     * @example "John Doe"
      */
-    firstName: string;
-    /**
-     * User's last name
-     * @example "Doe"
-     */
-    lastName: string;
+    fullName: string;
     /**
      * User's password
      * @example "password123"
