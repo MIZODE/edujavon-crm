@@ -126,7 +126,6 @@ exports.Prisma.UserScalarFieldEnum = {
   phone: 'phone',
   password: 'password',
   fullName: 'fullName',
-  avatar: 'avatar',
   role: 'role',
   telegramId: 'telegramId',
   telegramChatId: 'telegramChatId',
@@ -340,6 +339,15 @@ exports.Prisma.ShelfScalarFieldEnum = {
   side: 'side',
   capacity: 'capacity',
   deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  size: 'size',
+  mimeType: 'mimeType',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -753,6 +761,7 @@ exports.Prisma.ModelName = {
   BookCopy: 'BookCopy',
   Location: 'Location',
   Shelf: 'Shelf',
+  File: 'File',
   Rent: 'Rent',
   Reservation: 'Reservation',
   WaitingList: 'WaitingList',

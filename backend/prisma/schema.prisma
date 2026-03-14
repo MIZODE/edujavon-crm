@@ -124,7 +124,7 @@ model User {
   phone    String  @unique
   password String // ✅ BCrypt hash (12 rounds)
   fullName String
-  avatar   String?
+  avatar   File?   @relation(fields: [id], references: [id])
 
   // ✅ Role (faqat enum, v1.0 uchun Role model shart emas)
   role UserRole @default(USER)
@@ -296,8 +296,8 @@ model Branch {
   // ✅ SOFT DELETE
   deletedAt DateTime?
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   // transfers Transfer[]
   // transfers Transfer[]
 
@@ -569,6 +569,16 @@ model Shelf {
   @@index([locationId])
   @@index([code])
   @@index([deletedAt])
+}
+
+model File {
+  id        String   @id @default(cuid())
+  path      String
+  size      Int
+  mimeType  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?
 }
 
 // ============================================================================

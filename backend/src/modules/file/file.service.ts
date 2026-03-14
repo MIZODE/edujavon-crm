@@ -13,7 +13,6 @@ export async function uploadFile(file: Express.Multer.File | undefined) {
             path: file.path,
             size: file.size,
             mimeType: file.mimetype,
-            status: "ACTIVE"
         }
     });
     return newFile;
@@ -31,7 +30,6 @@ export async function uploadFiles(files: Express.Multer.File[] | undefined) {
                     path: file.path,
                     size: file.size,
                     mimeType: file.mimetype,
-                    status: "ACTIVE"
                 }
             })
         )

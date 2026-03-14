@@ -17,25 +17,29 @@ const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "_36_Enums.Role": {
+    "_36_Enums.UserRole": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["SUPERVISOR"]},{"dataType":"enum","enums":["ADMIN"]},{"dataType":"enum","enums":["OWNER"]},{"dataType":"enum","enums":["MANAGER"]},{"dataType":"enum","enums":["LIBRARIAN"]},{"dataType":"enum","enums":["USER"]}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["SUPER_ADMIN"]},{"dataType":"enum","enums":["OWNER"]},{"dataType":"enum","enums":["MANAGER"]},{"dataType":"enum","enums":["LIBRARIAN"]},{"dataType":"enum","enums":["USER"]},{"dataType":"enum","enums":["GUEST"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Role": {
+    "_36_Enums.MembershipType": {
         "dataType": "refAlias",
-        "type": {"ref":"_36_Enums.Role","validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["STANDARD"]},{"dataType":"enum","enums":["PREMIUM"]},{"dataType":"enum","enums":["VIP"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserRole": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.UserRole","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CreateUserDto": {
         "dataType": "refObject",
         "properties": {
-            "phone": {"dataType":"string"},
+            "phone": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
-            "firstName": {"dataType":"string","required":true},
-            "lastName": {"dataType":"string","required":true},
+            "fullName": {"dataType":"string","required":true},
             "avatar": {"dataType":"string"},
-            "role": {"ref":"Role"},
+            "role": {"ref":"UserRole"},
         },
         "additionalProperties": false,
     },
@@ -45,10 +49,9 @@ const models: TsoaRoute.Models = {
         "properties": {
             "phone": {"dataType":"string"},
             "password": {"dataType":"string"},
-            "firstName": {"dataType":"string"},
-            "lastName": {"dataType":"string"},
+            "fullName": {"dataType":"string"},
             "avatar": {"dataType":"string"},
-            "role": {"ref":"Role"},
+            "role": {"ref":"UserRole"},
             "isActive": {"dataType":"boolean"},
             "isVerified": {"dataType":"boolean"},
         },
@@ -68,8 +71,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "phone": {"dataType":"string","required":true},
-            "firstName": {"dataType":"string","required":true},
-            "lastName": {"dataType":"string","required":true},
+            "fullName": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -147,10 +149,9 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_getUserById: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.get('/api/v1/users/:id',
-            authenticateMiddleware([{"jwt":["admin","superadmin"]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUserById)),
 
@@ -208,7 +209,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_updateUser: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateUserDto"},
         };
         app.put('/api/v1/users/:id',
@@ -239,7 +240,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_hardDelete: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/api/v1/users/hard/:id',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
@@ -269,7 +270,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_softDelete: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/api/v1/users/soft/:id',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
