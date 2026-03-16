@@ -1,3 +1,4 @@
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma/client"
@@ -7,79 +8,567 @@ datasource db {
   provider = "postgresql"
 }
 
-model AuditLog {
-  id         String   @id
-  userId     Int?
-  action     Action
-  resource   String
-  resourceId String?
-  oldValue   Json?
-  newValue   Json?
-  ipAddress  String?
-  userAgent  String?
-  createdAt  DateTime @default(now())
-  User       User?    @relation(fields: [userId], references: [id])
-}
+// ============================================================================
+// ENUMS (Statuslar va Turlar)
+// ============================================================================
 
-model Permission {
-  id          String  @id
-  resource    String
-  action      String
-  description String?
-
-  @@unique([resource, action])
-}
-
-model Session {
-  id           String   @id
-  userId       Int
-  refreshToken String   @unique
-  deviceInfo   String?
-  ipAddress    String?
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  User         User     @relation(fields: [userId], references: [id])
-}
-
-model User {
-  id         Int        @id @default(autoincrement())
-  phone      String?    @unique
-  password   String
-  firstName  String
-  lastName   String
-  avatar     String?
-  isActive   Boolean    @default(true)
-  isVerified Boolean    @default(false)
-  role       Role       @default(USER)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime?
-  deletedAt  DateTime?
-  chatId     String?    @unique
-  AuditLog   AuditLog[]
-  Session    Session[]
-}
-
-enum Action {
-  User_LOGIN
-  User_LOGOUT
-  USER_CREATE
-  USER_UPDATE
-  USER_DELETE
-}
-
-enum Role {
-  SUPERVISOR
-  ADMIN
+enum UserRole {
+  SUPER_ADMIN
   OWNER
   MANAGER
   LIBRARIAN
   USER
+  GUEST
 }
 
-enum Status {
+enum BookCopyStatus {
+  AVAILABLE
+  RESERVED
+  ON_RENT
+  LOST
+  DAMAGED
+  UNDER_REPAIR
+  WITHDRAWN
+  IN_TRANSIT
+}
+
+enum ReservationStatus {
+  PENDING
+  APPROVED
+  READY_FOR_PICKUP
+  PICKED_UP
+  EXPIRED
+  CANCELLED
+  REJECTED
+}
+
+enum RentStatus {
   ACTIVE
-  INACTIVE
-  DELETED
+  RETURNED
+  OVERDUE
+  LOST
+  DAMAGED
+  EXTENDED
+}
+
+enum NotificationType {
+  BRON_CONFIRMED
+  BOOK_READY
+  DUE_SOON
+  OVERDUE
+  FINE
+  NEW_BOOK
+  RECOMMENDATION
+  SYSTEM
+}
+
+enum NotificationChannel {
+  TELEGRAM
+  EMAIL
+  SMS
+  PUSH
+  IN_APP
+}
+
+enum ImportStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  PARTIAL
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  EXPORT
+  IMPORT
+  PASSWORD_CHANGE
+  FAILED_LOGIN
+  PERMISSION_CHANGE
+  BLOCK_USER
+  UNBLOCK_USER
+}
+
+enum MembershipType {
+  STANDARD
+  PREMIUM
+  VIP
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  ONLINE
+  TRANSFER
+}
+
+// ============================================================================
+// AUTH & USER (Foydalanuvchilar va Xavfsizlik)
+// ============================================================================
+
+model User {
+  id       String  @id @default(uuid())
+  email    String? @unique
+  phone    String  @unique
+  password String // ✅ BCrypt hash (12 rounds)
+  fullName String
+  avatar   File?   @relation(fields: [id], references: [id])
+
+  // ✅ Role (faqat enum, v1.0 uchun Role model shart emas)
+  role UserRole @default(USER)
+
+  // ✅ Telegram Integratsiyasi (Ro'yxatdan o'tish va Reset Password uchun)
+  telegramId       String?   @unique // Telegram user ID
+  telegramChatId   String?   @unique // Telegram chat ID (xabar yuborish uchun)
+  telegramUsername String? // @username
+  telegramLinkedAt DateTime? // Bog'langan sana
+  telegramVerified Boolean   @default(false)
+
+  // Profile
+  dateOfBirth   DateTime?
+  address       String?
+  city          String?
+  isVerified    Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  isBlocked     Boolean   @default(false)
+  blockedReason String?
+  blockedUntil  DateTime?
+
+  // Membership
+  membershipType   MembershipType @default(STANDARD)
+  membershipExpiry DateTime?
+  joinDate         DateTime       @default(now())
+  lastLoginAt      DateTime?
+
+  // Reading Stats
+  booksReadCount Int @default(0)
+  currentLevel   Int @default(1)
+  totalPoints    Int @default(0)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  // Relations
+  staff            Staff?
+  rents            Rent[]
+  reservations     Reservation[]
+  reviews          Review[]
+  ratings          Rating[]
+  favorites        Favorite[]
+  readingGoals     ReadingGoal[]
+  userAchievements UserAchievement[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  sessions         Session[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  payments  Payment[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([telegramId])
+  @@index([telegramChatId])
+  @@index([role])
+  @@index([isActive])
+  @@index([membershipType])
+  @@index([deletedAt])
+}
+
+model Staff {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  employeeId String   @unique
+  position   String
+  department String?
+  hireDate   DateTime @default(now())
+  salary     Decimal? @db.Decimal(10, 2)
+  isActive   Boolean  @default(true)
+  branchId   String
+  branch     Branch   @relation(fields: [branchId], references: [id])
+
+  // Stats
+  booksProcessed Int        @default(0)
+  usersServed    Int        @default(0)
+  auditLogs      AuditLog[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([employeeId])
+  @@index([branchId])
+  @@index([isActive])
+  @@index([deletedAt])
+}
+
+model Session {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // ✅ Token hashing (SHA256)
+  token        String  @unique
+  refreshToken String? @unique
+
+  device    String?
+  ipAddress String?
+  userAgent String?
+  expiresAt DateTime
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// LIBRARY & BRANCH (Kutubxona Tarmog'i)
+// ============================================================================
+
+model Library {
+  id          String          @id @default(uuid())
+  name        String
+  code        String          @unique
+  description String?
+  website     String?
+  email       String?
+  phone       String?
+  branches    Branch[]
+  settings    SystemSetting[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@index([deletedAt])
+}
+
+model Branch {
+  id              String   @id @default(uuid())
+  libraryId       String
+  library         Library  @relation(fields: [libraryId], references: [id], onDelete: Cascade)
+  name            String
+  code            String
+  address         String
+  city            String
+  latitude        Decimal? @db.Decimal(10, 8)
+  longitude       Decimal? @db.Decimal(11, 8)
+  phone           String?
+  email           String?
+  workingHours    Json? // {"monday": "09:00-18:00", ...}
+  holidaySchedule Json?
+  capacity        Int? // Max books
+  readerCapacity  Int? // Max readers
+  isActive        Boolean  @default(true)
+
+  // Relations
+  staff        Staff[]
+  bookCopies   BookCopy[]
+  locations    Location[]
+  rents        Rent[]
+  reservations Reservation[]
+  transfers    Transfer[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // transfers Transfer[]
+  // transfers Transfer[]
+
+  @@index([libraryId])
+  @@index([code])
+  @@index([city])
+  @@index([isActive])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// BOOK CATALOG (Kitoblar Bazasi)
+// ============================================================================
+
+model Author {
+  id          String    @id @default(uuid())
+  name        String
+  birthDate   DateTime?
+  deathDate   DateTime?
+  nationality String?
+  biography   String?
+  photo       String?
+  books       Book[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, birthDate])
+  @@index([name])
+  @@index([deletedAt])
+}
+
+model Publisher {
+  id      String  @id @default(uuid())
+  name    String  @unique
+  country String?
+  city    String?
+  website String?
+  books   Book[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([deletedAt])
+}
+
+model Genre {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
+  description String?
+  parentId    String?
+  parent      Genre?  @relation("GenreHierarchy", fields: [parentId], references: [id])
+  children    Genre[] @relation("GenreHierarchy")
+  books       Book[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  readingGoals ReadingGoal[]
+
+  @@index([slug])
+  @@index([parentId])
+  @@index([deletedAt])
+}
+
+model Category {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  code        String? // DDC yoki UDC kodi
+  description String?
+  books       Book[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@index([deletedAt])
+}
+
+model Book {
+  id String @id @default(uuid())
+
+  // Identifiers
+  isbn10       String? @unique
+  isbn13       String? @unique
+  internalCode String? @unique
+
+  // Basic Info
+  title           String
+  titleEn         String?
+  titleRu         String?
+  subtitle        String?
+  description     String? @db.Text
+  fullDescription String? @db.Text
+
+  // Publishing
+  publishYear Int?
+  language    String   @default("uz")
+  pageCount   Int?
+  weight      Decimal? @db.Decimal(8, 2)
+  dimensions  String?
+  coverType   String?
+
+  // Media
+  coverImage     String?
+  backCoverImage String?
+
+  // Classification
+  ageGroup   String?
+  ddcCode    String?
+  udcCode    String?
+  customTags String[]
+
+  // Stats
+  avgRating       Decimal @default(0) @db.Decimal(3, 2)
+  ratingsCount    Int     @default(0)
+  reviewsCount    Int     @default(0)
+  readCount       Int     @default(0)
+  popularityScore Int     @default(0)
+
+  // Status
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+  isDraft    Boolean @default(false)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  // Relations
+  authors     Author[]
+  publisherId String?
+  publisher   Publisher? @relation(fields: [publisherId], references: [id])
+  genres      Genre[]
+  categories  Category[]
+  copies      BookCopy[]
+  reviews     Review[]
+  ratings     Rating[]
+  favorites   Favorite[]
+
+  // Import tracking
+  importLogId String?
+  importLog   ImportLog? @relation(fields: [importLogId], references: [id])
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  reservations Reservation[]
+
+  @@index([isbn10])
+  @@index([isbn13])
+  @@index([title])
+  @@index([publishYear])
+  @@index([language])
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([avgRating])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@index([title, subtitle])
+}
+
+model BookCopy {
+  id      String  @id @default(uuid())
+  barcode String  @unique
+  qrCode  String? @unique
+  bookId  String
+  book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  // Location
+  branchId   String
+  branch     Branch    @relation(fields: [branchId], references: [id])
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id])
+  shelfId    String?
+  shelf      Shelf?    @relation(fields: [shelfId], references: [id])
+
+  // Status
+  status    BookCopyStatus @default(AVAILABLE)
+  condition String?
+
+  // Purchase Info
+  purchaseDate  DateTime?
+  purchasePrice Decimal?  @db.Decimal(10, 2)
+  supplier      String?
+
+  // Tracking
+  lastCheckedAt DateTime?
+  repairHistory Json?
+
+  // ✅ Circular reference removed (Rent.bookCopyId orqali bog'lanish)
+
+  // Relations
+  rents     Rent[]
+  transfers Transfer[]
+  auditLogs AuditLog[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([barcode])
+  @@index([qrCode])
+  @@index([bookId])
+  @@index([branchId])
+  @@index([status])
+  @@index([locationId])
+  @@index([shelfId])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// LOCATION & STORAGE (Joylashuv)
+// ============================================================================
+
+model Location {
+  id         String     @id @default(uuid())
+  branchId   String
+  branch     Branch     @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  name       String
+  code       String
+  floor      Int?
+  room       String?
+  bookCopies BookCopy[]
+  shelves    Shelf[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([branchId, code, deletedAt])
+  @@index([branchId])
+  @@index([code])
+  @@index([deletedAt])
+}
+
+model Shelf {
+  id         String     @id @default(uuid())
+  locationId String
+  location   Location   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  code       String
+  row        Int?
+  side       String?
+  capacity   Int?
+  bookCopies BookCopy[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([locationId, code, deletedAt])
+  @@index([locationId])
+  @@index([code])
+  @@index([deletedAt])
 }
 
 model File {
@@ -87,219 +576,507 @@ model File {
   path      String
   size      Int
   mimeType  String
-  status    Status   @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User?
 }
 
-model Book {
-  id String @id @default(uuid())
+// ============================================================================
+// RENT & RESERVATION (Ijara va Bron)
+// ============================================================================
 
-  // ISBN
-  isbn10 String? @unique
-  isbn13 String  @unique
+model Rent {
+  id         String     @id @default(uuid())
+  code       String     @unique
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  bookCopyId String
+  bookCopy   BookCopy   @relation(fields: [bookCopyId], references: [id])
+  branchId   String
+  branch     Branch     @relation(fields: [branchId], references: [id])
+  status     RentStatus @default(ACTIVE)
 
-  // Sarlavha (ko'p tilli)
-  titleUz String
-  titleRu String?
-  titleEn String?
+  // Dates
+  startDate     DateTime  @default(now())
+  dueDate       DateTime
+  returnDate    DateTime?
+  extendedCount Int       @default(0)
 
-  // Asosiy ma'lumotlar
-  publisherId String
-  publisher   Publisher   @relation(fields: [publisherId], references: [id])
-  publishYear Int
-  languages   String[] // ['uz', 'ru', 'en']
-  pageCount   Int?
-  ageCategory AgeCategory @default(ADULT)
-  coverType   CoverType   @default(SOFT)
+  // ✅ Fine ma'lumotlari olib tashlandi (Fine modeldan foydalanish)
 
-  // Tavsif
-  shortDescription String? @db.VarChar(200)
-  fullDescription  String? @db.Text
+  // Staff
+  issuedBy   String?
+  returnedBy String?
 
-  // Rasm
-  coverImageUrl     String?
-  coverThumbnailUrl String?
+  // Notes
+  conditionNote String?
+  returnNote    String?
 
-  // Fizik o'lchamlar
-  weight    Int? // gramm
-  height    Int? // mm
-  width     Int? // mm
-  thickness Int? // mm
+  // Relations
+  payments  Payment[]
+  fines     Fine[]
+  auditLogs AuditLog[]
 
-  // Seriya
-  seriesName   String?
-  seriesNumber Int?
-  seriesTotal  Int?
-
-  // Kataloglash
-  ddcCode String?
-  udcCode String?
-  tags    String[]
-
-  // Meta
-  createdBy String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  // ✅ SOFT DELETE
   deletedAt DateTime?
 
-  authors       BookAuthor[]
-  genres        BookGenre[]
-  copies        BookCopy[]
-  inventoryLogs InventoryLog[]
-}
-
-enum AgeCategory {
-  CHILDREN // 0-12
-  TEEN // 13-17
-  ADULT // 18+
-}
-
-enum CoverType {
-  HARD
-  SOFT
-}
-
-model Author {
-  id          String    @id @default(uuid())
-  firstName   String
-  lastName    String
-  biography   String?   @db.Text
-  birthDate   DateTime? @db.Date
-  nationality String?
-  avatarUrl   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  books BookAuthor[]
-}
-
-model BookAuthor {
-  bookId      String
-  authorId    String
-  authorOrder Int    @default(1) // birinchi muallif, ikkinchi, ...
-  book        Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  author      Author @relation(fields: [authorId], references: [id])
-
-  @@id([bookId, authorId])
-}
-
-model Publisher {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  country   String?
-  website   String?
-  createdAt DateTime @default(now())
-
-  books Book[]
-}
-
-model Genre {
-  id          String  @id @default(uuid())
-  name        String  @unique
-  description String?
-  parentId    String? // sub-janr uchun
-  parent      Genre?  @relation("SubGenres", fields: [parentId], references: [id])
-  children    Genre[] @relation("SubGenres")
-
-  books BookGenre[]
-}
-
-model BookGenre {
-  bookId    String
-  genreId   String
-  isPrimary Boolean @default(false)
-  book      Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  genre     Genre   @relation(fields: [genreId], references: [id])
-
-  @@id([bookId, genreId])
-}
-
-model BookCopy {
-  id       String @id @default(uuid())
-  bookId   String
-  book     Book   @relation(fields: [bookId], references: [id])
-  branchId String
-  // branch   Branch @relation(fields: [branchId], references: [id])
-
-  copyNumber Int // 1, 2, 3, ...
-  barcode    String  @unique
-  qrCode     String? @unique
-  qrCodeUrl  String?
-
-  // Holat
-  condition       BookCondition @default(NEW)
-  status          CopyStatus    @default(AVAILABLE)
-  statusChangedAt DateTime?
-  statusChangedBy String?
-  statusReason    String?
-
-  // Joylashuv
-  locationRoom     String?
-  locationShelf    String?
-  locationRow      Int?
-  locationSide     String?
-  locationPosition Int?
-
-  // Moliyaviy
-  purchaseDate DateTime? @db.Date
-  price        Decimal?  @db.Decimal(12, 2)
-
-  createdBy String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // inventoryLogs InventoryLog[]
-  // rents         Rent[]
-  // reservations  Reservation[]
-  inventoryLogs InventoryLog[]
+  @@index([userId, status])
+  @@index([bookCopyId])
+  @@index([branchId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([startDate])
+  @@index([code])
+  @@index([deletedAt])
 }
 
-enum BookCondition {
-  NEW // Yangi
-  GOOD // Yaxshi
-  SATISFACTORY // Qoniqarli
-  POOR // Yomon
+model Reservation {
+  id       String            @id @default(uuid())
+  code     String            @unique
+  userId   String
+  user     User              @relation(fields: [userId], references: [id])
+  bookId   String
+  book     Book              @relation(fields: [bookId], references: [id])
+  branchId String
+  branch   Branch            @relation(fields: [branchId], references: [id])
+  status   ReservationStatus @default(PENDING)
+  priority Int               @default(0)
+
+  // Dates
+  expiresAt  DateTime
+  approvedAt DateTime?
+  pickedUpAt DateTime?
+
+  // Staff
+  approvedBy String?
+
+  // Notification
+  notified   Boolean   @default(false)
+  notifiedAt DateTime?
+
+  auditLogs AuditLog[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([bookId])
+  @@index([branchId])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([code])
+  @@index([deletedAt])
 }
 
-enum CopyStatus {
-  AVAILABLE // Mavjud
-  RESERVED // Bronlangan
-  ON_RENT // Ijarada
-  LOST // Yo'qolgan
-  DAMAGED // Shikastlangan
-  UNDER_REPAIR // Ta'mirda
-  WITHDRAWN // Foydalanishdan chiqarilgan
-  IN_TRANSIT // Ko'chirishda
+model WaitingList {
+  id       String  @id @default(uuid())
+  userId   String
+  bookId   String
+  branchId String
+  priority Int     @default(0)
+  isActive Boolean @default(true)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId, branchId])
+  @@index([bookId])
+  @@index([userId])
+  @@index([branchId])
+  @@index([isActive])
+  @@index([deletedAt])
 }
 
-model InventoryLog {
-  id       String    @id @default(uuid())
-  bookId   String?
-  book     Book?     @relation(fields: [bookId], references: [id])
-  copyId   String?
-  copy     BookCopy? @relation(fields: [copyId], references: [id])
-  branchId String?
+// ============================================================================
+// PAYMENT & FINE (To'lovlar va Jarimalar)
+// ============================================================================
 
-  action      InventoryAction
-  oldStatus   String?
-  newStatus   String?
-  oldLocation Json?
-  newLocation Json?
-  quantity    Int?
-  reason      String?
-  notes       String?
-  metadata    Json? // qo'shimcha ma'lumotlar
+model Fine {
+  id          String    @id @default(uuid())
+  userId      String
+  rentId      String
+  rent        Rent      @relation(fields: [rentId], references: [id])
+  amount      Decimal   @db.Decimal(10, 2)
+  reason      String
+  daysOverdue Int       @default(0)
+  isPaid      Boolean   @default(false)
+  paidAt      DateTime?
+  paidBy      String?
 
-  performedBy String
-  performedAt DateTime @default(now())
+  // Relations
+  payments Payment[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([rentId])
+  @@index([isPaid])
+  @@index([deletedAt])
 }
 
-enum InventoryAction {
-  BOOKS_ADDED
-  COPY_STATUS_CHANGED
-  LOCATION_CHANGED
-  COPY_TRANSFERRED
-  COPY_REPAIRED
-  COPY_WITHDRAWN
+model Payment {
+  id            String        @id @default(uuid())
+  code          String        @unique
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  rentId        String?
+  rent          Rent?         @relation(fields: [rentId], references: [id])
+  fineId        String?
+  fine          Fine?         @relation(fields: [fineId], references: [id])
+  amount        Decimal       @db.Decimal(10, 2)
+  type          String
+  method        PaymentMethod @default(CASH)
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  receipt       String?
+  paidBy        String?
+  paidAt        DateTime      @default(now())
+  notes         String?
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([rentId])
+  @@index([fineId])
+  @@index([status])
+  @@index([code])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// SOCIAL & GAMIFICATION (Ijtimoiy va Yutuqlar)
+// ============================================================================
+
+model Review {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  bookId      String
+  book        Book      @relation(fields: [bookId], references: [id])
+  rating      Int
+  title       String?
+  content     String    @db.Text
+  isVisible   Boolean   @default(true)
+  isVerified  Boolean   @default(false)
+  likes       Int       @default(0)
+  dislikes    Int       @default(0)
+  parentId    String?
+  parent      Review?   @relation("ReviewReplies", fields: [parentId], references: [id])
+  replies     Review[]  @relation("ReviewReplies")
+  moderatedBy String?
+  moderatedAt DateTime?
+  modReason   String?
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@index([bookId])
+  @@index([isVisible])
+  @@index([rating])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+model Rating {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  bookId String
+  book   Book   @relation(fields: [bookId], references: [id])
+  value  Int
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@index([bookId])
+  @@index([deletedAt])
+}
+
+model Favorite {
+  id     String  @id @default(uuid())
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  bookId String
+  book   Book    @relation(fields: [bookId], references: [id])
+  notes  String?
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@index([bookId])
+  @@index([deletedAt])
+}
+
+model ReadingGoal {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String
+  target    Int
+  current   Int      @default(0)
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+  genreId   String?
+  genre     Genre?   @relation(fields: [genreId], references: [id])
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@index([isActive])
+  @@index([deletedAt])
+}
+
+model Achievement {
+  id               String            @id @default(uuid())
+  code             String            @unique
+  name             String
+  description      String
+  icon             String?
+  points           Int               @default(0)
+  badge            String?
+  conditions       Json
+  userAchievements UserAchievement[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@index([deletedAt])
+}
+
+model UserAchievement {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  earnedAt      DateTime    @default(now())
+  pointsEarned  Int         @default(0)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@index([achievementId])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// NOTIFICATIONS (Bildirishnomalar)
+// ============================================================================
+
+model NotificationTemplate {
+  id        String                @id @default(uuid())
+  code      String                @unique
+  name      String
+  type      NotificationType
+  channels  NotificationChannel[]
+  subject   String?
+  body      String                @db.Text
+  variables Json?
+  isActive  Boolean               @default(true)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
+
+  @@index([code])
+  @@index([type])
+  @@index([deletedAt])
+}
+
+model Notification {
+  id          String                @id @default(uuid())
+  userId      String
+  user        User                  @relation(fields: [userId], references: [id])
+  type        NotificationType
+  channels    NotificationChannel[]
+  title       String
+  message     String                @db.Text
+  data        Json?
+  isRead      Boolean               @default(false)
+  readAt      DateTime?
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  templateId  String?
+  template    NotificationTemplate? @relation(fields: [templateId], references: [id])
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// IMPORT & AUDIT (Import va Kuzatuv)
+// ============================================================================
+
+model ImportLog {
+  id          String       @id @default(uuid())
+  fileName    String
+  fileType    String
+  totalRows   Int
+  successRows Int          @default(0)
+  failedRows  Int          @default(0)
+  status      ImportStatus @default(PENDING)
+  errorLog    String?      @db.Text
+  uploadedBy  String
+  startedAt   DateTime?
+  completedAt DateTime?
+  books       Book[]
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([uploadedBy])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+model AuditLog {
+  id         String      @id @default(uuid())
+  action     AuditAction
+  entity     String
+  entityId   String?
+  userId     String?
+  user       User?       @relation(fields: [userId], references: [id])
+  staffId    String?
+  staff      Staff?      @relation(fields: [staffId], references: [id])
+  ipAddress  String?
+  userAgent  String?
+  device     String?
+  oldValue   Json?
+  newValue   Json?
+  reason     String?
+  bookCopyId String?
+  bookCopy   BookCopy?   @relation(fields: [bookCopyId], references: [id])
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt     DateTime     @default(now())
+  rent          Rent?        @relation(fields: [rentId], references: [id])
+  rentId        String?
+  reservation   Reservation? @relation(fields: [reservationId], references: [id])
+  reservationId String?
+
+  @@index([userId])
+  @@index([staffId])
+  @@index([action])
+  @@index([entity])
+  @@index([entityId])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// TRANSFER & SYSTEM (Ko'chirish va Tizim)
+// ============================================================================
+
+model Transfer {
+  id           String    @id @default(uuid())
+  code         String    @unique
+  fromBranchId String
+  // fromBranch   Branch    @relation("TransferFrom", fields: [fromBranchId], references: [id])
+  toBranchId   String
+  // toBranch     Branch    @relation("TransferTo", fields: [toBranchId], references: [id])
+  bookCopyId   String
+  bookCopy     BookCopy  @relation(fields: [bookCopyId], references: [id])
+  status       String    @default("PENDING")
+  reason       String?
+  shippedBy    String?
+  shippedAt    DateTime?
+  receivedBy   String?
+  receivedAt   DateTime?
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  branch    Branch?  @relation(fields: [branchId], references: [id])
+  branchId  String?
+
+  @@index([fromBranchId])
+  @@index([toBranchId])
+  @@index([bookCopyId])
+  @@index([status])
+  @@index([code])
+  @@index([deletedAt])
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  libraryId   String?
+  library     Library? @relation(fields: [libraryId], references: [id])
+  key         String   @unique
+  value       Json
+  description String?
+  isPublic    Boolean  @default(false)
+
+  // ✅ SOFT DELETE
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+  @@index([libraryId])
+  @@index([deletedAt])
 }

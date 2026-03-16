@@ -1,6 +1,5 @@
 interface RegisterDto {
     phone: string;
-    firstName: string;
-    lastName: string;
+    fullName: string;
     password: string;
 }

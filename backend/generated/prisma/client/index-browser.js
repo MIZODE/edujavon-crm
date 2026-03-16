@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.3.0
- * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.3.0",
-  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,58 +120,143 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.AuditLogScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  action: 'action',
-  resource: 'resource',
-  resourceId: 'resourceId',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  createdAt: 'createdAt'
+  email: 'email',
+  phone: 'phone',
+  password: 'password',
+  fullName: 'fullName',
+  role: 'role',
+  telegramId: 'telegramId',
+  telegramChatId: 'telegramChatId',
+  telegramUsername: 'telegramUsername',
+  telegramLinkedAt: 'telegramLinkedAt',
+  telegramVerified: 'telegramVerified',
+  dateOfBirth: 'dateOfBirth',
+  address: 'address',
+  city: 'city',
+  isVerified: 'isVerified',
+  isActive: 'isActive',
+  isBlocked: 'isBlocked',
+  blockedReason: 'blockedReason',
+  blockedUntil: 'blockedUntil',
+  membershipType: 'membershipType',
+  membershipExpiry: 'membershipExpiry',
+  joinDate: 'joinDate',
+  lastLoginAt: 'lastLoginAt',
+  booksReadCount: 'booksReadCount',
+  currentLevel: 'currentLevel',
+  totalPoints: 'totalPoints',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PermissionScalarFieldEnum = {
+exports.Prisma.StaffScalarFieldEnum = {
   id: 'id',
-  resource: 'resource',
-  action: 'action',
-  description: 'description'
+  userId: 'userId',
+  employeeId: 'employeeId',
+  position: 'position',
+  department: 'department',
+  hireDate: 'hireDate',
+  salary: 'salary',
+  isActive: 'isActive',
+  branchId: 'branchId',
+  booksProcessed: 'booksProcessed',
+  usersServed: 'usersServed',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  token: 'token',
   refreshToken: 'refreshToken',
-  deviceInfo: 'deviceInfo',
+  device: 'device',
   ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
   expiresAt: 'expiresAt',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt'
 };
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.LibraryScalarFieldEnum = {
   id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  website: 'website',
+  email: 'email',
   phone: 'phone',
-  password: 'password',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  avatar: 'avatar',
-  isActive: 'isActive',
-  isVerified: 'isVerified',
-  role: 'role',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  chatId: 'chatId'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FileScalarFieldEnum = {
+exports.Prisma.BranchScalarFieldEnum = {
   id: 'id',
-  path: 'path',
-  size: 'size',
-  mimeType: 'mimeType',
-  status: 'status',
+  libraryId: 'libraryId',
+  name: 'name',
+  code: 'code',
+  address: 'address',
+  city: 'city',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  phone: 'phone',
+  email: 'email',
+  workingHours: 'workingHours',
+  holidaySchedule: 'holidaySchedule',
+  capacity: 'capacity',
+  readerCapacity: 'readerCapacity',
+  isActive: 'isActive',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AuthorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  birthDate: 'birthDate',
+  deathDate: 'deathDate',
+  nationality: 'nationality',
+  biography: 'biography',
+  photo: 'photo',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PublisherScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  country: 'country',
+  city: 'city',
+  website: 'website',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  parentId: 'parentId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -180,115 +265,355 @@ exports.Prisma.BookScalarFieldEnum = {
   id: 'id',
   isbn10: 'isbn10',
   isbn13: 'isbn13',
-  titleUz: 'titleUz',
-  titleRu: 'titleRu',
+  internalCode: 'internalCode',
+  title: 'title',
   titleEn: 'titleEn',
-  publisherId: 'publisherId',
-  publishYear: 'publishYear',
-  languages: 'languages',
-  pageCount: 'pageCount',
-  ageCategory: 'ageCategory',
-  coverType: 'coverType',
-  shortDescription: 'shortDescription',
+  titleRu: 'titleRu',
+  subtitle: 'subtitle',
+  description: 'description',
   fullDescription: 'fullDescription',
-  coverImageUrl: 'coverImageUrl',
-  coverThumbnailUrl: 'coverThumbnailUrl',
+  publishYear: 'publishYear',
+  language: 'language',
+  pageCount: 'pageCount',
   weight: 'weight',
-  height: 'height',
-  width: 'width',
-  thickness: 'thickness',
-  seriesName: 'seriesName',
-  seriesNumber: 'seriesNumber',
-  seriesTotal: 'seriesTotal',
+  dimensions: 'dimensions',
+  coverType: 'coverType',
+  coverImage: 'coverImage',
+  backCoverImage: 'backCoverImage',
+  ageGroup: 'ageGroup',
   ddcCode: 'ddcCode',
   udcCode: 'udcCode',
-  tags: 'tags',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
-};
-
-exports.Prisma.AuthorScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  biography: 'biography',
-  birthDate: 'birthDate',
-  nationality: 'nationality',
-  avatarUrl: 'avatarUrl',
+  customTags: 'customTags',
+  avgRating: 'avgRating',
+  ratingsCount: 'ratingsCount',
+  reviewsCount: 'reviewsCount',
+  readCount: 'readCount',
+  popularityScore: 'popularityScore',
+  isActive: 'isActive',
+  isFeatured: 'isFeatured',
+  isDraft: 'isDraft',
+  deletedAt: 'deletedAt',
+  publisherId: 'publisherId',
+  importLogId: 'importLogId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.BookAuthorScalarFieldEnum = {
-  bookId: 'bookId',
-  authorId: 'authorId',
-  authorOrder: 'authorOrder'
-};
-
-exports.Prisma.PublisherScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  country: 'country',
-  website: 'website',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.GenreScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  parentId: 'parentId'
-};
-
-exports.Prisma.BookGenreScalarFieldEnum = {
-  bookId: 'bookId',
-  genreId: 'genreId',
-  isPrimary: 'isPrimary'
 };
 
 exports.Prisma.BookCopyScalarFieldEnum = {
   id: 'id',
-  bookId: 'bookId',
-  branchId: 'branchId',
-  copyNumber: 'copyNumber',
   barcode: 'barcode',
   qrCode: 'qrCode',
-  qrCodeUrl: 'qrCodeUrl',
-  condition: 'condition',
+  bookId: 'bookId',
+  branchId: 'branchId',
+  locationId: 'locationId',
+  shelfId: 'shelfId',
   status: 'status',
-  statusChangedAt: 'statusChangedAt',
-  statusChangedBy: 'statusChangedBy',
-  statusReason: 'statusReason',
-  locationRoom: 'locationRoom',
-  locationShelf: 'locationShelf',
-  locationRow: 'locationRow',
-  locationSide: 'locationSide',
-  locationPosition: 'locationPosition',
+  condition: 'condition',
   purchaseDate: 'purchaseDate',
-  price: 'price',
-  createdBy: 'createdBy',
+  purchasePrice: 'purchasePrice',
+  supplier: 'supplier',
+  lastCheckedAt: 'lastCheckedAt',
+  repairHistory: 'repairHistory',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.InventoryLogScalarFieldEnum = {
+exports.Prisma.LocationScalarFieldEnum = {
   id: 'id',
-  bookId: 'bookId',
-  copyId: 'copyId',
   branchId: 'branchId',
-  action: 'action',
-  oldStatus: 'oldStatus',
-  newStatus: 'newStatus',
-  oldLocation: 'oldLocation',
-  newLocation: 'newLocation',
-  quantity: 'quantity',
+  name: 'name',
+  code: 'code',
+  floor: 'floor',
+  room: 'room',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShelfScalarFieldEnum = {
+  id: 'id',
+  locationId: 'locationId',
+  code: 'code',
+  row: 'row',
+  side: 'side',
+  capacity: 'capacity',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  size: 'size',
+  mimeType: 'mimeType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RentScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  userId: 'userId',
+  bookCopyId: 'bookCopyId',
+  branchId: 'branchId',
+  status: 'status',
+  startDate: 'startDate',
+  dueDate: 'dueDate',
+  returnDate: 'returnDate',
+  extendedCount: 'extendedCount',
+  issuedBy: 'issuedBy',
+  returnedBy: 'returnedBy',
+  conditionNote: 'conditionNote',
+  returnNote: 'returnNote',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReservationScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  userId: 'userId',
+  bookId: 'bookId',
+  branchId: 'branchId',
+  status: 'status',
+  priority: 'priority',
+  expiresAt: 'expiresAt',
+  approvedAt: 'approvedAt',
+  pickedUpAt: 'pickedUpAt',
+  approvedBy: 'approvedBy',
+  notified: 'notified',
+  notifiedAt: 'notifiedAt',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WaitingListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  branchId: 'branchId',
+  priority: 'priority',
+  isActive: 'isActive',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FineScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rentId: 'rentId',
+  amount: 'amount',
   reason: 'reason',
+  daysOverdue: 'daysOverdue',
+  isPaid: 'isPaid',
+  paidAt: 'paidAt',
+  paidBy: 'paidBy',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  userId: 'userId',
+  rentId: 'rentId',
+  fineId: 'fineId',
+  amount: 'amount',
+  type: 'type',
+  method: 'method',
+  status: 'status',
+  transactionId: 'transactionId',
+  receipt: 'receipt',
+  paidBy: 'paidBy',
+  paidAt: 'paidAt',
   notes: 'notes',
-  metadata: 'metadata',
-  performedBy: 'performedBy',
-  performedAt: 'performedAt'
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  rating: 'rating',
+  title: 'title',
+  content: 'content',
+  isVisible: 'isVisible',
+  isVerified: 'isVerified',
+  likes: 'likes',
+  dislikes: 'dislikes',
+  parentId: 'parentId',
+  moderatedBy: 'moderatedBy',
+  moderatedAt: 'moderatedAt',
+  modReason: 'modReason',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  value: 'value',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  notes: 'notes',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReadingGoalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  target: 'target',
+  current: 'current',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  genreId: 'genreId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AchievementScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  points: 'points',
+  badge: 'badge',
+  conditions: 'conditions',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserAchievementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  achievementId: 'achievementId',
+  earnedAt: 'earnedAt',
+  pointsEarned: 'pointsEarned',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.NotificationTemplateScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  type: 'type',
+  channels: 'channels',
+  subject: 'subject',
+  body: 'body',
+  variables: 'variables',
+  isActive: 'isActive',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  channels: 'channels',
+  title: 'title',
+  message: 'message',
+  data: 'data',
+  isRead: 'isRead',
+  readAt: 'readAt',
+  sentAt: 'sentAt',
+  deliveredAt: 'deliveredAt',
+  templateId: 'templateId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ImportLogScalarFieldEnum = {
+  id: 'id',
+  fileName: 'fileName',
+  fileType: 'fileType',
+  totalRows: 'totalRows',
+  successRows: 'successRows',
+  failedRows: 'failedRows',
+  status: 'status',
+  errorLog: 'errorLog',
+  uploadedBy: 'uploadedBy',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  userId: 'userId',
+  staffId: 'staffId',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  device: 'device',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  reason: 'reason',
+  bookCopyId: 'bookCopyId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  rentId: 'rentId',
+  reservationId: 'reservationId'
+};
+
+exports.Prisma.TransferScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  fromBranchId: 'fromBranchId',
+  toBranchId: 'toBranchId',
+  bookCopyId: 'bookCopyId',
+  status: 'status',
+  reason: 'reason',
+  shippedBy: 'shippedBy',
+  shippedAt: 'shippedAt',
+  receivedBy: 'receivedBy',
+  receivedAt: 'receivedAt',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  branchId: 'branchId'
+};
+
+exports.Prisma.SystemSettingScalarFieldEnum = {
+  id: 'id',
+  libraryId: 'libraryId',
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  isPublic: 'isPublic',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -301,9 +626,18 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 exports.Prisma.JsonNullValueFilter = {
@@ -311,53 +645,22 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-exports.Action = exports.$Enums.Action = {
-  User_LOGIN: 'User_LOGIN',
-  User_LOGOUT: 'User_LOGOUT',
-  USER_CREATE: 'USER_CREATE',
-  USER_UPDATE: 'USER_UPDATE',
-  USER_DELETE: 'USER_DELETE'
-};
-
-exports.Role = exports.$Enums.Role = {
-  SUPERVISOR: 'SUPERVISOR',
-  ADMIN: 'ADMIN',
+exports.UserRole = exports.$Enums.UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
   OWNER: 'OWNER',
   MANAGER: 'MANAGER',
   LIBRARIAN: 'LIBRARIAN',
-  USER: 'USER'
+  USER: 'USER',
+  GUEST: 'GUEST'
 };
 
-exports.Status = exports.$Enums.Status = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  DELETED: 'DELETED'
+exports.MembershipType = exports.$Enums.MembershipType = {
+  STANDARD: 'STANDARD',
+  PREMIUM: 'PREMIUM',
+  VIP: 'VIP'
 };
 
-exports.AgeCategory = exports.$Enums.AgeCategory = {
-  CHILDREN: 'CHILDREN',
-  TEEN: 'TEEN',
-  ADULT: 'ADULT'
-};
-
-exports.CoverType = exports.$Enums.CoverType = {
-  HARD: 'HARD',
-  SOFT: 'SOFT'
-};
-
-exports.BookCondition = exports.$Enums.BookCondition = {
-  NEW: 'NEW',
-  GOOD: 'GOOD',
-  SATISFACTORY: 'SATISFACTORY',
-  POOR: 'POOR'
-};
-
-exports.CopyStatus = exports.$Enums.CopyStatus = {
+exports.BookCopyStatus = exports.$Enums.BookCopyStatus = {
   AVAILABLE: 'AVAILABLE',
   RESERVED: 'RESERVED',
   ON_RENT: 'ON_RENT',
@@ -368,29 +671,114 @@ exports.CopyStatus = exports.$Enums.CopyStatus = {
   IN_TRANSIT: 'IN_TRANSIT'
 };
 
-exports.InventoryAction = exports.$Enums.InventoryAction = {
-  BOOKS_ADDED: 'BOOKS_ADDED',
-  COPY_STATUS_CHANGED: 'COPY_STATUS_CHANGED',
-  LOCATION_CHANGED: 'LOCATION_CHANGED',
-  COPY_TRANSFERRED: 'COPY_TRANSFERRED',
-  COPY_REPAIRED: 'COPY_REPAIRED',
-  COPY_WITHDRAWN: 'COPY_WITHDRAWN'
+exports.RentStatus = exports.$Enums.RentStatus = {
+  ACTIVE: 'ACTIVE',
+  RETURNED: 'RETURNED',
+  OVERDUE: 'OVERDUE',
+  LOST: 'LOST',
+  DAMAGED: 'DAMAGED',
+  EXTENDED: 'EXTENDED'
+};
+
+exports.ReservationStatus = exports.$Enums.ReservationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  READY_FOR_PICKUP: 'READY_FOR_PICKUP',
+  PICKED_UP: 'PICKED_UP',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  REJECTED: 'REJECTED'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  CASH: 'CASH',
+  CARD: 'CARD',
+  ONLINE: 'ONLINE',
+  TRANSFER: 'TRANSFER'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.NotificationType = exports.$Enums.NotificationType = {
+  BRON_CONFIRMED: 'BRON_CONFIRMED',
+  BOOK_READY: 'BOOK_READY',
+  DUE_SOON: 'DUE_SOON',
+  OVERDUE: 'OVERDUE',
+  FINE: 'FINE',
+  NEW_BOOK: 'NEW_BOOK',
+  RECOMMENDATION: 'RECOMMENDATION',
+  SYSTEM: 'SYSTEM'
+};
+
+exports.NotificationChannel = exports.$Enums.NotificationChannel = {
+  TELEGRAM: 'TELEGRAM',
+  EMAIL: 'EMAIL',
+  SMS: 'SMS',
+  PUSH: 'PUSH',
+  IN_APP: 'IN_APP'
+};
+
+exports.ImportStatus = exports.$Enums.ImportStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  PARTIAL: 'PARTIAL'
+};
+
+exports.AuditAction = exports.$Enums.AuditAction = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
+  EXPORT: 'EXPORT',
+  IMPORT: 'IMPORT',
+  PASSWORD_CHANGE: 'PASSWORD_CHANGE',
+  FAILED_LOGIN: 'FAILED_LOGIN',
+  PERMISSION_CHANGE: 'PERMISSION_CHANGE',
+  BLOCK_USER: 'BLOCK_USER',
+  UNBLOCK_USER: 'UNBLOCK_USER'
 };
 
 exports.Prisma.ModelName = {
-  AuditLog: 'AuditLog',
-  Permission: 'Permission',
-  Session: 'Session',
   User: 'User',
-  File: 'File',
-  Book: 'Book',
+  Staff: 'Staff',
+  Session: 'Session',
+  Library: 'Library',
+  Branch: 'Branch',
   Author: 'Author',
-  BookAuthor: 'BookAuthor',
   Publisher: 'Publisher',
   Genre: 'Genre',
-  BookGenre: 'BookGenre',
+  Category: 'Category',
+  Book: 'Book',
   BookCopy: 'BookCopy',
-  InventoryLog: 'InventoryLog'
+  Location: 'Location',
+  Shelf: 'Shelf',
+  File: 'File',
+  Rent: 'Rent',
+  Reservation: 'Reservation',
+  WaitingList: 'WaitingList',
+  Fine: 'Fine',
+  Payment: 'Payment',
+  Review: 'Review',
+  Rating: 'Rating',
+  Favorite: 'Favorite',
+  ReadingGoal: 'ReadingGoal',
+  Achievement: 'Achievement',
+  UserAchievement: 'UserAchievement',
+  NotificationTemplate: 'NotificationTemplate',
+  Notification: 'Notification',
+  ImportLog: 'ImportLog',
+  AuditLog: 'AuditLog',
+  Transfer: 'Transfer',
+  SystemSetting: 'SystemSetting'
 };
 
 /**

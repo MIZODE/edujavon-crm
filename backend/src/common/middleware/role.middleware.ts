@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Role } from '../../../generated/prisma/client';
+import { UserRole } from '../../../generated/prisma/client';
 
 /**
  * Rol asosida ruxsat beruvchi middleware factory.
@@ -10,9 +10,9 @@ import { Role } from '../../../generated/prisma/client';
  * @example
  * router.get('/users', authenticate, rolePermission([Role.ADMIN, Role.OWNER]), getAll)
  */
-export function rolePermission(roles: Role[]) {
+export function rolePermission(roles: UserRole[]) {
     return (req: Request, res: Response, next: NextFunction) => {
-        const user = res.locals.user as { sub: string; role: Role } | undefined;
+        const user = res.locals.user as { sub: string; role: UserRole } | undefined;
 
         if (!user) {
             return res.status(401).json({

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const ACCESS_SECRET = process.env.JWT_SECRET!;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 
-export function createAccessToken(user: { id: number; role: string }) {
+export function createAccessToken(user: { id: string; role: string }) {
   return jwt.sign(
     {
       sub: user.id,
@@ -15,7 +15,7 @@ export function createAccessToken(user: { id: number; role: string }) {
   );
 }
 
-export function createRefreshToken(user: { id: number }) {
+export function createRefreshToken(user: { id: string }) {
   return jwt.sign(
     { sub: user.id },
     REFRESH_SECRET,
