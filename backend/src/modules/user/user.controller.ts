@@ -19,7 +19,7 @@ export class UserController extends Controller {
 
   
   @Get("{id}")
-  public async getUserById(@Path() id: number) {
+  public async getUserById(@Path() id: string) {
     const user = await this.usersService.findOne(id);
 
     if (!user) {
@@ -51,7 +51,7 @@ export class UserController extends Controller {
     };
   }
   @Put("{id}")
-  public async updateUser(@Path() id: number, @Body() body: UpdateUserDto) {
+  public async updateUser(@Path() id: string, @Body() body: UpdateUserDto) {
     const user = await this.usersService.findOne(id);
 
     if (!user) {
@@ -65,7 +65,7 @@ export class UserController extends Controller {
 
   
   @Delete("hard/{id}")
-  public async hardDelete(@Path() id: number) {
+  public async hardDelete(@Path() id: string) {
     const user = await this.usersService.findOne(id);
 
     if (!user) {
@@ -82,7 +82,7 @@ export class UserController extends Controller {
 
   
   @Delete("soft/{id}")
-  public async softDelete(@Path() id: number) {
+  public async softDelete(@Path() id: string) {
     const user = await this.usersService.findOne(id);
 
     if (!user) {

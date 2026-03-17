@@ -7,19 +7,27 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"_36_Enums.Role": {
+			"_36_Enums.UserRole": {
 				"type": "string",
 				"enum": [
-					"SUPERVISOR",
-					"ADMIN",
+					"SUPER_ADMIN",
 					"OWNER",
 					"MANAGER",
 					"LIBRARIAN",
-					"USER"
+					"USER",
+					"GUEST"
 				]
 			},
-			"Role": {
-				"$ref": "#/components/schemas/_36_Enums.Role"
+			"_36_Enums.MembershipType": {
+				"type": "string",
+				"enum": [
+					"STANDARD",
+					"PREMIUM",
+					"VIP"
+				]
+			},
+			"UserRole": {
+				"$ref": "#/components/schemas/_36_Enums.UserRole"
 			},
 			"CreateUserDto": {
 				"properties": {
@@ -30,23 +38,20 @@
 					"password": {
 						"type": "string"
 					},
-					"firstName": {
-						"type": "string"
-					},
-					"lastName": {
+					"fullName": {
 						"type": "string"
 					},
 					"avatar": {
 						"type": "string"
 					},
 					"role": {
-						"$ref": "#/components/schemas/Role"
+						"$ref": "#/components/schemas/UserRole"
 					}
 				},
 				"required": [
+					"phone",
 					"password",
-					"firstName",
-					"lastName"
+					"fullName"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -59,17 +64,14 @@
 					"password": {
 						"type": "string"
 					},
-					"firstName": {
-						"type": "string"
-					},
-					"lastName": {
+					"fullName": {
 						"type": "string"
 					},
 					"avatar": {
 						"type": "string"
 					},
 					"role": {
-						"$ref": "#/components/schemas/Role"
+						"$ref": "#/components/schemas/UserRole"
 					},
 					"isActive": {
 						"type": "boolean"
@@ -110,15 +112,10 @@
 						"description": "User's phone number",
 						"example": "+998901234567"
 					},
-					"firstName": {
+					"fullName": {
 						"type": "string",
-						"description": "User's first name",
-						"example": "John"
-					},
-					"lastName": {
-						"type": "string",
-						"description": "User's last name",
-						"example": "Doe"
+						"description": "User's Full name",
+						"example": "John Doe"
 					},
 					"password": {
 						"type": "string",
@@ -128,8 +125,7 @@
 				},
 				"required": [
 					"phone",
-					"firstName",
-					"lastName",
+					"fullName",
 					"password"
 				],
 				"type": "object",
@@ -211,59 +207,54 @@
 								"schema": {
 									"items": {
 										"properties": {
-											"chatId": {
-												"type": "string"
-											},
-											"deletedAt": {
-												"type": "string",
-												"format": "date-time"
-											},
 											"updatedAt": {
 												"type": "string",
 												"format": "date-time"
-											},
-											"role": {
-												"$ref": "#/components/schemas/_36_Enums.Role"
-											},
-											"isVerified": {
-												"type": "boolean"
-											},
-											"isActive": {
-												"type": "boolean"
-											},
-											"avatar": {
-												"type": "string"
-											},
-											"lastName": {
-												"type": "string"
-											},
-											"firstName": {
-												"type": "string"
-											},
-											"phone": {
-												"type": "string"
 											},
 											"createdAt": {
 												"type": "string",
 												"format": "date-time"
 											},
+											"deletedAt": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"isActive": {
+												"type": "boolean"
+											},
+											"isVerified": {
+												"type": "boolean"
+											},
+											"telegramChatId": {
+												"type": "string"
+											},
+											"role": {
+												"$ref": "#/components/schemas/_36_Enums.UserRole"
+											},
+											"avatar": {
+												"type": "string"
+											},
+											"fullName": {
+												"type": "string"
+											},
+											"phone": {
+												"type": "string"
+											},
 											"id": {
-												"type": "number",
-												"format": "double"
+												"type": "string"
 											}
 										},
 										"required": [
-											"chatId",
-											"deletedAt",
 											"updatedAt",
-											"role",
-											"isVerified",
-											"isActive",
-											"avatar",
-											"lastName",
-											"firstName",
-											"phone",
 											"createdAt",
+											"deletedAt",
+											"isActive",
+											"isVerified",
+											"telegramChatId",
+											"role",
+											"avatar",
+											"fullName",
+											"phone",
 											"id"
 										],
 										"type": "object"
@@ -305,33 +296,94 @@
 											"properties": {
 												"data": {
 													"properties": {
-														"chatId": {
-															"type": "string"
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
 														},
 														"deletedAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"updatedAt": {
+														"totalPoints": {
+															"type": "number",
+															"format": "double"
+														},
+														"currentLevel": {
+															"type": "number",
+															"format": "double"
+														},
+														"booksReadCount": {
+															"type": "number",
+															"format": "double"
+														},
+														"lastLoginAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"role": {
-															"$ref": "#/components/schemas/_36_Enums.Role"
+														"joinDate": {
+															"type": "string",
+															"format": "date-time"
 														},
-														"isVerified": {
+														"membershipExpiry": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"membershipType": {
+															"$ref": "#/components/schemas/_36_Enums.MembershipType"
+														},
+														"blockedUntil": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"blockedReason": {
+															"type": "string"
+														},
+														"isBlocked": {
 															"type": "boolean"
 														},
 														"isActive": {
 															"type": "boolean"
 														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"city": {
+															"type": "string"
+														},
+														"address": {
+															"type": "string"
+														},
+														"dateOfBirth": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramVerified": {
+															"type": "boolean"
+														},
+														"telegramLinkedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramUsername": {
+															"type": "string"
+														},
+														"telegramChatId": {
+															"type": "string"
+														},
+														"telegramId": {
+															"type": "string"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.UserRole"
+														},
 														"avatar": {
 															"type": "string"
 														},
-														"lastName": {
-															"type": "string"
-														},
-														"firstName": {
+														"fullName": {
 															"type": "string"
 														},
 														"password": {
@@ -340,28 +392,43 @@
 														"phone": {
 															"type": "string"
 														},
-														"createdAt": {
-															"type": "string",
-															"format": "date-time"
+														"email": {
+															"type": "string"
 														},
 														"id": {
-															"type": "number",
-															"format": "double"
+															"type": "string"
 														}
 													},
 													"required": [
-														"chatId",
-														"deletedAt",
 														"updatedAt",
-														"role",
-														"isVerified",
+														"createdAt",
+														"deletedAt",
+														"totalPoints",
+														"currentLevel",
+														"booksReadCount",
+														"lastLoginAt",
+														"joinDate",
+														"membershipExpiry",
+														"membershipType",
+														"blockedUntil",
+														"blockedReason",
+														"isBlocked",
 														"isActive",
+														"isVerified",
+														"city",
+														"address",
+														"dateOfBirth",
+														"telegramVerified",
+														"telegramLinkedAt",
+														"telegramUsername",
+														"telegramChatId",
+														"telegramId",
+														"role",
 														"avatar",
-														"lastName",
-														"firstName",
+														"fullName",
 														"password",
 														"phone",
-														"createdAt",
+														"email",
 														"id"
 													],
 													"type": "object"
@@ -426,33 +493,94 @@
 												"message": {},
 												"data": {
 													"properties": {
-														"chatId": {
-															"type": "string"
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
 														},
 														"deletedAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"updatedAt": {
+														"totalPoints": {
+															"type": "number",
+															"format": "double"
+														},
+														"currentLevel": {
+															"type": "number",
+															"format": "double"
+														},
+														"booksReadCount": {
+															"type": "number",
+															"format": "double"
+														},
+														"lastLoginAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"role": {
-															"$ref": "#/components/schemas/_36_Enums.Role"
+														"joinDate": {
+															"type": "string",
+															"format": "date-time"
 														},
-														"isVerified": {
+														"membershipExpiry": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"membershipType": {
+															"$ref": "#/components/schemas/_36_Enums.MembershipType"
+														},
+														"blockedUntil": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"blockedReason": {
+															"type": "string"
+														},
+														"isBlocked": {
 															"type": "boolean"
 														},
 														"isActive": {
 															"type": "boolean"
 														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"city": {
+															"type": "string"
+														},
+														"address": {
+															"type": "string"
+														},
+														"dateOfBirth": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramVerified": {
+															"type": "boolean"
+														},
+														"telegramLinkedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramUsername": {
+															"type": "string"
+														},
+														"telegramChatId": {
+															"type": "string"
+														},
+														"telegramId": {
+															"type": "string"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.UserRole"
+														},
 														"avatar": {
 															"type": "string"
 														},
-														"lastName": {
-															"type": "string"
-														},
-														"firstName": {
+														"fullName": {
 															"type": "string"
 														},
 														"password": {
@@ -461,28 +589,43 @@
 														"phone": {
 															"type": "string"
 														},
-														"createdAt": {
-															"type": "string",
-															"format": "date-time"
+														"email": {
+															"type": "string"
 														},
 														"id": {
-															"type": "number",
-															"format": "double"
+															"type": "string"
 														}
 													},
 													"required": [
-														"chatId",
-														"deletedAt",
 														"updatedAt",
-														"role",
-														"isVerified",
+														"createdAt",
+														"deletedAt",
+														"totalPoints",
+														"currentLevel",
+														"booksReadCount",
+														"lastLoginAt",
+														"joinDate",
+														"membershipExpiry",
+														"membershipType",
+														"blockedUntil",
+														"blockedReason",
+														"isBlocked",
 														"isActive",
+														"isVerified",
+														"city",
+														"address",
+														"dateOfBirth",
+														"telegramVerified",
+														"telegramLinkedAt",
+														"telegramUsername",
+														"telegramChatId",
+														"telegramId",
+														"role",
 														"avatar",
-														"lastName",
-														"firstName",
+														"fullName",
 														"password",
 														"phone",
-														"createdAt",
+														"email",
 														"id"
 													],
 													"type": "object"
@@ -509,8 +652,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -540,59 +682,54 @@
 											"properties": {
 												"data": {
 													"properties": {
-														"chatId": {
-															"type": "string"
-														},
-														"deletedAt": {
-															"type": "string",
-															"format": "date-time"
-														},
 														"updatedAt": {
 															"type": "string",
 															"format": "date-time"
-														},
-														"role": {
-															"$ref": "#/components/schemas/_36_Enums.Role"
-														},
-														"isVerified": {
-															"type": "boolean"
-														},
-														"isActive": {
-															"type": "boolean"
-														},
-														"avatar": {
-															"type": "string"
-														},
-														"lastName": {
-															"type": "string"
-														},
-														"firstName": {
-															"type": "string"
-														},
-														"phone": {
-															"type": "string"
 														},
 														"createdAt": {
 															"type": "string",
 															"format": "date-time"
 														},
+														"deletedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"isActive": {
+															"type": "boolean"
+														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"telegramChatId": {
+															"type": "string"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.UserRole"
+														},
+														"avatar": {
+															"type": "string"
+														},
+														"fullName": {
+															"type": "string"
+														},
+														"phone": {
+															"type": "string"
+														},
 														"id": {
-															"type": "number",
-															"format": "double"
+															"type": "string"
 														}
 													},
 													"required": [
-														"chatId",
-														"deletedAt",
 														"updatedAt",
-														"role",
-														"isVerified",
-														"isActive",
-														"avatar",
-														"lastName",
-														"firstName",
-														"phone",
 														"createdAt",
+														"deletedAt",
+														"isActive",
+														"isVerified",
+														"telegramChatId",
+														"role",
+														"avatar",
+														"fullName",
+														"phone",
 														"id"
 													],
 													"type": "object"
@@ -623,8 +760,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				],
@@ -666,33 +802,94 @@
 											"properties": {
 												"data": {
 													"properties": {
-														"chatId": {
-															"type": "string"
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
 														},
 														"deletedAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"updatedAt": {
+														"totalPoints": {
+															"type": "number",
+															"format": "double"
+														},
+														"currentLevel": {
+															"type": "number",
+															"format": "double"
+														},
+														"booksReadCount": {
+															"type": "number",
+															"format": "double"
+														},
+														"lastLoginAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"role": {
-															"$ref": "#/components/schemas/_36_Enums.Role"
+														"joinDate": {
+															"type": "string",
+															"format": "date-time"
 														},
-														"isVerified": {
+														"membershipExpiry": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"membershipType": {
+															"$ref": "#/components/schemas/_36_Enums.MembershipType"
+														},
+														"blockedUntil": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"blockedReason": {
+															"type": "string"
+														},
+														"isBlocked": {
 															"type": "boolean"
 														},
 														"isActive": {
 															"type": "boolean"
 														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"city": {
+															"type": "string"
+														},
+														"address": {
+															"type": "string"
+														},
+														"dateOfBirth": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramVerified": {
+															"type": "boolean"
+														},
+														"telegramLinkedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramUsername": {
+															"type": "string"
+														},
+														"telegramChatId": {
+															"type": "string"
+														},
+														"telegramId": {
+															"type": "string"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.UserRole"
+														},
 														"avatar": {
 															"type": "string"
 														},
-														"lastName": {
-															"type": "string"
-														},
-														"firstName": {
+														"fullName": {
 															"type": "string"
 														},
 														"password": {
@@ -701,28 +898,43 @@
 														"phone": {
 															"type": "string"
 														},
-														"createdAt": {
-															"type": "string",
-															"format": "date-time"
+														"email": {
+															"type": "string"
 														},
 														"id": {
-															"type": "number",
-															"format": "double"
+															"type": "string"
 														}
 													},
 													"required": [
-														"chatId",
-														"deletedAt",
 														"updatedAt",
-														"role",
-														"isVerified",
+														"createdAt",
+														"deletedAt",
+														"totalPoints",
+														"currentLevel",
+														"booksReadCount",
+														"lastLoginAt",
+														"joinDate",
+														"membershipExpiry",
+														"membershipType",
+														"blockedUntil",
+														"blockedReason",
+														"isBlocked",
 														"isActive",
+														"isVerified",
+														"city",
+														"address",
+														"dateOfBirth",
+														"telegramVerified",
+														"telegramLinkedAt",
+														"telegramUsername",
+														"telegramChatId",
+														"telegramId",
+														"role",
 														"avatar",
-														"lastName",
-														"firstName",
+														"fullName",
 														"password",
 														"phone",
-														"createdAt",
+														"email",
 														"id"
 													],
 													"type": "object"
@@ -753,8 +965,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -786,33 +997,94 @@
 											"properties": {
 												"data": {
 													"properties": {
-														"chatId": {
-															"type": "string"
+														"updatedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time"
 														},
 														"deletedAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"updatedAt": {
+														"totalPoints": {
+															"type": "number",
+															"format": "double"
+														},
+														"currentLevel": {
+															"type": "number",
+															"format": "double"
+														},
+														"booksReadCount": {
+															"type": "number",
+															"format": "double"
+														},
+														"lastLoginAt": {
 															"type": "string",
 															"format": "date-time"
 														},
-														"role": {
-															"$ref": "#/components/schemas/_36_Enums.Role"
+														"joinDate": {
+															"type": "string",
+															"format": "date-time"
 														},
-														"isVerified": {
+														"membershipExpiry": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"membershipType": {
+															"$ref": "#/components/schemas/_36_Enums.MembershipType"
+														},
+														"blockedUntil": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"blockedReason": {
+															"type": "string"
+														},
+														"isBlocked": {
 															"type": "boolean"
 														},
 														"isActive": {
 															"type": "boolean"
 														},
+														"isVerified": {
+															"type": "boolean"
+														},
+														"city": {
+															"type": "string"
+														},
+														"address": {
+															"type": "string"
+														},
+														"dateOfBirth": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramVerified": {
+															"type": "boolean"
+														},
+														"telegramLinkedAt": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"telegramUsername": {
+															"type": "string"
+														},
+														"telegramChatId": {
+															"type": "string"
+														},
+														"telegramId": {
+															"type": "string"
+														},
+														"role": {
+															"$ref": "#/components/schemas/_36_Enums.UserRole"
+														},
 														"avatar": {
 															"type": "string"
 														},
-														"lastName": {
-															"type": "string"
-														},
-														"firstName": {
+														"fullName": {
 															"type": "string"
 														},
 														"password": {
@@ -821,28 +1093,43 @@
 														"phone": {
 															"type": "string"
 														},
-														"createdAt": {
-															"type": "string",
-															"format": "date-time"
+														"email": {
+															"type": "string"
 														},
 														"id": {
-															"type": "number",
-															"format": "double"
+															"type": "string"
 														}
 													},
 													"required": [
-														"chatId",
-														"deletedAt",
 														"updatedAt",
-														"role",
-														"isVerified",
+														"createdAt",
+														"deletedAt",
+														"totalPoints",
+														"currentLevel",
+														"booksReadCount",
+														"lastLoginAt",
+														"joinDate",
+														"membershipExpiry",
+														"membershipType",
+														"blockedUntil",
+														"blockedReason",
+														"isBlocked",
 														"isActive",
+														"isVerified",
+														"city",
+														"address",
+														"dateOfBirth",
+														"telegramVerified",
+														"telegramLinkedAt",
+														"telegramUsername",
+														"telegramChatId",
+														"telegramId",
+														"role",
 														"avatar",
-														"lastName",
-														"firstName",
+														"fullName",
 														"password",
 														"phone",
-														"createdAt",
+														"email",
 														"id"
 													],
 													"type": "object"
@@ -873,8 +1160,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]

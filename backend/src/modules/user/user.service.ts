@@ -11,8 +11,7 @@ export class UsersService {
       data: {
         phone: user.phone,
         password: hashedPassword,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        fullName: user.fullName,
         avatar: user.avatar,
         role: user.role,
       },
@@ -21,7 +20,7 @@ export class UsersService {
     return newUser;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await prisma.user.findUnique({
       where: {
         id,
@@ -39,8 +38,7 @@ export class UsersService {
       select: {
         id: true,
         phone: true,
-        firstName: true,
-        lastName: true,
+        fullName: true,
         avatar: true,
         isActive: true,
         isVerified: true,
@@ -48,21 +46,20 @@ export class UsersService {
         createdAt: true,
         updatedAt: true,
         deletedAt: true,
-        chatId: true,
+        telegramChatId: true,
       },
 
     });
     return users;
   }
 
-  async update(id: number, data: UpdateUserDto) {
+  async update(id: string, data: UpdateUserDto) {
     const updatedUser = await prisma.user.update({
       where: { id },
       select: {
         id: true,
         phone: true,
-        firstName: true,
-        lastName: true,
+        fullName: true,
         avatar: true,
         isActive: true,
         isVerified: true,
@@ -70,14 +67,14 @@ export class UsersService {
         createdAt: true,
         updatedAt: true,
         deletedAt: true,
-        chatId: true,
+        telegramChatId: true,
       },
       data,
     });
     return updatedUser;
   }
 
-  async hardDelete(id: number) {
+  async hardDelete(id: string) {
     const deletedUser = await prisma.user.delete({
       where: { id },
     });
@@ -85,7 +82,7 @@ export class UsersService {
     return deletedUser;
   }
 
-  async softDelete(id: number) {
+  async softDelete(id: string) {
     const user = await prisma.user.update({
       where: { id },
       data: {

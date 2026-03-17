@@ -48,9 +48,9 @@ bot.on('contact', async (ctx) => {
             // Agar foydalanuvchi bo'lsa, chatId ni yangilaymiz
             await prisma.user.update({
                 where: { id: user.id },
-                data: { chatId }
+                data: { telegramChatId: chatId }
             });
-            await ctx.reply(`Xush kelibsiz, ${user.firstName}! Telefon raqamingiz tasdiqlandi.`, Markup.removeKeyboard());
+            await ctx.reply(`Xush kelibsiz, ${user.fullName}! Telefon raqamingiz tasdiqlandi.`, Markup.removeKeyboard());
         } else {
             // Agar foydalanuvchi bo'lmasa, shunchaki raqam qabul qilinganini aytamiz
             await ctx.reply(`Telefon raqamingiz qabul qilindi: ${phoneNumber}\n\nEndi sayt orqali roʻyxatdan oʻtishni davom ettirishingiz mumkin.`, Markup.removeKeyboard());
@@ -82,8 +82,8 @@ export async function sendVerificationCode(phone: string, code: string) {
             where: { phone: normalizedPhone }
         });
 
-        if (user && user.chatId) {
-            chatId = user.chatId;
+        if (user && user.telegramChatId) {
+            chatId = user.telegramChatId;
         } else {
             const cachedChatId = await cache.get(`bot:chatid:${normalizedPhone}`);
             if (cachedChatId) {

@@ -1,11 +1,10 @@
-import { Role } from "../../../../generated/prisma/client";
+import { UserRole } from "../../../../generated/prisma/client";
 export interface UpdateUserDto {
     phone?: string;
     password?: string;
-    firstName?: string;
-    lastName?: string;
+    fullName?: string;
     avatar?: string;
-    role?: Role;
+    role?: UserRole;
     isActive?: boolean;
     isVerified?: boolean;
 }
