@@ -269,33 +269,30 @@ const models: TsoaRoute.Models = {
         "properties": {
             "phone": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
+            "rememberMe": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RegisterDto": {
+    "RegisterInitDto": {
         "dataType": "refObject",
         "properties": {
             "phone": {"dataType":"string","required":true},
+            "telegramChatId": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RegisterVerifyDto": {
+        "dataType": "refObject",
+        "properties": {
+            "tempId": {"dataType":"string","required":true},
+            "code": {"dataType":"string","required":true},
             "fullName": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "SendCodeDto": {
-        "dataType": "refObject",
-        "properties": {
-            "phone": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "VerifyCodeDto": {
-        "dataType": "refObject",
-        "properties": {
-            "phone": {"dataType":"string","required":true},
-            "code": {"dataType":"string","required":true},
+            "passwordConfirm": {"dataType":"string","required":true},
+            "dateOfBirth": {"dataType":"string"},
+            "city": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -303,7 +300,7 @@ const models: TsoaRoute.Models = {
     "LogOutDto": {
         "dataType": "refObject",
         "properties": {
-            "refreshToken": {"dataType":"string","required":true},
+            "revokeAll": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },
@@ -1347,6 +1344,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAuthController_login: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"LoginDto"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/api/v1/auth/login',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
@@ -1375,25 +1373,25 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAuthController_register: Record<string, TsoaRoute.ParameterSchema> = {
-                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"RegisterDto"},
+        const argsAuthController_registerInit: Record<string, TsoaRoute.ParameterSchema> = {
+                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"RegisterInitDto"},
         };
-        app.post('/api/v1/auth/register',
+        app.post('/api/v1/auth/register/init',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.register)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.registerInit)),
 
-            async function AuthController_register(request: ExRequest, response: ExResponse, next: any) {
+            async function AuthController_registerInit(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_register, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_registerInit, request, response });
 
                 const controller = new AuthController();
 
               await templateService.apiHandler({
-                methodName: 'register',
+                methodName: 'registerInit',
                 controller,
                 response,
                 next,
@@ -1405,60 +1403,31 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAuthController_sendCode: Record<string, TsoaRoute.ParameterSchema> = {
-                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"SendCodeDto"},
+        const argsAuthController_registerVerify: Record<string, TsoaRoute.ParameterSchema> = {
+                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"RegisterVerifyDto"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
-        app.post('/api/v1/auth/send-code',
+        app.post('/api/v1/auth/register/verify',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.sendCode)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.registerVerify)),
 
-            async function AuthController_sendCode(request: ExRequest, response: ExResponse, next: any) {
+            async function AuthController_registerVerify(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_sendCode, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_registerVerify, request, response });
 
                 const controller = new AuthController();
 
               await templateService.apiHandler({
-                methodName: 'sendCode',
+                methodName: 'registerVerify',
                 controller,
                 response,
                 next,
                 validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAuthController_verifyCode: Record<string, TsoaRoute.ParameterSchema> = {
-                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"VerifyCodeDto"},
-        };
-        app.post('/api/v1/auth/verify-code',
-            ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.verifyCode)),
-
-            async function AuthController_verifyCode(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_verifyCode, request, response });
-
-                const controller = new AuthController();
-
-              await templateService.apiHandler({
-                methodName: 'verifyCode',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
+                successStatus: 201,
               });
             } catch (err) {
                 return next(err);
@@ -1497,8 +1466,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAuthController_logOut: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"LogOutDto"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/api/v1/auth/logout',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.logOut)),
 

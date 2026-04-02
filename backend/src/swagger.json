@@ -790,6 +790,10 @@
 						"type": "string",
 						"description": "User's password",
 						"example": "password123"
+					},
+					"rememberMe": {
+						"type": "boolean",
+						"description": "Remember me flag"
 					}
 				},
 				"required": [
@@ -799,13 +803,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RegisterDto": {
-				"description": "Registration details DTO",
+			"RegisterInitDto": {
+				"description": "Register Init DTO",
 				"properties": {
 					"phone": {
 						"type": "string",
 						"description": "User's phone number",
 						"example": "+998901234567"
+					},
+					"telegramChatId": {
+						"type": "string",
+						"description": "User's Telegram Chat ID",
+						"example": "123456789"
+					}
+				},
+				"required": [
+					"phone"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterVerifyDto": {
+				"description": "Registration Verify DTO",
+				"properties": {
+					"tempId": {
+						"type": "string",
+						"description": "Temporary ID from init",
+						"example": "temp_uuid_here"
+					},
+					"code": {
+						"type": "string",
+						"description": "6-digit verification code",
+						"example": "123456"
 					},
 					"fullName": {
 						"type": "string",
@@ -816,48 +845,29 @@
 						"type": "string",
 						"description": "User's password",
 						"example": "password123"
-					}
-				},
-				"required": [
-					"phone",
-					"fullName",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"SendCodeDto": {
-				"description": "Send verification code DTO",
-				"properties": {
-					"phone": {
-						"type": "string",
-						"description": "User's phone number",
-						"example": "+998901234567"
-					}
-				},
-				"required": [
-					"phone"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"VerifyCodeDto": {
-				"description": "Verify code DTO",
-				"properties": {
-					"phone": {
-						"type": "string",
-						"description": "User's phone number",
-						"example": "+998901234567"
 					},
-					"code": {
+					"passwordConfirm": {
 						"type": "string",
-						"description": "6-digit verification code",
-						"example": "123456"
+						"description": "User's password confirm",
+						"example": "password123"
+					},
+					"dateOfBirth": {
+						"type": "string",
+						"description": "Date of birth (optional)",
+						"example": "2000-01-15"
+					},
+					"city": {
+						"type": "string",
+						"description": "City (optional)",
+						"example": "Tashkent"
 					}
 				},
 				"required": [
-					"phone",
-					"code"
+					"tempId",
+					"code",
+					"fullName",
+					"password",
+					"passwordConfirm"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -865,15 +875,11 @@
 			"LogOutDto": {
 				"description": "Log Out DTO",
 				"properties": {
-					"refreshToken": {
-						"type": "string",
-						"description": "User's refresh token",
-						"example": "refresh_token"
+					"revokeAll": {
+						"type": "boolean",
+						"description": "Revoke all sessions flag"
 					}
 				},
-				"required": [
-					"refreshToken"
-				],
 				"type": "object",
 				"additionalProperties": false
 			}
@@ -2328,7 +2334,7 @@
 						}
 					}
 				},
-				"description": "Yangi kitob yaratish (Manual)\nFR-01: Kitob yaratish (Manual)",
+				"description": "Yangi kitob yaratish (Manual)\r\nFR-01: Kitob yaratish (Manual)",
 				"tags": [
 					"Books"
 				],
@@ -2433,7 +2439,7 @@
 						}
 					}
 				},
-				"description": "ISBN orqali kitob ma'lumotlarini avtomatik olish (Google Books API)\nFR-02: ISBN Auto-Fill",
+				"description": "ISBN orqali kitob ma'lumotlarini avtomatik olish (Google Books API)\r\nFR-02: ISBN Auto-Fill",
 				"tags": [
 					"Books"
 				],
@@ -2470,7 +2476,7 @@
 						}
 					}
 				},
-				"description": "Kitoblarni qidirish (Full-Text + Filters)\nFR-08: Qidiruv va filtrlar",
+				"description": "Kitoblarni qidirish (Full-Text + Filters)\r\nFR-08: Qidiruv va filtrlar",
 				"tags": [
 					"Books"
 				],
@@ -2604,7 +2610,7 @@
 						}
 					}
 				},
-				"description": "Kitobni yangilash\nFR-05: Kitob yangilash",
+				"description": "Kitobni yangilash\r\nFR-05: Kitob yangilash",
 				"tags": [
 					"Books"
 				],
@@ -2649,7 +2655,7 @@
 						}
 					}
 				},
-				"description": "Kitobni o'chirish (Soft Delete)\nFR-06: Kitob o'chirish",
+				"description": "Kitobni o'chirish (Soft Delete)\r\nFR-06: Kitob o'chirish",
 				"tags": [
 					"Books"
 				],
@@ -2684,7 +2690,7 @@
 						}
 					}
 				},
-				"description": "Kitob nusxalarini batch yaratish\nFR-03: BookCopy batch create",
+				"description": "Kitob nusxalarini batch yaratish\r\nFR-03: BookCopy batch create",
 				"tags": [
 					"Books"
 				],
@@ -2731,7 +2737,7 @@
 						}
 					}
 				},
-				"description": "Kitob nusxasi statusini o'zgartirish\nFR-07: Copy status change",
+				"description": "Kitob nusxasi statusini o'zgartirish\r\nFR-07: Copy status change",
 				"tags": [
 					"Books"
 				],
@@ -3091,9 +3097,9 @@
 				}
 			}
 		},
-		"/auth/register": {
+		"/auth/register/init": {
 			"post": {
-				"operationId": "Register",
+				"operationId": "RegisterInit",
 				"responses": {
 					"201": {
 						"description": "Created",
@@ -3104,32 +3110,32 @@
 						}
 					}
 				},
-				"description": "Yangi foydalanuvchini ro'yxatdan o'tkazish.\r\nAvval telefon raqamini Telegram bot orqali tasdiqlash talab qilinadi.\r\nAgar foydalanuvchi botda raqamini ulashgan bo'lsa, chatId avtomatik bog'lanadi.",
+				"description": "Yangi foydalanuvchini ro'yxatdan o'tkazishni boshlash.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Ro'yxatdan o'tish ma'lumotlari",
+					"description": "Ro'yxatdan o'tish ma'lumotlari (tel raqam va telegram chatId)",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RegisterDto",
-								"description": "Ro'yxatdan o'tish ma'lumotlari"
+								"$ref": "#/components/schemas/RegisterInitDto",
+								"description": "Ro'yxatdan o'tish ma'lumotlari (tel raqam va telegram chatId)"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/auth/send-code": {
+		"/auth/register/verify": {
 			"post": {
-				"operationId": "SendCode",
+				"operationId": "RegisterVerify",
 				"responses": {
-					"200": {
-						"description": "Ok",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -3137,53 +3143,20 @@
 						}
 					}
 				},
-				"description": "Telegram bot orqali tasdiqlash kodini yuborish.\r\nFoydalanuvchi avval botga kirib /start bosgan bo'lishi kerak.",
+				"description": "Telegram bot orqali yuborilgan kodni tekshirish va ro'yxatdan o'tishni yakunlash.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Telefon raqami",
+					"description": "Tasdiqlash kodi va foydalanuvchi to'liq ma'lumotlari",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/SendCodeDto",
-								"description": "Telefon raqami"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/auth/verify-code": {
-			"post": {
-				"operationId": "VerifyCode",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"description": "Telegram bot orqali yuborilgan kodni tekshirish.\r\nKod to'g'ri bo'lsa, foydalanuvchiga ro'yxatdan o'tish uchun ruxsat beriladi.",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Telefon raqami va tasdiqlash kodi",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/VerifyCodeDto",
-								"description": "Telefon raqami va tasdiqlash kodi"
+								"$ref": "#/components/schemas/RegisterVerifyDto",
+								"description": "Tasdiqlash kodi va foydalanuvchi to'liq ma'lumotlari"
 							}
 						}
 					}
@@ -3234,16 +3207,18 @@
 				"tags": [
 					"Auth"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Faqatgina refresh token",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LogOutDto",
-								"description": "Faqatgina refresh token"
+								"$ref": "#/components/schemas/LogOutDto"
 							}
 						}
 					}

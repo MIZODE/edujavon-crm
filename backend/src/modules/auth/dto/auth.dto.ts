@@ -12,17 +12,42 @@ export interface LoginDto {
      * @example "password123"
      */
     password: string;
+    /**
+     * Remember me flag
+     */
+    rememberMe?: boolean;
 }
 
 /**
- * Registration details DTO
+ * Register Init DTO
  */
-export interface RegisterDto {
+export interface RegisterInitDto {
     /**
      * User's phone number
      * @example "+998901234567"
      */
     phone: string;
+    /**
+     * User's Telegram Chat ID
+     * @example "123456789"
+     */
+    telegramChatId?: string;
+}
+
+/**
+ * Registration Verify DTO
+ */
+export interface RegisterVerifyDto {
+    /**
+     * Temporary ID from init
+     * @example "temp_uuid_here"
+     */
+    tempId: string;
+    /**
+     * 6-digit verification code
+     * @example "123456"
+     */
+    code: string;
     /**
      * User's Full name
      * @example "John Doe"
@@ -33,33 +58,21 @@ export interface RegisterDto {
      * @example "password123"
      */
     password: string;
-}
-
-/**
- * Send verification code DTO
- */
-export interface SendCodeDto {
     /**
-     * User's phone number
-     * @example "+998901234567"
+     * User's password confirm
+     * @example "password123"
      */
-    phone: string;
-}
-
-/**
- * Verify code DTO
- */
-export interface VerifyCodeDto {
+    passwordConfirm: string;
     /**
-     * User's phone number
-     * @example "+998901234567"
+     * Date of birth (optional)
+     * @example "2000-01-15"
      */
-    phone: string;
+    dateOfBirth?: string;
     /**
-     * 6-digit verification code
-     * @example "123456"
+     * City (optional)
+     * @example "Tashkent"
      */
-    code: string;
+    city?: string;
 }
 
 /**
@@ -67,8 +80,7 @@ export interface VerifyCodeDto {
  */
 export interface LogOutDto {
     /**
-     * User's refresh token
-     * @example "refresh_token"
+     * Revoke all sessions flag
      */
-    refreshToken: string;
+    revokeAll?: boolean;
 }
