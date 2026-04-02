@@ -36,6 +36,7 @@ export async function login(data: LoginDto, meta: { ip: string, userAgent: strin
         // Log failed login
         await prisma.auditLog.create({
             data: {
+                id: crypto.randomUUID(),
                 action: 'FAILED_LOGIN',
                 entity: 'USER',
                 entityId: user.id,
@@ -65,6 +66,7 @@ export async function login(data: LoginDto, meta: { ip: string, userAgent: strin
 
     const session = await prisma.session.create({
         data: {
+            id: crypto.randomUUID(),
             userId: user.id,
             token: hashedAccessToken,
             refreshToken: hashedRefreshToken,
@@ -76,6 +78,7 @@ export async function login(data: LoginDto, meta: { ip: string, userAgent: strin
 
     await prisma.auditLog.create({
         data: {
+            id: crypto.randomUUID(),
             action: 'LOGIN',
             entity: 'USER',
             entityId: user.id,
@@ -187,6 +190,7 @@ export async function registerVerify(data: RegisterVerifyDto, meta: { ip: string
 
     const newUser = await prisma.user.create({
         data: {
+            id: crypto.randomUUID(),
             phone: cachedData.phone,
             password: hashedPassword,
             fullName: data.fullName,
@@ -207,6 +211,7 @@ export async function registerVerify(data: RegisterVerifyDto, meta: { ip: string
     // Create Audit Log for creation
     await prisma.auditLog.create({
         data: {
+            id: crypto.randomUUID(),
             action: 'CREATE',
             entity: 'USER',
             entityId: newUser.id,
@@ -227,6 +232,7 @@ export async function registerVerify(data: RegisterVerifyDto, meta: { ip: string
 
     const session = await prisma.session.create({
         data: {
+            id: crypto.randomUUID(),
             userId: newUser.id,
             token: hashedAccessToken,
             refreshToken: hashedRefreshToken,
@@ -290,6 +296,7 @@ export async function logOut(rawToken: string, revokeAll?: boolean) {
 
     await prisma.auditLog.create({
         data: {
+            id: crypto.randomUUID(),
             action: 'LOGOUT',
             entity: 'USER',
             entityId: decoded.sub,
