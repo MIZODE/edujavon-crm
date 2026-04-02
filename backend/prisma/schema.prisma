@@ -12,60 +12,8 @@ datasource db {
 // ENUMS (Statuslar va Turlar)
 // ============================================================================
 
-<<<<<<< HEAD
-model Permission {
-  id          String  @id
-  resource    String
-  action      String
-  description String?
-
-  @@unique([resource, action])
-}
-
-model Session {
-  id           String   @id
-  userId       Int
-  refreshToken String   @unique
-  deviceInfo   String?
-  ipAddress    String?
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  User         User     @relation(fields: [userId], references: [id])
-}
-
-model User {
-  id         Int        @id @default(autoincrement())
-  phone      String   @unique
-  password   String
-  firstName  String
-  lastName   String
-  avatar     String?
-  isActive   Boolean    @default(true)
-  isVerified Boolean    @default(false)
-  role       Role       @default(USER)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime?
-  deletedAt  DateTime?
-  chatId     String?    @unique
-  AuditLog   AuditLog[]
-  Session    Session[]
-}
-
-enum Action {
-  User_LOGIN
-  User_LOGOUT
-  USER_CREATE
-  USER_UPDATE
-  USER_DELETE
-}
-
-enum Role {
-  SUPERVISOR
-  ADMIN
-=======
 enum UserRole {
   SUPER_ADMIN
->>>>>>> fa3ad671a92c13ebe21aeb4cd886c5acd991bb21
   OWNER
   MANAGER
   LIBRARIAN
