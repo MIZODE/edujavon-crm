@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aniko';
+  src: url('/Aniko-Extrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    /* Primary */
+    --color-ink: #FAFAFA;
+    --color-surface: #09090B;
+    --color-accent: #FFD600;
+    
+    /* Secondary */
+    --color-sage: #A1A1AA;
+    --color-gold: #FFD600;
+    --color-slate: #71717A;
+    
+    /* Status */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+    
+    /* Elevation / Surfaces */
+    --surface-0: #000000;
+    --surface-1: #09090B;
+    --surface-2: #18181B;
+    --surface-card: #09090B;
+    
+    /* Typography CSS Variables */
+    --font-display: 'Aniko', sans-serif;
+    --font-heading: 'Aniko', sans-serif;
+    --font-body: 'Aniko', sans-serif;
+    --font-ui: 'Geist Mono', monospace;
+    --font-label: 'Aniko', sans-serif;
+    --font-number: 'Aniko', sans-serif;
+
+    /* Border Radius */
+    --radius-card: 16px;
+    --radius-btn: 10px;
+    --radius-input: 12px;
+  }
+
+  body {
+    @apply bg-surface-0 text-ink font-body antialiased;
+  }
+}
