@@ -1,15 +1,35 @@
 import { motion } from 'framer-motion';
 import { Search, UserPlus, FileSpreadsheet, ShieldAlert } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { useAppStore } from '../store/useAppStore';
+import { useToastStore } from '../store/useToastStore';
+import { SlideOver } from '../components/ui/SlideOver';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Users() {
-  const users = [
-    { id: 'USR-8821', name: "Firdavs Asadov", role: "SuperAdmin", readingScore: 500, phone: "+998 90 123 45 67", joined: "12 Mar 2025" },
-    { id: 'USR-3412', name: "Diyorbek (Manager)", role: "Manager", readingScore: 250, phone: "+998 99 876 54 32", joined: "15 Apr 2025" },
-    { id: 'USR-1192', name: "Malika Nazarova", role: "Librarian", readingScore: 120, phone: "+998 33 000 11 22", joined: "01 May 2025" },
-    { id: 'USR-5001', name: "Aziz Raximov", role: "Foydalanuvchi", readingScore: 10, phone: "+998 94 455 66 77", joined: "Bugun" },
-    { id: 'USR-5002', name: "Sardor Ikromov", role: "Foydalanuvchi", readingScore: 80, phone: "+998 91 222 33 44", joined: "Kecha" },
-  ];
+  const { users, addUser } = useAppStore();
+  const { addToast } = useToastStore();
+  const [isAdding, setIsAdding] = useState(false);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: '', phone: '', role: 'Foydalanuvchi'
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addUser({
+      ...formData,
+      id: `USR-${Math.floor(Math.random() * 9000) + 1000}`,
+      readingScore: 0,
+      joined: 'Bugun'
+    });
+    addToast(`${formData.name} tizimga a'zo qilindi!`, 'success');
+    setIsAdding(false);
+    setFormData({ name: '', phone: '', role: 'Foydalanuvchi' });
+  };
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
@@ -23,7 +43,11 @@ export default function Users() {
           <Button variant="outline" className="border-success/30 text-success rounded-xl h-10 px-4 font-label text-xs uppercase hover:bg-success/10">
             <FileSpreadsheet size={16} className="mr-2" /> Excel Export
           </Button>
-          <Button variant="primary" className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(36,161,222,0.4)]">
+          <Button 
+            onClick={() => setIsAdding(true)}
+            variant="primary" 
+            className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(36,161,222,0.4)]"
+          >
             <UserPlus size={16} className="mr-2" /> A'zo qo'shish
           </Button>
         </div>
@@ -57,8 +81,12 @@ export default function Users() {
             </thead>
             <tbody className="text-sm">
               {users.map((user, i) => (
-                <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group cursor-pointer">
-                  <td className="py-4 pr-4">
+                <tr 
+                  key={i} 
+                  onClick={() => navigate(`/users/${user.id}`)}
+                  className="border-b border-white/5 hover:bg-white/5 transition-colors group cursor-pointer"
+                >
+                  <td className="py-4 pr-4 pl-4">
                      <div className="flex items-center gap-3">
                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-surface-2 to-surface-0 border border-white/10 flex items-center justify-center font-heading text-white shadow-lg group-hover:border-[#24A1DE]/50 transition-colors">
                          {user.name.charAt(0)}
@@ -93,6 +121,35 @@ export default function Users() {
           </table>
         </div>
       </motion.div>
+
+      <SlideOver isOpen={isAdding} onClose={() => setIsAdding(false)} title="Tizimga A'zo Qo'shish">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <Input 
+            floating label="To'liq ismi" placeholder="Ism va Familiya" required 
+            value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
+          />
+          <Input 
+            floating label="Telefon Raqam" placeholder="+998" required
+            value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})}
+          />
+          <div className="space-y-1">
+            <label className="text-[10px] text-slate uppercase tracking-widest font-label ml-2">Tizimdagi Roli</label>
+            <select 
+              className="w-full bg-[#09090B] border border-white/10 rounded-xl h-12 px-4 text-white font-label text-sm uppercase tracking-widest focus:border-[#24A1DE] focus:outline-none"
+              value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})}
+            >
+              <option value="Foydalanuvchi">Foydalanuvchi</option>
+              <option value="Librarian">Kutubxonachi</option>
+              <option value="Manager">Filial Boshqaruvchisi</option>
+            </select>
+          </div>
+          
+          <div className="pt-6 border-t border-white/10 flex justify-end gap-3 mt-8">
+             <Button type="button" variant="outline" className="border-white/10 text-white" onClick={() => setIsAdding(false)}>Bekor qilish</Button>
+             <Button type="submit" variant="primary" className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] border-none font-bold">A'zoni Saqlash</Button>
+          </div>
+        </form>
+      </SlideOver>
     </div>
   );
 }

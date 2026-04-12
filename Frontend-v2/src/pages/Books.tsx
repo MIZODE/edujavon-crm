@@ -1,15 +1,34 @@
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, ScanLine } from 'lucide-react';
+import { Search, Filter, Plus, ScanLine, BookOpen } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { useAppStore } from '../store/useAppStore';
+import { useToastStore } from '../store/useToastStore';
+import { SlideOver } from '../components/ui/SlideOver';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Books() {
-  const books = [
-    { id: 'ISBN-1029', title: "Clean Code", author: "Robert C. Martin", copies: 5, category: "Dasturlash", status: 'Mavjud' },
-    { id: 'ISBN-6531', title: "Alkimyogar", author: "Paulo Coelho", copies: 2, category: "Badiiy", status: 'Mavjud' },
-    { id: 'ISBN-8812', title: "Kichkina Shahzoda", author: "Antuan de Sent-Ekzyuperi", copies: 0, category: "Bolalar", status: 'Tugagan' },
-    { id: 'ISBN-1190', title: "Steve Jobs", author: "Walter Isaacson", copies: 3, category: "Biografiya", status: 'Mavjud' },
-    { id: 'ISBN-9921', title: "Atomic Habits", author: "James Clear", copies: 12, category: "Rivojlanish", status: 'Mavjud' }
-  ];
+  const { books, addBook } = useAppStore();
+  const { addToast } = useToastStore();
+  const [isAdding, setIsAdding] = useState(false);
+  const navigate = useNavigate();
+  
+  const [formData, setFormData] = useState({
+    id: '', title: '', author: '', copies: 1, category: 'Badiiy'
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addBook({
+      ...formData,
+      id: formData.id || `ISBN-${Math.floor(Math.random() * 9000) + 1000}`,
+      status: formData.copies > 0 ? 'Mavjud' : 'Tugagan'
+    });
+    addToast(`${formData.title} kitobi muvaffaqiyatli saqlandi!`, 'success');
+    setIsAdding(false);
+    setFormData({ id: '', title: '', author: '', copies: 1, category: 'Badiiy' });
+  };
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
@@ -26,7 +45,11 @@ export default function Books() {
           <Button variant="outline" className="border-accent text-accent hover:bg-accent/10 rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_15px_rgba(255,214,0,0.2)]">
             <ScanLine size={16} className="mr-2" /> Barkod Skaner
           </Button>
-          <Button variant="primary" className="bg-accent text-black hover:bg-[#E6C200] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(255,214,0,0.4)]">
+          <Button 
+            onClick={() => setIsAdding(true)}
+            variant="primary" 
+            className="bg-accent text-black hover:bg-[#E6C200] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(255,214,0,0.4)]"
+          >
             <Plus size={16} className="mr-2" /> Yangi qo'shish
           </Button>
         </div>
@@ -59,11 +82,20 @@ export default function Books() {
             </thead>
             <tbody className="text-sm">
               {books.map((book, i) => (
-                <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group cursor-pointer">
+                <tr 
+                  key={i} 
+                  onClick={() => navigate(`/books/${book.id}`)}
+                  className="border-b border-white/5 hover:bg-white/5 transition-colors group cursor-pointer"
+                >
                   <td className="py-4 pr-4 font-ui text-slate text-xs">{book.id}</td>
                   <td className="py-4 px-4 font-bold text-white flex items-center gap-3">
-                    <div className="w-8 h-10 bg-surface-2 rounded flex items-center justify-center text-xs opacity-50 group-hover:opacity-100 transition-opacity flex-shrink-0">📖</div>
-                    {book.title}
+                    <div className="w-8 h-10 bg-surface-2 border border-white/10 rounded flex items-center justify-center text-accent opacity-50 group-hover:opacity-100 group-hover:border-accent/40 shadow-lg transition-all flex-shrink-0">
+                       <BookOpen size={16} />
+                    </div>
+                    <div>
+                      <p>{book.title}</p>
+                      <p className="text-[10px] text-slate font-label uppercase tracking-widest mt-0.5">{book.category}</p>
+                    </div>
                   </td>
                   <td className="py-4 px-4 text-[#A1A1AA]">{book.author}</td>
                   <td className="py-4 px-4 font-number text-lg text-center text-white">{book.copies}</td>
@@ -80,6 +112,49 @@ export default function Books() {
           </table>
         </div>
       </motion.div>
+
+      <SlideOver isOpen={isAdding} onClose={() => setIsAdding(false)} title="Yangi Asar Qo'shish">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <Input 
+            floating label="ISBN Barkod" placeholder="ISBN-..." 
+            value={formData.id} onChange={(e) => setFormData({...formData, id: e.target.value})}
+          />
+          <Input 
+            floating label="Asar sarlavhasi" placeholder="Kitob nomini kiriting" required 
+            value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})}
+          />
+          <Input 
+            floating label="Muallif" placeholder="Kim tomonidan yozilgan?" required
+            value={formData.author} onChange={(e) => setFormData({...formData, author: e.target.value})}
+          />
+          <div className="grid grid-cols-2 gap-4">
+             <div className="space-y-1">
+               <label className="text-[10px] text-slate uppercase tracking-widest font-label ml-2">Nusxalar soni</label>
+               <input 
+                 type="number" min="0" required
+                 className="w-full bg-[#09090B] border border-white/10 rounded-xl h-12 px-4 text-white font-number focus:border-accent focus:outline-none"
+                 value={formData.copies} onChange={(e) => setFormData({...formData, copies: parseInt(e.target.value) || 0})}
+               />
+             </div>
+             <div className="space-y-1">
+               <label className="text-[10px] text-slate uppercase tracking-widest font-label ml-2">Kategoriya</label>
+               <select 
+                 className="w-full bg-[#09090B] border border-white/10 rounded-xl h-12 px-4 text-white font-label text-sm uppercase tracking-widest focus:border-accent focus:outline-none"
+                 value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}
+               >
+                 <option value="Badiiy">Badiiy</option>
+                 <option value="Dasturlash">Dasturlash</option>
+                 <option value="Bolalar">Bolalar</option>
+                 <option value="Psixologiya">Psixologiya</option>
+               </select>
+             </div>
+          </div>
+          <div className="pt-6 border-t border-white/10 flex justify-end gap-3 mt-8">
+             <Button type="button" variant="outline" className="border-white/10 text-white" onClick={() => setIsAdding(false)}>Bekor qilish</Button>
+             <Button type="submit" variant="primary" className="bg-accent text-black font-bold">Ma'lumotlar bazasiga saqlash</Button>
+          </div>
+        </form>
+      </SlideOver>
     </div>
   );
 }

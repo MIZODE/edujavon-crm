@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, BookCopy, Users, CalendarCheck, Settings, LogOut, Bell, Search, BarChart2 } from 'lucide-react';
+import { LayoutDashboard, BookCopy, Users, CalendarCheck, Settings, LogOut, Bell, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CommandPalette } from '../components/ui/CommandPalette';
+import { ToastProvider } from '../components/ui/ToastProvider';
 
 export default function AppLayout() {
   const navigate = useNavigate();
@@ -36,9 +38,16 @@ export default function AppLayout() {
 
   const navItems = role === 'user' ? userNav : adminNav;
 
+  const handleKeyboardTrigger = () => {
+    window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'k', metaKey: true, ctrlKey: true }));
+  };
+
   return (
     <div className="flex h-screen bg-[#000000] text-white font-body selection:bg-accent selection:text-black overflow-hidden">
       
+      <ToastProvider />
+      <CommandPalette />
+
       {/* Sidebar Navigation */}
       <aside className="w-64 flex flex-col bg-[#09090B] border-r border-white/5 relative z-20">
         <div className="h-20 flex items-center px-8 border-b border-white/5">
@@ -98,12 +107,16 @@ export default function AppLayout() {
         {/* Topbar Header */}
         <header className="h-20 bg-[#09090B]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-8 z-20">
           <div className="flex-1 max-w-md relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate" size={18} />
-            <input 
-              type="text" 
-              placeholder="QIDIRUV..." 
-              className="w-full bg-[#18181B] border border-white/5 rounded-full h-10 pl-10 pr-4 text-[13px] font-label font-medium tracking-wide text-white placeholder-slate/50 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
-            />
+            <div 
+              onClick={handleKeyboardTrigger}
+              className="flex items-center gap-2 bg-[#18181B] border border-white/5 rounded-full px-4 h-10 w-full text-[13px] font-label font-medium tracking-wide text-slate cursor-pointer hover:border-accent/50 transition-all group"
+            >
+              <Search size={16} className="text-slate group-hover:text-white transition-colors" />
+              <span>QIDIRUV...</span>
+              <div className="ml-auto flex gap-1">
+                <span className="text-[10px] bg-white/5 px-2 py-0.5 rounded border border-white/5 text-slate">Cmd + K</span>
+              </div>
+            </div>
           </div>
           
           <div className="flex items-center gap-6">
