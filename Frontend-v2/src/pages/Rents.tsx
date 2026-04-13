@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Search, AlertCircle, History, Plus } from 'lucide-react';
+import { MagnifyingGlass, WarningCircle, ClockCounterClockwise, Plus } from '@phosphor-icons/react';
 import { Button } from '../components/ui/button';
 import { useAppStore } from '../store/useAppStore';
 import { useToastStore } from '../store/useToastStore';
@@ -69,25 +69,25 @@ export default function Rents() {
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
-      <div className="f lex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="font-heading text-3xl font-bold mb-1 text-white drop-shadow-md">Ijaralar Monitoringi</h1>
-          <p className="text-[#A1A1AA] font-label text-xs font-medium uppercase tracking-widest">Kutubxonadan tashqaridagi kitoblar auditi</p>
+          <h1 className="font-heading text-3xl font-bold mb-1 text-ink drop-shadow-md">Ijaralar Monitoringi</h1>
+          <p className="text-slate font-label text-xs font-medium uppercase tracking-widest">Kutubxonadan tashqaridagi kitoblar auditi</p>
         </div>
         
         <div className="flex gap-3">
           <Button onClick={() => setIsAdding(true)} variant="primary" className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest shadow-[0_0_20px_rgba(36,161,222,0.4)]">
-            <Plus size={16} className="mr-2" /> Yangi Ijara
+            <Plus size={16} weight="bold" className="mr-2" /> Yangi Ijara
           </Button>
           <Button 
             onClick={() => setFilterType(filterType === 'Overdue' ? 'All' : 'Overdue')}
             variant="outline" 
             className={`border-error/30 text-error rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest hover:bg-error/10 ${filterType === 'Overdue' ? 'bg-error/10' : ''}`}
           >
-            <AlertCircle size={16} className="mr-2" /> Kechikkanlar (<span className="font-bold">{overdueCount}</span>)
+            <WarningCircle size={16} weight="duotone" className="mr-2" /> Kechikkanlar (<span className="font-bold">{overdueCount}</span>)
           </Button>
-          <Button variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-            <History size={16} className="mr-2" /> Arxivi
+          <Button variant="outline" className="border-surface-light text-ink hover:bg-surface-border rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+            <ClockCounterClockwise size={16} weight="duotone" className="mr-2" /> Arxivi
           </Button>
         </div>
       </div>
@@ -95,23 +95,23 @@ export default function Rents() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#18181B]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.5)]"
+        className="bg-surface-2/60 backdrop-blur-xl border border-surface-border rounded-2xl p-6 shadow-2xl transition-colors duration-500"
       >
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} />
+          <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} weight="duotone" />
           <input 
             type="text" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Ijara ID, Foydalanuvchi qismi yoki Kitob nomi..." 
-            className="w-full bg-[#09090B] border border-white/5 rounded-xl h-12 pl-12 pr-4 text-[13px] font-label font-medium tracking-wide text-white placeholder-slate focus:outline-none focus:border-error/50 focus:ring-1 focus:ring-error/50 transition-all"
+            className="w-full bg-surface-1 border border-surface-border rounded-xl h-12 pl-12 pr-4 text-[13px] font-label font-medium tracking-wide text-ink placeholder-slate focus:outline-none focus:border-error/50 focus:ring-1 focus:ring-error/50 transition-all"
           />
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-white/5 text-[#71717A] font-label text-[11px] font-medium uppercase tracking-widest">
+              <tr className="border-b border-surface-border text-slate font-label text-[11px] font-medium uppercase tracking-widest">
                 <th className="pb-4 pr-4 font-bold">Ijara ID</th>
                 <th className="pb-4 px-4 font-bold">Kutubxona A'zosi</th>
                 <th className="pb-4 px-4 font-bold">Kitob Nomi</th>
@@ -122,16 +122,16 @@ export default function Rents() {
             </thead>
             <tbody className="text-sm">
               {filteredRents.map((rent, i) => (
-                <tr key={i} className="border-b border-[white]/5 hover:bg-white/5 transition-colors border-l-4 group" style={{ borderLeftColor: rent.status === 'Overdue' ? '#EF4444' : rent.status === 'Active' ? '#24A1DE' : 'transparent' }}>
-                  <td className="py-4 pr-4 pl-4 font-ui text-[#A1A1AA] text-xs font-medium">{rent.id}</td>
-                  <td className="py-4 px-4 font-bold text-white">
+                <tr key={i} className="border-b border-surface-border hover:bg-surface-border/50 transition-colors border-l-4 group" style={{ borderLeftColor: rent.status === 'Overdue' ? '#EF4444' : rent.status === 'Active' ? '#24A1DE' : 'transparent' }}>
+                  <td className="py-4 pr-4 pl-4 font-ui text-sage text-xs font-medium">{rent.id}</td>
+                  <td className="py-4 px-4 font-bold text-ink">
                     {rent.user}
                   </td>
                   <td className="py-4 px-4 text-slate">{rent.book}</td>
                   <td className="py-4 px-4">
                      <div className="flex flex-col">
-                       <span className="font-label text-[#A1A1AA] text-[10px] font-medium uppercase tracking-widest">Olingan: {rent.date}</span>
-                       <span className={`text-[13px] font-semibold ${rent.status === 'Overdue' ? 'text-error' : 'text-white'}`}>Tugaydi: {rent.dueDate}</span>
+                       <span className="font-label text-sage text-[10px] font-medium uppercase tracking-widest">Olingan: {rent.date}</span>
+                       <span className={`text-[13px] font-semibold ${rent.status === 'Overdue' ? 'text-error' : 'text-ink'}`}>Tugaydi: {rent.dueDate}</span>
                      </div>
                   </td>
                   <td className="py-4 px-4 font-number text-xl font-semibold tracking-tight text-center">
@@ -153,7 +153,7 @@ export default function Rents() {
                       {rent.status !== 'Returned' && (
                         <button 
                           onClick={() => handleReturn(rent.id, rent.dueDate)}
-                          className="bg-white/5 hover:bg-white/10 text-white font-label text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md border border-white/10 transition-colors"
+                          className="bg-surface-border/50 hover:bg-surface-border text-ink font-label text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md border border-surface-border transition-colors"
                         >
                           Qaytarish
                         </button>
@@ -174,7 +174,7 @@ export default function Rents() {
             <label className="text-[10px] text-slate uppercase tracking-widest font-label ml-2">Foydalanuvchi</label>
             <select 
               required
-              className="w-full bg-[#09090B] border border-white/10 rounded-xl h-12 px-4 text-white font-bold focus:border-[#24A1DE] focus:outline-none"
+              className="w-full bg-surface-1 border border-surface-border rounded-xl h-12 px-4 text-ink font-bold focus:border-[#24A1DE] focus:outline-none"
               value={formData.user} onChange={(e) => setFormData({...formData, user: e.target.value})}
             >
               <option value="">A'zoni tanlang</option>
@@ -186,7 +186,7 @@ export default function Rents() {
             <label className="text-[10px] text-slate uppercase tracking-widest font-label ml-2">Kitob(lar)</label>
             <select 
               required
-              className="w-full bg-[#09090B] border border-white/10 rounded-xl h-12 px-4 text-white font-bold focus:border-[#24A1DE] focus:outline-none"
+              className="w-full bg-surface-1 border border-surface-border rounded-xl h-12 px-4 text-ink font-bold focus:border-[#24A1DE] focus:outline-none"
               value={formData.book} onChange={(e) => setFormData({...formData, book: e.target.value})}
             >
               <option value="">Kitobni tanlang</option>
@@ -194,8 +194,8 @@ export default function Rents() {
             </select>
           </div>
           
-          <div className="pt-6 border-t border-white/10 flex justify-end gap-3 mt-8">
-             <Button type="button" variant="outline" className="border-white/10 text-white" onClick={() => setIsAdding(false)}>Bekor qilish</Button>
+          <div className="pt-6 border-t border-surface-light flex justify-end gap-3 mt-8">
+             <Button type="button" variant="outline" className="border-surface-border text-ink" onClick={() => setIsAdding(false)}>Bekor qilish</Button>
              <Button type="submit" variant="primary" className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] border-none font-bold">Ijarani Boshlash</Button>
           </div>
         </form>

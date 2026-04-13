@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Scanner } from '@yudiel/react-qr-scanner';
-import { X, ScanLine } from 'lucide-react';
+import { X, Scan } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 interface BarcodeScannerProps {
@@ -35,19 +35,19 @@ export function BarcodeScanner({ isOpen, onClose, onScan }: BarcodeScannerProps)
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="bg-[#18181B] border border-white/10 rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden flex flex-col"
+            className="bg-surface-1 border border-surface-border rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden flex flex-col transition-colors duration-500"
           >
-            <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#09090B]">
-              <div className="flex items-center gap-2 text-white">
-                <ScanLine size={18} className="text-[#24A1DE]" />
+            <div className="p-4 border-b border-surface-border flex justify-between items-center bg-surface-2 transition-colors duration-500">
+              <div className="flex items-center gap-2 text-ink">
+                <Scan size={18} weight="duotone" className="text-[#24A1DE]" />
                 <h3 className="font-heading text-lg font-bold">Barkod Skaner</h3>
               </div>
-              <button onClick={onClose} className="p-2 text-slate hover:text-white hover:bg-white/10 rounded-full transition-colors">
-                <X size={18} />
+              <button onClick={onClose} className="p-2 text-slate hover:text-ink hover:bg-surface-border rounded-full transition-colors focus:outline-none">
+                <X size={18} weight="bold" />
               </button>
             </div>
             
-            <div className="p-6 relative flex-1 flex flex-col items-center justify-center bg-black min-h-[300px]">
+            <div className="p-6 relative flex-1 flex flex-col items-center justify-center bg-surface-0 min-h-[300px] transition-colors duration-500">
               {error ? (
                 <div className="text-error text-center p-4 border border-error/20 bg-error/10 rounded-xl">
                   <p className="font-bold text-sm">Kameraga ulanishda xato!</p>

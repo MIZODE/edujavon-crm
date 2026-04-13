@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Send } from 'lucide-react';
+import { BookOpenText } from '@phosphor-icons/react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 
@@ -52,24 +52,24 @@ export default function Login() {
           initial="hidden"
           animate="visible"
         >
-          <motion.h1 variants={itemVariants} className="text-white font-display text-7xl font-bold mb-4 tracking-tight">
+          <motion.h1 variants={itemVariants} className="text-ink font-display text-7xl font-bold mb-4 tracking-tight drop-shadow-lg">
             Kutubxona
           </motion.h1>
-          <motion.p variants={itemVariants} className="text-surface border-l-4 border-accent pl-4 text-xl font-body italic mb-16 opacity-90">
+          <motion.p variants={itemVariants} className="text-ink border-l-4 border-accent pl-4 text-xl font-body italic mb-16 opacity-90 drop-shadow-md">
             Bilim boshqaruv platformasi
           </motion.p>
           
           <div className="grid grid-cols-1 gap-4">
-            <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-white/5 p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
+            <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-surface-border p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
               <div className="absolute -right-10 -top-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-all duration-500"></div>
               <div className="flex justify-between items-start mb-2 relative z-10">
                 <p className="text-slate font-label text-sm uppercase tracking-widest">Jami kitoblar</p>
                 <img src="https://em-content.zobj.net/source/apple/354/books_1f4da.png" alt="books emoji" className="w-9 h-9 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-300" />
               </div>
-              <p className="font-number text-5xl text-white tracking-wider relative z-10">12,847</p>
+              <p className="font-number text-5xl text-ink tracking-wider relative z-10">12,847</p>
             </motion.div>
             <div className="grid grid-cols-2 gap-4">
-              <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-white/5 p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
+              <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-surface-border p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
                 <div className="absolute -left-10 -bottom-10 w-24 h-24 bg-accent/10 rounded-full blur-2xl group-hover:bg-accent/20 transition-all duration-500"></div>
                 <div className="flex justify-between items-start mb-2 relative z-10">
                   <p className="text-slate font-label text-[11px] uppercase tracking-widest">Bugungi ijaralar</p>
@@ -77,12 +77,12 @@ export default function Login() {
                 </div>
                 <p className="font-number text-4xl text-accent tracking-wider relative z-10">234</p>
               </motion.div>
-              <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-white/5 p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
+              <motion.div variants={itemVariants} className="bg-surface-2/40 backdrop-blur-md border border-surface-border p-6 rounded-card shadow-2xl relative overflow-hidden group hover:border-accent/30 transition-colors">
                 <div className="flex justify-between items-start mb-2 relative z-10">
                   <p className="text-slate font-label text-xs uppercase tracking-widest">Faol a'zolar</p>
                   <img src="https://em-content.zobj.net/source/apple/354/star-struck_1f929.png" alt="star emoji" className="w-8 h-8 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <p className="font-number text-4xl text-white tracking-wider relative z-10">4,291</p>
+                <p className="font-number text-4xl text-ink tracking-wider relative z-10">4,291</p>
               </motion.div>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function Login() {
       </div>
 
       {/* Right Panel */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 md:p-24 bg-surface-0 relative border-l border-white/5 overflow-hidden">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 md:p-24 bg-surface-0 relative border-l border-surface-border overflow-hidden transition-colors duration-500">
         {/* Ambient Glow / Nur efekti */}
         <div className="absolute -top-[30%] -right-[30%] w-[600px] h-[600px] bg-accent/30 rounded-full blur-[120px] pointer-events-none z-0"></div>
         <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/10 rounded-full blur-[80px] pointer-events-none z-0"></div>
@@ -101,7 +101,7 @@ export default function Login() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
           <div className="w-14 h-14 bg-accent inline-flex items-center justify-center mb-8 rounded-xl shadow-[0_0_30px_rgba(255,214,0,0.3)] rotate-3 hover:rotate-0 transition-all duration-300">
-            <BookOpen className="text-black" size={28} />
+            <BookOpenText className="text-black" size={28} weight="duotone" />
           </div>
           
           <h2 className="font-heading text-4xl text-ink mb-2">Xush kelibsiz</h2>
@@ -144,7 +144,7 @@ export default function Login() {
               type="button" 
               variant="outline" 
               onClick={() => { localStorage.setItem('edu_role', 'superadmin'); navigate('/dashboard'); }} 
-              className="border-white/10 text-white hover:border-accent hover:bg-accent/10 hover:text-accent font-label text-[10px] tracking-widest uppercase"
+              className="border-surface-border text-ink hover:border-accent hover:bg-accent/10 hover:text-accent font-label text-[10px] tracking-widest uppercase"
             >
               SuperAdmin
             </Button>
@@ -152,7 +152,7 @@ export default function Login() {
               type="button" 
               variant="outline" 
               onClick={() => { localStorage.setItem('edu_role', 'manager'); navigate('/dashboard'); }} 
-              className="border-white/10 text-white hover:border-[#24A1DE] hover:bg-[#24A1DE]/10 hover:text-[#24A1DE] font-label text-[10px] tracking-widest uppercase"
+              className="border-surface-border text-ink hover:border-[#24A1DE] hover:bg-[#24A1DE]/10 hover:text-[#24A1DE] font-label text-[10px] tracking-widest uppercase"
             >
               Manager
             </Button>
@@ -160,7 +160,7 @@ export default function Login() {
               type="button" 
               variant="outline" 
               onClick={() => { localStorage.setItem('edu_role', 'librarian'); navigate('/dashboard'); }} 
-              className="border-white/10 text-white hover:border-success hover:bg-success/10 hover:text-success font-label text-[10px] tracking-widest uppercase"
+              className="border-surface-border text-ink hover:border-success hover:bg-success/10 hover:text-success font-label text-[10px] tracking-widest uppercase"
             >
               Librarian
             </Button>
@@ -168,7 +168,7 @@ export default function Login() {
               type="button" 
               variant="outline" 
               onClick={() => { localStorage.setItem('edu_role', 'user'); navigate('/dashboard'); }} 
-              className="border-white/10 text-white hover:border-slate hover:bg-white/5 font-label text-[10px] tracking-widest uppercase"
+              className="border-surface-border text-ink hover:border-slate hover:bg-surface-border font-label text-[10px] tracking-widest uppercase"
             >
               Foydalanuvchi
             </Button>

@@ -24,6 +24,10 @@ export default {
         error: "var(--color-error)",
         info: "var(--color-info)",
       },
+      borderColor: {
+        "surface-border": "var(--border-color)",
+        "surface-light": "var(--border-light)",
+      },
       fontFamily: {
         display: ["var(--font-display)"],
         heading: ["var(--font-heading)"],

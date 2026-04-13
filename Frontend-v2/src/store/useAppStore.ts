@@ -28,10 +28,12 @@ export interface Rent {
   fine: number;
 }
 
-interface AppSettings {
+export interface AppSettings {
+  systemName: string | number | readonly string[];
   finePerDay: number;
   maxRentsPerUser: number;
-  systemName: string;
+  libraryName: string;
+  theme: 'dark' | 'light';
 }
 
 interface AppState {
@@ -70,7 +72,8 @@ export const useAppStore = create<AppState>((set) => ({
   settings: {
     finePerDay: 2000,
     maxRentsPerUser: 5,
-    systemName: "Edujavon Library CRM"
+    libraryName: "Edujavon HQ",
+    theme: 'dark'
   },
   addBook: (book) => set((state) => ({ books: [book, ...state.books] })),
   addUser: (user) => set((state) => ({ users: [user, ...state.users] })),
