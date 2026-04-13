@@ -4,14 +4,19 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useAppStore } from '../store/useAppStore';
 import { useToastStore } from '../store/useToastStore';
+import { useNotificationStore } from '../store/useNotificationStore';
 import { SlideOver } from '../components/ui/SlideOver';
+import { BarcodeScanner } from '../components/ui/BarcodeScanner';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Books() {
   const { books, addBook } = useAppStore();
   const { addToast } = useToastStore();
+  const { addNotification } = useNotificationStore();
   const [isAdding, setIsAdding] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
@@ -26,9 +31,26 @@ export default function Books() {
       status: formData.copies > 0 ? 'Mavjud' : 'Tugagan'
     });
     addToast(`${formData.title} kitobi muvaffaqiyatli saqlandi!`, 'success');
+    addNotification({
+      title: "Yangi Kitob Kiritildi",
+      message: `'${formData.title}' asari bazaga qo'shildi.`,
+      type: "success"
+    });
     setIsAdding(false);
     setFormData({ id: '', title: '', author: '', copies: 1, category: 'Badiiy' });
   };
+
+  const handleScan = (result: string) => {
+    // Topilgan barcode qidiruv inputiga yoziladi, state o'zgaradi.
+    setSearchQuery(result);
+    addToast(`${result} kodi skanerlandi!`, 'success');
+  };
+
+  const filteredBooks = books.filter(b => 
+    b.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    b.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.author.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
@@ -42,7 +64,7 @@ export default function Books() {
           <Button variant="outline" className="border-white/10 text-white rounded-xl h-10 px-4 font-label text-xs uppercase hover:bg-white/5">
             <Filter size={16} className="mr-2" /> Filtr
           </Button>
-          <Button variant="outline" className="border-accent text-accent hover:bg-accent/10 rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_15px_rgba(255,214,0,0.2)]">
+          <Button onClick={() => setIsScannerOpen(true)} variant="outline" className="border-accent text-accent hover:bg-accent/10 rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_15px_rgba(255,214,0,0.2)]">
             <ScanLine size={16} className="mr-2" /> Barkod Skaner
           </Button>
           <Button 
@@ -64,6 +86,8 @@ export default function Books() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} />
           <input 
             type="text" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ISBN, Sarlavha yoki Muallif bo'yicha qidiruv..." 
             className="w-full bg-[#09090B] border border-white/5 rounded-xl h-12 pl-12 pr-4 text-sm font-label tracking-widest text-white placeholder-slate focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all font-medium"
           />
@@ -81,7 +105,7 @@ export default function Books() {
               </tr>
             </thead>
             <tbody className="text-sm">
-              {books.map((book, i) => (
+              {filteredBooks.map((book, i) => (
                 <tr 
                   key={i} 
                   onClick={() => navigate(`/books/${book.id}`)}
@@ -155,6 +179,12 @@ export default function Books() {
           </div>
         </form>
       </SlideOver>
+
+      <BarcodeScanner 
+        isOpen={isScannerOpen} 
+        onClose={() => setIsScannerOpen(false)} 
+        onScan={handleScan} 
+      />
     </div>
   );
 }

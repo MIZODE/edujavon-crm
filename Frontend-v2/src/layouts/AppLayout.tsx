@@ -4,9 +4,13 @@ import { LayoutDashboard, BookCopy, Users, CalendarCheck, Settings, LogOut, Bell
 import { motion } from 'framer-motion';
 import { CommandPalette } from '../components/ui/CommandPalette';
 import { ToastProvider } from '../components/ui/ToastProvider';
+import { NotificationPanel } from '../components/ui/NotificationPanel';
+import { useNotificationStore } from '../store/useNotificationStore';
 
 export default function AppLayout() {
   const navigate = useNavigate();
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const unreadCount = useNotificationStore(state => state.notifications.filter(n => !n.read).length);
 
   const [role, setRole] = useState('superadmin');
 
@@ -120,10 +124,23 @@ export default function AppLayout() {
           </div>
           
           <div className="flex items-center gap-6">
-            <button className="relative text-slate hover:text-white transition-colors">
-              <Bell size={20} />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-error rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                className="relative text-slate hover:text-white transition-colors"
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-error rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)] text-[8px] font-bold text-white flex items-center justify-center">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
+              </button>
+              <NotificationPanel 
+                isOpen={isNotificationOpen} 
+                onClose={() => setIsNotificationOpen(false)} 
+              />
+            </div>
             <div className="h-8 w-px bg-white/10"></div>
             <div className="flex items-center gap-3">
                <div className="text-right hidden sm:block">

@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useAppStore } from '../store/useAppStore';
 import { useToastStore } from '../store/useToastStore';
+import { useNotificationStore } from '../store/useNotificationStore';
 import { SlideOver } from '../components/ui/SlideOver';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,9 @@ import { useNavigate } from 'react-router-dom';
 export default function Users() {
   const { users, addUser } = useAppStore();
   const { addToast } = useToastStore();
+  const { addNotification } = useNotificationStore();
   const [isAdding, setIsAdding] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -27,9 +30,20 @@ export default function Users() {
       joined: 'Bugun'
     });
     addToast(`${formData.name} tizimga a'zo qilindi!`, 'success');
+    addNotification({
+      title: "Yangi A'zo",
+      message: `${formData.name} tizimga '${formData.role}' sifatida qo'shildi.`,
+      type: "info"
+    });
     setIsAdding(false);
     setFormData({ name: '', phone: '', role: 'Foydalanuvchi' });
   };
+
+  const filteredUsers = users.filter(u => 
+    u.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    u.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    u.phone.includes(searchQuery)
+  );
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
@@ -62,6 +76,8 @@ export default function Users() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} />
           <input 
             type="text" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Ism, Telefon yoki ID orqali qidiruv..." 
             className="w-full bg-[#09090B] border border-white/5 rounded-xl h-12 pl-12 pr-4 text-sm font-label tracking-widest text-white placeholder-slate focus:outline-none focus:border-[#24A1DE]/50 focus:ring-1 focus:ring-[#24A1DE]/50 transition-all font-medium"
           />
@@ -80,7 +96,7 @@ export default function Users() {
               </tr>
             </thead>
             <tbody className="text-sm">
-              {users.map((user, i) => (
+              {filteredUsers.map((user, i) => (
                 <tr 
                   key={i} 
                   onClick={() => navigate(`/users/${user.id}`)}

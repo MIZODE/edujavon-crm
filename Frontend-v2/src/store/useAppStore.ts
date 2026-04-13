@@ -42,6 +42,7 @@ interface AppState {
   addBook: (book: Book) => void;
   addUser: (user: User) => void;
   addRent: (rent: Rent) => void;
+  returnRent: (id: string, fine: number) => void;
   updateSettings: (settings: Partial<AppSettings>) => void;
 }
 
@@ -74,5 +75,8 @@ export const useAppStore = create<AppState>((set) => ({
   addBook: (book) => set((state) => ({ books: [book, ...state.books] })),
   addUser: (user) => set((state) => ({ users: [user, ...state.users] })),
   addRent: (rent) => set((state) => ({ rents: [rent, ...state.rents] })),
+  returnRent: (id, fine) => set((state) => ({ 
+    rents: state.rents.map(r => r.id === id ? { ...r, status: 'Returned', fine } : r) 
+  })),
   updateSettings: (newSettings) => set((state) => ({ settings: { ...state.settings, ...newSettings } }))
 }));

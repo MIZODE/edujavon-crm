@@ -3,6 +3,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, Legend
 } from 'recharts';
+import { useAppStore } from '../store/useAppStore';
 
 const rentDynamicsData = [
   { name: 'Yan', ijaralar: 400, qaytarishlar: 240 },
@@ -40,6 +41,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function Dashboard() {
+  const { books, users, rents } = useAppStore();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -60,36 +63,37 @@ export default function Dashboard() {
   const statCards = [
     {
       title: "Jami kitoblar",
-      value: "12,847",
+      value: books.length.toLocaleString(),
       img: "https://em-content.zobj.net/source/apple/354/books_1f4da.png",
       glow: "bg-accent/10"
     },
     {
       title: "Faol ijaralar",
-      value: "234",
+      value: rents.filter(r => r.status === 'Active').length.toLocaleString(),
       img: "https://em-content.zobj.net/source/apple/354/fire_1f525.png",
       glow: "bg-error/10"
     },
     {
-      title: "Qaytarilishi kerak",
-      value: "45",
+      title: "Kechikkan (Overdue)",
+      value: rents.filter(r => r.status === 'Overdue').length.toLocaleString(),
       img: "https://em-content.zobj.net/source/apple/354/alarm-clock_23f0.png",
       glow: "bg-warning/10"
     },
     {
       title: "Faol a'zolar",
-      value: "4,291",
+      value: users.length.toLocaleString(),
       img: "https://em-content.zobj.net/source/apple/354/star-struck_1f929.png",
       glow: "bg-info/10"
     }
   ];
 
-  const recentRents = [
-    { id: '#128', user: 'Zuhiddin O.', book: 'Clean Code', date: 'Bugun', status: 'Aktiv' },
-    { id: '#127', user: 'Aziz R.', book: 'Alkimyogar', date: 'Kecha', status: 'Kechikkan' },
-    { id: '#126', user: 'Malika M.', book: '原子习惯 (Atomic Habits)', date: '3 kun avval', status: 'Qaytarilgan' },
-    { id: '#125', user: 'Bekzod K.', book: 'Steve Jobs Bio', date: '4 kun avval', status: 'Aktiv' },
-  ];
+  const recentRents = rents.slice(0, 4).map(r => ({
+    id: r.id, 
+    user: r.user, 
+    book: r.book, 
+    date: r.date, 
+    status: r.status
+  }));
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
@@ -218,7 +222,7 @@ export default function Dashboard() {
                      dataKey="value"
                      stroke="none"
                    >
-                     {categoryData.map((entry, index) => (
+                     {categoryData.map((_entry, index) => (
                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                      ))}
                    </Pie>
@@ -287,11 +291,11 @@ export default function Dashboard() {
                     <td className="py-4 px-4 text-slate">{rent.date}</td>
                     <td className="py-4 pl-4 text-right">
                       <span className={`inline-flex px-3 py-1 rounded-full font-label text-[10px] uppercase tracking-widest font-bold ${
-                        rent.status === 'Aktiv' ? 'bg-accent/10 text-accent border border-accent/20' :
-                        rent.status === 'Kechikkan' ? 'bg-error/10 text-error border border-error/20' :
+                        rent.status === 'Active' ? 'bg-accent/10 text-accent border border-accent/20' :
+                        rent.status === 'Overdue' ? 'bg-error/10 text-error border border-error/20' :
                         'bg-success/10 text-success border border-success/20'
                       }`}>
-                        {rent.status}
+                        {rent.status === 'Overdue' ? 'Kechikkan' : rent.status === 'Returned' ? 'Qaytarilgan' : 'Aktiv'}
                       </span>
                     </td>
                   </tr>
