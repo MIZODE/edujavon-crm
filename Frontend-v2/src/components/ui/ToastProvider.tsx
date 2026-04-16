@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToastStore } from '../../store/useToastStore';
-import { CheckCircle, WarningCircle, Info, X } from '@phosphor-icons/react';
+import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
 
 export function ToastProvider() {
   const { toasts, removeToast } = useToastStore();
@@ -20,9 +20,9 @@ export function ToastProvider() {
               'bg-[#24A1DE]/10 border-[#24A1DE]/30 text-[#24A1DE]'
             }`}
           >
-            {toast.type === 'success' && <CheckCircle size={20} weight="fill" />}
-            {toast.type === 'error' && <WarningCircle size={20} weight="fill" />}
-            {toast.type === 'info' && <Info size={20} weight="fill" />}
+            {toast.type === 'success' && <CheckCircle size={20} strokeWidth={2} />}
+            {toast.type === 'error' && <AlertCircle size={20} strokeWidth={2} />}
+            {toast.type === 'info' && <Info size={20} strokeWidth={2} />}
             
             <span className="flex-1 font-bold text-sm">{toast.message}</span>
             
@@ -30,7 +30,7 @@ export function ToastProvider() {
               onClick={() => removeToast(toast.id)}
               className="p-1 hover:bg-white/10 rounded-full transition-colors opacity-70 hover:opacity-100 focus:outline-none"
             >
-              <X size={14} weight="bold" />
+              <X size={14} strokeWidth={2} />
             </button>
           </motion.div>
         ))}

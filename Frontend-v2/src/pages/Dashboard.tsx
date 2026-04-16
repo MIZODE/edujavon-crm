@@ -3,7 +3,6 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, Legend
 } from 'recharts';
-import { Books, Fire, Alarm, Star } from '@phosphor-icons/react';
 import { useAppStore } from '../store/useAppStore';
 
 const rentDynamicsData = [

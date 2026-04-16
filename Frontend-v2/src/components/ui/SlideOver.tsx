@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from '@phosphor-icons/react';
+import { X } from 'lucide-react';
 import React, { useEffect } from 'react';
 
 interface SlideOverProps {
@@ -45,7 +45,7 @@ export function SlideOver({ isOpen, onClose, title, children }: SlideOverProps) 
                 onClick={onClose}
                 className="w-10 h-10 rounded-full hover:bg-surface-border flex items-center justify-center text-slate hover:text-ink transition-colors focus:outline-none"
               >
-                <X size={20} weight="bold" />
+                <X size={20} strokeWidth={2} />
               </button>
             </div>
             
