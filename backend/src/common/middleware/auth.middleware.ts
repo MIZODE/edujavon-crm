@@ -25,7 +25,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 
     } catch (error) {
         return res.status(401).json({
-            message: 'Token yaroqsiz yoki muddati o\'tgan'
+            message: "Token yaroqsiz yoki muddati o'tgan"
         });
     }
 }
