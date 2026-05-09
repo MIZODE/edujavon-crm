@@ -82,6 +82,702 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"CreatePublisherDto": {
+				"description": "Publisher yaratish DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Nashriyot nomi - Majburiy, unique",
+						"example": "Sharq Nashriyoti"
+					},
+					"country": {
+						"type": "string",
+						"description": "Mamlakat",
+						"example": "Uzbekistan"
+					},
+					"city": {
+						"type": "string",
+						"description": "Shahar",
+						"example": "Tashkent"
+					},
+					"website": {
+						"type": "string",
+						"description": "Veb-sayt",
+						"example": "https://sharq.uz"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdatePublisherDto": {
+				"description": "Publisher yangilash DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Nashriyot nomi - Majburiy, unique",
+						"example": "Sharq Nashriyoti"
+					},
+					"country": {
+						"type": "string",
+						"description": "Mamlakat",
+						"example": "Uzbekistan"
+					},
+					"city": {
+						"type": "string",
+						"description": "Shahar",
+						"example": "Tashkent"
+					},
+					"website": {
+						"type": "string",
+						"description": "Veb-sayt",
+						"example": "https://sharq.uz"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateGenreDto": {
+				"description": "Genre yaratish DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Janr nomi - Majburiy, unique",
+						"example": "She'riyat"
+					},
+					"slug": {
+						"type": "string",
+						"description": "Slug - Majburiy, unique",
+						"example": "she'riyat"
+					},
+					"description": {
+						"type": "string",
+						"description": "Tavsif"
+					},
+					"parentId": {
+						"type": "string",
+						"description": "Ota janr ID"
+					}
+				},
+				"required": [
+					"name",
+					"slug"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateGenreDto": {
+				"description": "Genre yangilash DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Janr nomi - Majburiy, unique",
+						"example": "She'riyat"
+					},
+					"slug": {
+						"type": "string",
+						"description": "Slug - Majburiy, unique",
+						"example": "she'riyat"
+					},
+					"description": {
+						"type": "string",
+						"description": "Tavsif"
+					},
+					"parentId": {
+						"type": "string",
+						"description": "Ota janr ID"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateBookDto": {
+				"description": "Kitob yaratish uchun DTO (Manual)",
+				"properties": {
+					"title": {
+						"type": "string",
+						"description": "Kitob nomi (o'zbekcha) - Majburiy, 3-200 belgi",
+						"example": "O'tkan kunlar"
+					},
+					"titleEn": {
+						"type": "string",
+						"description": "Kitob nomi (inglizcha)",
+						"example": "Past Days"
+					},
+					"titleRu": {
+						"type": "string",
+						"description": "Kitob nomi (ruscha)",
+						"example": "Прошедшие дни"
+					},
+					"subtitle": {
+						"type": "string",
+						"description": "Kitobning qo'shimcha nomi",
+						"example": "Birinci jild"
+					},
+					"description": {
+						"type": "string",
+						"description": "Qisqa tavsif (max 1000 belgi)",
+						"example": "Abdulla Qodiriyning mashhur romani"
+					},
+					"fullDescription": {
+						"type": "string",
+						"description": "To'liq tavsif"
+					},
+					"isbn10": {
+						"type": "string",
+						"description": "ISBN-10 kodi (10 digits, unique)",
+						"example": "9999999999"
+					},
+					"isbn13": {
+						"type": "string",
+						"description": "ISBN-13 kodi (13 digits, unique)",
+						"example": "9789999999999"
+					},
+					"internalCode": {
+						"type": "string",
+						"description": "Ichki kod (kutubxona ichida)",
+						"example": "BK-001"
+					},
+					"publishYear": {
+						"type": "number",
+						"format": "double",
+						"description": "Nashr yili (1000-current)",
+						"example": 2023
+					},
+					"language": {
+						"type": "string",
+						"description": "Til kodi",
+						"example": "uz",
+						"default": "uz"
+					},
+					"pageCount": {
+						"type": "number",
+						"format": "double",
+						"description": "Sahifalar soni (> 0)",
+						"example": 450
+					},
+					"weight": {
+						"type": "number",
+						"format": "double",
+						"description": "Vazni (gramm)",
+						"example": 650.5
+					},
+					"dimensions": {
+						"type": "string",
+						"description": "O'lchamlari",
+						"example": "20x30x5 cm"
+					},
+					"coverType": {
+						"type": "string",
+						"description": "Muqova turi",
+						"example": "Qattiq"
+					},
+					"coverImage": {
+						"type": "string",
+						"description": "Muqova rasmi URL"
+					},
+					"backCoverImage": {
+						"type": "string",
+						"description": "Orqa muqova rasmi URL"
+					},
+					"ageGroup": {
+						"type": "string",
+						"description": "Yosh guruhi",
+						"example": "16+"
+					},
+					"ddcCode": {
+						"type": "string",
+						"description": "DDC kodi",
+						"example": "891.5"
+					},
+					"udcCode": {
+						"type": "string",
+						"description": "UDC kodi",
+						"example": "821.51"
+					},
+					"customTags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Teglar ro'yxati",
+						"example": [
+							"roman",
+							"tarixiy",
+							"o'zbek adabiyoti"
+						]
+					},
+					"authorIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Mualliflar ID ro'yxati",
+						"example": [
+							"uuid-1",
+							"uuid-2"
+						]
+					},
+					"publisherId": {
+						"type": "string",
+						"description": "Nashriyot ID",
+						"example": "uuid-publisher"
+					},
+					"genreIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Janrlar ID ro'yxati",
+						"example": [
+							"uuid-genre-1",
+							"uuid-genre-2"
+						]
+					},
+					"categoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Kategoriyalar ID ro'yxati",
+						"example": [
+							"uuid-category-1"
+						]
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Faol holati",
+						"default": true
+					},
+					"isFeatured": {
+						"type": "boolean",
+						"description": "E'tiborli kitob",
+						"default": false
+					},
+					"isDraft": {
+						"type": "boolean",
+						"description": "Qoralama holati",
+						"default": false
+					}
+				},
+				"required": [
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IsbnLookupDto": {
+				"description": "ISBN Lookup uchun DTO",
+				"properties": {
+					"isbn13": {
+						"type": "string",
+						"description": "ISBN-13 kodi (13 digits)",
+						"example": "9789943123456"
+					}
+				},
+				"required": [
+					"isbn13"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookDto": {
+				"description": "Kitobni yangilash uchun DTO (barcha maydonlar optional)",
+				"properties": {
+					"title": {
+						"type": "string",
+						"description": "Kitob nomi (o'zbekcha) - Majburiy, 3-200 belgi",
+						"example": "O'tkan kunlar"
+					},
+					"titleEn": {
+						"type": "string",
+						"description": "Kitob nomi (inglizcha)",
+						"example": "Past Days"
+					},
+					"titleRu": {
+						"type": "string",
+						"description": "Kitob nomi (ruscha)",
+						"example": "Прошедшие дни"
+					},
+					"subtitle": {
+						"type": "string",
+						"description": "Kitobning qo'shimcha nomi",
+						"example": "Birinci jild"
+					},
+					"description": {
+						"type": "string",
+						"description": "Qisqa tavsif (max 1000 belgi)",
+						"example": "Abdulla Qodiriyning mashhur romani"
+					},
+					"fullDescription": {
+						"type": "string",
+						"description": "To'liq tavsif"
+					},
+					"isbn10": {
+						"type": "string",
+						"description": "ISBN-10 kodi (10 digits, unique)",
+						"example": "9999999999"
+					},
+					"isbn13": {
+						"type": "string",
+						"description": "ISBN-13 kodi (13 digits, unique)",
+						"example": "9789999999999"
+					},
+					"internalCode": {
+						"type": "string",
+						"description": "Ichki kod (kutubxona ichida)",
+						"example": "BK-001"
+					},
+					"publishYear": {
+						"type": "number",
+						"format": "double",
+						"description": "Nashr yili (1000-current)",
+						"example": 2023
+					},
+					"language": {
+						"type": "string",
+						"description": "Til kodi",
+						"example": "uz",
+						"default": "uz"
+					},
+					"pageCount": {
+						"type": "number",
+						"format": "double",
+						"description": "Sahifalar soni (> 0)",
+						"example": 450
+					},
+					"weight": {
+						"type": "number",
+						"format": "double",
+						"description": "Vazni (gramm)",
+						"example": 650.5
+					},
+					"dimensions": {
+						"type": "string",
+						"description": "O'lchamlari",
+						"example": "20x30x5 cm"
+					},
+					"coverType": {
+						"type": "string",
+						"description": "Muqova turi",
+						"example": "Qattiq"
+					},
+					"coverImage": {
+						"type": "string",
+						"description": "Muqova rasmi URL"
+					},
+					"backCoverImage": {
+						"type": "string",
+						"description": "Orqa muqova rasmi URL"
+					},
+					"ageGroup": {
+						"type": "string",
+						"description": "Yosh guruhi",
+						"example": "16+"
+					},
+					"ddcCode": {
+						"type": "string",
+						"description": "DDC kodi",
+						"example": "891.5"
+					},
+					"udcCode": {
+						"type": "string",
+						"description": "UDC kodi",
+						"example": "821.51"
+					},
+					"customTags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Teglar ro'yxati",
+						"example": [
+							"roman",
+							"tarixiy",
+							"o'zbek adabiyoti"
+						]
+					},
+					"authorIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Mualliflar ID ro'yxati",
+						"example": [
+							"uuid-1",
+							"uuid-2"
+						]
+					},
+					"publisherId": {
+						"type": "string",
+						"description": "Nashriyot ID",
+						"example": "uuid-publisher"
+					},
+					"genreIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Janrlar ID ro'yxati",
+						"example": [
+							"uuid-genre-1",
+							"uuid-genre-2"
+						]
+					},
+					"categoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Kategoriyalar ID ro'yxati",
+						"example": [
+							"uuid-category-1"
+						]
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Faol holati",
+						"default": true
+					},
+					"isFeatured": {
+						"type": "boolean",
+						"description": "E'tiborli kitob",
+						"default": false
+					},
+					"isDraft": {
+						"type": "boolean",
+						"description": "Qoralama holati",
+						"default": false
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookCopyStatus": {
+				"type": "string",
+				"enum": [
+					"AVAILABLE",
+					"RESERVED",
+					"ON_RENT",
+					"LOST",
+					"DAMAGED",
+					"UNDER_REPAIR",
+					"WITHDRAWN",
+					"IN_TRANSIT"
+				],
+				"description": "BookCopy Status Enum"
+			},
+			"CreateBookCopyBatchDto": {
+				"description": "Kitob nusxasi batch yaratish DTO",
+				"properties": {
+					"quantity": {
+						"type": "number",
+						"format": "double",
+						"description": "Nusxalar soni (1-1000) - Majburiy",
+						"example": 10
+					},
+					"branchId": {
+						"type": "string",
+						"description": "Filial ID - Majburiy",
+						"example": "branch_uuid"
+					},
+					"locationId": {
+						"type": "string",
+						"description": "Joylashuv ID",
+						"example": "location_uuid"
+					},
+					"shelfId": {
+						"type": "string",
+						"description": "Raf ID",
+						"example": "shelf_uuid"
+					},
+					"status": {
+						"$ref": "#/components/schemas/BookCopyStatus",
+						"description": "Holat"
+					},
+					"condition": {
+						"type": "string",
+						"description": "Kitob holati",
+						"example": "Yaxshi"
+					},
+					"purchaseDate": {
+						"type": "string",
+						"description": "Sotib olingan sana",
+						"example": "2025-11-19"
+					},
+					"purchasePrice": {
+						"type": "number",
+						"format": "double",
+						"description": "Sotib olish narxi",
+						"example": 50000
+					},
+					"supplier": {
+						"type": "string",
+						"description": "Yetkazib beruvchi",
+						"example": "Kitob Dunyosi MChJ"
+					},
+					"generateQR": {
+						"type": "boolean",
+						"description": "QR kod generatsiya qilish",
+						"default": true
+					},
+					"generateBarcodePDF": {
+						"type": "boolean",
+						"description": "Barcode PDF generatsiya qilish",
+						"default": true
+					}
+				},
+				"required": [
+					"quantity",
+					"branchId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ChangeCopyStatusDto": {
+				"description": "Copy status o'zgartirish DTO",
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/BookCopyStatus",
+						"description": "Yangi holat - Majburiy"
+					},
+					"reason": {
+						"type": "string",
+						"description": "Sabab (agar LOST/DAMAGED bo'lsa)"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBookCopyDto": {
+				"description": "Kitob nusxasi yangilash DTO",
+				"properties": {
+					"barcode": {
+						"type": "string",
+						"description": "Barkod"
+					},
+					"qrCode": {
+						"type": "string",
+						"description": "QR kod"
+					},
+					"locationId": {
+						"type": "string",
+						"description": "Joylashuv ID"
+					},
+					"shelfId": {
+						"type": "string",
+						"description": "Raf ID"
+					},
+					"status": {
+						"$ref": "#/components/schemas/BookCopyStatus",
+						"description": "Holat"
+					},
+					"condition": {
+						"type": "string",
+						"description": "Kitob holati"
+					},
+					"purchaseDate": {
+						"type": "string",
+						"description": "Sotib olingan sana"
+					},
+					"purchasePrice": {
+						"type": "number",
+						"format": "double",
+						"description": "Sotib olish narxi"
+					},
+					"supplier": {
+						"type": "string",
+						"description": "Yetkazib beruvchi"
+					},
+					"lastCheckedAt": {
+						"type": "string",
+						"description": "Oxirgi tekshiruv sanasi"
+					},
+					"repairHistory": {
+						"description": "Ta'mirlash tarixi"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateAuthorDto": {
+				"description": "Author yaratish DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Muallif ismi - Majburiy",
+						"example": "Alisher Navoiy"
+					},
+					"birthDate": {
+						"type": "string",
+						"description": "Tug'ilgan sana",
+						"example": "1441-02-09"
+					},
+					"deathDate": {
+						"type": "string",
+						"description": "Vafot etgan sana",
+						"example": "1501-01-03"
+					},
+					"nationality": {
+						"type": "string",
+						"description": "Millati",
+						"example": "Uzbek"
+					},
+					"biography": {
+						"type": "string",
+						"description": "Biografiya"
+					},
+					"photo": {
+						"type": "string",
+						"description": "Rasm URL"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateAuthorDto": {
+				"description": "Author yangilash DTO",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Muallif ismi - Majburiy",
+						"example": "Alisher Navoiy"
+					},
+					"birthDate": {
+						"type": "string",
+						"description": "Tug'ilgan sana",
+						"example": "1441-02-09"
+					},
+					"deathDate": {
+						"type": "string",
+						"description": "Vafot etgan sana",
+						"example": "1501-01-03"
+					},
+					"nationality": {
+						"type": "string",
+						"description": "Millati",
+						"example": "Uzbek"
+					},
+					"biography": {
+						"type": "string",
+						"description": "Biografiya"
+					},
+					"photo": {
+						"type": "string",
+						"description": "Rasm URL"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"LoginDto": {
 				"description": "Login credentials DTO",
 				"properties": {
@@ -94,6 +790,10 @@
 						"type": "string",
 						"description": "User's password",
 						"example": "password123"
+					},
+					"rememberMe": {
+						"type": "boolean",
+						"description": "Remember me flag"
 					}
 				},
 				"required": [
@@ -103,13 +803,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RegisterDto": {
-				"description": "Registration details DTO",
+			"RegisterInitDto": {
+				"description": "Register Init DTO",
 				"properties": {
 					"phone": {
 						"type": "string",
 						"description": "User's phone number",
 						"example": "+998901234567"
+					},
+					"telegramChatId": {
+						"type": "string",
+						"description": "User's Telegram Chat ID",
+						"example": "123456789"
+					}
+				},
+				"required": [
+					"phone"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterVerifyDto": {
+				"description": "Registration Verify DTO",
+				"properties": {
+					"tempId": {
+						"type": "string",
+						"description": "Temporary ID from init",
+						"example": "temp_uuid_here"
+					},
+					"code": {
+						"type": "string",
+						"description": "6-digit verification code",
+						"example": "123456"
 					},
 					"fullName": {
 						"type": "string",
@@ -120,48 +845,29 @@
 						"type": "string",
 						"description": "User's password",
 						"example": "password123"
-					}
-				},
-				"required": [
-					"phone",
-					"fullName",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"SendCodeDto": {
-				"description": "Send verification code DTO",
-				"properties": {
-					"phone": {
-						"type": "string",
-						"description": "User's phone number",
-						"example": "+998901234567"
-					}
-				},
-				"required": [
-					"phone"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"VerifyCodeDto": {
-				"description": "Verify code DTO",
-				"properties": {
-					"phone": {
-						"type": "string",
-						"description": "User's phone number",
-						"example": "+998901234567"
 					},
-					"code": {
+					"passwordConfirm": {
 						"type": "string",
-						"description": "6-digit verification code",
-						"example": "123456"
+						"description": "User's password confirm",
+						"example": "password123"
+					},
+					"dateOfBirth": {
+						"type": "string",
+						"description": "Date of birth (optional)",
+						"example": "2000-01-15"
+					},
+					"city": {
+						"type": "string",
+						"description": "City (optional)",
+						"example": "Tashkent"
 					}
 				},
 				"required": [
-					"phone",
-					"code"
+					"tempId",
+					"code",
+					"fullName",
+					"password",
+					"passwordConfirm"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -169,15 +875,11 @@
 			"LogOutDto": {
 				"description": "Log Out DTO",
 				"properties": {
-					"refreshToken": {
-						"type": "string",
-						"description": "User's refresh token",
-						"example": "refresh_token"
+					"revokeAll": {
+						"type": "boolean",
+						"description": "Revoke all sessions flag"
 					}
 				},
-				"required": [
-					"refreshToken"
-				],
 				"type": "object",
 				"additionalProperties": false
 			}
@@ -206,6 +908,40 @@
 								"schema": {
 									"items": {
 										"properties": {
+											"avatar": {
+												"properties": {
+													"mimeType": {
+														"type": "string"
+													},
+													"size": {
+														"type": "number",
+														"format": "double"
+													},
+													"path": {
+														"type": "string"
+													},
+													"updatedAt": {
+														"type": "string",
+														"format": "date-time"
+													},
+													"createdAt": {
+														"type": "string",
+														"format": "date-time"
+													},
+													"id": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"mimeType",
+													"size",
+													"path",
+													"updatedAt",
+													"createdAt",
+													"id"
+												],
+												"type": "object"
+											},
 											"updatedAt": {
 												"type": "string",
 												"format": "date-time"
@@ -230,9 +966,6 @@
 											"role": {
 												"$ref": "#/components/schemas/_36_Enums.UserRole"
 											},
-											"avatar": {
-												"type": "string"
-											},
 											"fullName": {
 												"type": "string"
 											},
@@ -244,6 +977,7 @@
 											}
 										},
 										"required": [
+											"avatar",
 											"updatedAt",
 											"createdAt",
 											"deletedAt",
@@ -251,7 +985,6 @@
 											"isVerified",
 											"telegramChatId",
 											"role",
-											"avatar",
 											"fullName",
 											"phone",
 											"id"
@@ -379,9 +1112,6 @@
 														"role": {
 															"$ref": "#/components/schemas/_36_Enums.UserRole"
 														},
-														"avatar": {
-															"type": "string"
-														},
 														"fullName": {
 															"type": "string"
 														},
@@ -423,7 +1153,6 @@
 														"telegramChatId",
 														"telegramId",
 														"role",
-														"avatar",
 														"fullName",
 														"password",
 														"phone",
@@ -576,9 +1305,6 @@
 														"role": {
 															"$ref": "#/components/schemas/_36_Enums.UserRole"
 														},
-														"avatar": {
-															"type": "string"
-														},
 														"fullName": {
 															"type": "string"
 														},
@@ -620,7 +1346,6 @@
 														"telegramChatId",
 														"telegramId",
 														"role",
-														"avatar",
 														"fullName",
 														"password",
 														"phone",
@@ -681,6 +1406,40 @@
 											"properties": {
 												"data": {
 													"properties": {
+														"avatar": {
+															"properties": {
+																"mimeType": {
+																	"type": "string"
+																},
+																"size": {
+																	"type": "number",
+																	"format": "double"
+																},
+																"path": {
+																	"type": "string"
+																},
+																"updatedAt": {
+																	"type": "string",
+																	"format": "date-time"
+																},
+																"createdAt": {
+																	"type": "string",
+																	"format": "date-time"
+																},
+																"id": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"mimeType",
+																"size",
+																"path",
+																"updatedAt",
+																"createdAt",
+																"id"
+															],
+															"type": "object"
+														},
 														"updatedAt": {
 															"type": "string",
 															"format": "date-time"
@@ -705,9 +1464,6 @@
 														"role": {
 															"$ref": "#/components/schemas/_36_Enums.UserRole"
 														},
-														"avatar": {
-															"type": "string"
-														},
 														"fullName": {
 															"type": "string"
 														},
@@ -719,6 +1475,7 @@
 														}
 													},
 													"required": [
+														"avatar",
 														"updatedAt",
 														"createdAt",
 														"deletedAt",
@@ -726,7 +1483,6 @@
 														"isVerified",
 														"telegramChatId",
 														"role",
-														"avatar",
 														"fullName",
 														"phone",
 														"id"
@@ -885,9 +1641,6 @@
 														"role": {
 															"$ref": "#/components/schemas/_36_Enums.UserRole"
 														},
-														"avatar": {
-															"type": "string"
-														},
 														"fullName": {
 															"type": "string"
 														},
@@ -929,7 +1682,6 @@
 														"telegramChatId",
 														"telegramId",
 														"role",
-														"avatar",
 														"fullName",
 														"password",
 														"phone",
@@ -1080,9 +1832,6 @@
 														"role": {
 															"$ref": "#/components/schemas/_36_Enums.UserRole"
 														},
-														"avatar": {
-															"type": "string"
-														},
 														"fullName": {
 															"type": "string"
 														},
@@ -1124,7 +1873,6 @@
 														"telegramChatId",
 														"telegramId",
 														"role",
-														"avatar",
 														"fullName",
 														"password",
 														"phone",
@@ -1165,6 +1913,1157 @@
 				]
 			}
 		},
+		"/publishers": {
+			"post": {
+				"operationId": "CreatePublisher",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Yangi nashriyot yaratish",
+				"tags": [
+					"Publishers"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "Nashriyot ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreatePublisherDto",
+								"description": "Nashriyot ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllPublishers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Barcha nashriyotlarni olish",
+				"tags": [
+					"Publishers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Sahifa raqami",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Limit",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Qidiruv",
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Mamlakat",
+						"in": "query",
+						"name": "country",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/publishers/{publisherId}": {
+			"get": {
+				"operationId": "GetPublisherById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "ID bo'yicha nashriyotni olish",
+				"tags": [
+					"Publishers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Nashriyot ID",
+						"in": "path",
+						"name": "publisherId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdatePublisher",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Nashriyotni yangilash",
+				"tags": [
+					"Publishers"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Nashriyot ID",
+						"in": "path",
+						"name": "publisherId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Yangilanish ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdatePublisherDto",
+								"description": "Yangilanish ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletePublisher",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Nashriyotni o'chirish (Soft Delete)",
+				"tags": [
+					"Publishers"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Nashriyot ID",
+						"in": "path",
+						"name": "publisherId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/genres": {
+			"post": {
+				"operationId": "CreateGenre",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Yangi janr yaratish",
+				"tags": [
+					"Genres"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "Janr ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateGenreDto",
+								"description": "Janr ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllGenres",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Barcha janrlarni olish",
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Sahifa raqami",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Limit",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Qidiruv",
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Ota janr ID",
+						"in": "query",
+						"name": "parentId",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/genres/{genreId}": {
+			"get": {
+				"operationId": "GetGenreById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "ID bo'yicha janrni olish",
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Janr ID",
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Janrni yangilash",
+				"tags": [
+					"Genres"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Janr ID",
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Yangilanish ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateGenreDto",
+								"description": "Yangilanish ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Janrni o'chirish (Soft Delete)",
+				"tags": [
+					"Genres"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Janr ID",
+						"in": "path",
+						"name": "genreId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/books": {
+			"post": {
+				"operationId": "CreateBook",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Yangi kitob yaratish (Manual)\r\nFR-01: Kitob yaratish (Manual)",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "Kitob ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookDto",
+								"description": "Kitob ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Barcha kitoblarni olish (pagination bilan)",
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Sahifa raqami",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Bir sahifada nechta kitob",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Faol kitoblar",
+						"in": "query",
+						"name": "isActive",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"description": "Til",
+						"in": "query",
+						"name": "language",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Nashr yili",
+						"in": "query",
+						"name": "publishYear",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/books/isbn-lookup": {
+			"post": {
+				"operationId": "LookupIsbn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "ISBN orqali kitob ma'lumotlarini avtomatik olish (Google Books API)\r\nFR-02: ISBN Auto-Fill",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "ISBN-13 kodi",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IsbnLookupDto",
+								"description": "ISBN-13 kodi"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/search": {
+			"get": {
+				"operationId": "SearchBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitoblarni qidirish (Full-Text + Filters)\r\nFR-08: Qidiruv va filtrlar",
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Qidiruv so'zi",
+						"in": "query",
+						"name": "q",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Janr slug",
+						"in": "query",
+						"name": "genre",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Yil oralig'i (2020-2025)",
+						"in": "query",
+						"name": "year",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Til",
+						"in": "query",
+						"name": "language",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Faqat mavjud nusxalar",
+						"in": "query",
+						"name": "available",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"description": "Filial ID",
+						"in": "query",
+						"name": "branch",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Sahifa",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Limit",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Sortlash (field:direction)",
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/books/{bookId}": {
+			"get": {
+				"operationId": "GetBookById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "ID bo'yicha bitta kitobni olish",
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Kitob ID",
+						"in": "path",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitobni yangilash\r\nFR-05: Kitob yangilash",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Kitob ID",
+						"in": "path",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Yangilanish ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBookDto",
+								"description": "Yangilanish ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitobni o'chirish (Soft Delete)\r\nFR-06: Kitob o'chirish",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Kitob ID",
+						"in": "path",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/books/{bookId}/copies/batch": {
+			"post": {
+				"operationId": "CreateBookCopiesBatch",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitob nusxalarini batch yaratish\r\nFR-03: BookCopy batch create",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Kitob ID",
+						"in": "path",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Batch ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookCopyBatchDto",
+								"description": "Batch ma'lumotlari"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/copies/{copyId}/status": {
+			"patch": {
+				"operationId": "ChangeBookCopyStatus",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitob nusxasi statusini o'zgartirish\r\nFR-07: Copy status change",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Nusxa ID",
+						"in": "path",
+						"name": "copyId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Status va sabab",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChangeCopyStatusDto",
+								"description": "Status va sabab"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/copies/{copyId}": {
+			"patch": {
+				"operationId": "UpdateBookCopy",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Kitob nusxasini yangilash",
+				"tags": [
+					"Books"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Nusxa ID",
+						"in": "path",
+						"name": "copyId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Yangilanish ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBookCopyDto",
+								"description": "Yangilanish ma'lumotlari"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authors": {
+			"post": {
+				"operationId": "CreateAuthor",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Yangi muallif yaratish",
+				"tags": [
+					"Authors"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "Muallif ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateAuthorDto",
+								"description": "Muallif ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllAuthors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Barcha mualliflarni olish",
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Sahifa raqami",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Limit",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Qidiruv",
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authors/{authorId}": {
+			"get": {
+				"operationId": "GetAuthorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "ID bo'yicha muallifni olish",
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Muallif ID",
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "UpdateAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Muallifni yangilash",
+				"tags": [
+					"Authors"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Muallif ID",
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Yangilanish ma'lumotlari",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateAuthorDto",
+								"description": "Yangilanish ma'lumotlari"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Muallifni o'chirish (Soft Delete)",
+				"tags": [
+					"Authors"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Muallif ID",
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authors/{authorId}/books": {
+			"get": {
+				"operationId": "GetAuthorBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Muallifning kitoblarini olish",
+				"tags": [
+					"Authors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Muallif ID",
+						"in": "path",
+						"name": "authorId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Sahifa",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Limit",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/auth/login": {
 			"post": {
 				"operationId": "Login",
@@ -1198,9 +3097,9 @@
 				}
 			}
 		},
-		"/auth/register": {
+		"/auth/register/init": {
 			"post": {
-				"operationId": "Register",
+				"operationId": "RegisterInit",
 				"responses": {
 					"201": {
 						"description": "Created",
@@ -1211,32 +3110,32 @@
 						}
 					}
 				},
-				"description": "Yangi foydalanuvchini ro'yxatdan o'tkazish.\r\nAvval telefon raqamini Telegram bot orqali tasdiqlash talab qilinadi.\r\nAgar foydalanuvchi botda raqamini ulashgan bo'lsa, chatId avtomatik bog'lanadi.",
+				"description": "Yangi foydalanuvchini ro'yxatdan o'tkazishni boshlash.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Ro'yxatdan o'tish ma'lumotlari",
+					"description": "Ro'yxatdan o'tish ma'lumotlari (tel raqam va telegram chatId)",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RegisterDto",
-								"description": "Ro'yxatdan o'tish ma'lumotlari"
+								"$ref": "#/components/schemas/RegisterInitDto",
+								"description": "Ro'yxatdan o'tish ma'lumotlari (tel raqam va telegram chatId)"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/auth/send-code": {
+		"/auth/register/verify": {
 			"post": {
-				"operationId": "SendCode",
+				"operationId": "RegisterVerify",
 				"responses": {
-					"200": {
-						"description": "Ok",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -1244,53 +3143,20 @@
 						}
 					}
 				},
-				"description": "Telegram bot orqali tasdiqlash kodini yuborish.\r\nFoydalanuvchi avval botga kirib /start bosgan bo'lishi kerak.",
+				"description": "Telegram bot orqali yuborilgan kodni tekshirish va ro'yxatdan o'tishni yakunlash.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Telefon raqami",
+					"description": "Tasdiqlash kodi va foydalanuvchi to'liq ma'lumotlari",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/SendCodeDto",
-								"description": "Telefon raqami"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/auth/verify-code": {
-			"post": {
-				"operationId": "VerifyCode",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"description": "Telegram bot orqali yuborilgan kodni tekshirish.\r\nKod to'g'ri bo'lsa, foydalanuvchiga ro'yxatdan o'tish uchun ruxsat beriladi.",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Telefon raqami va tasdiqlash kodi",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/VerifyCodeDto",
-								"description": "Telefon raqami va tasdiqlash kodi"
+								"$ref": "#/components/schemas/RegisterVerifyDto",
+								"description": "Tasdiqlash kodi va foydalanuvchi to'liq ma'lumotlari"
 							}
 						}
 					}
@@ -1341,16 +3207,18 @@
 				"tags": [
 					"Auth"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Faqatgina refresh token",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LogOutDto",
-								"description": "Faqatgina refresh token"
+								"$ref": "#/components/schemas/LogOutDto"
 							}
 						}
 					}

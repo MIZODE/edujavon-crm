@@ -45,6 +45,15 @@ bot.on('contact', async (ctx) => {
         });
 
         if (user) {
+            const existingTgUser = await prisma.user.findUnique({
+                where: { telegramChatId: chatId }
+            });
+
+            if (existingTgUser && existingTgUser.id !== user.id) {
+                 await ctx.reply("Bu Telegram akkaunt allaqachon boshqa raqamga ulangan.", Markup.removeKeyboard());
+                 return;
+            }
+
             // Agar foydalanuvchi bo'lsa, chatId ni yangilaymiz
             await prisma.user.update({
                 where: { id: user.id },
