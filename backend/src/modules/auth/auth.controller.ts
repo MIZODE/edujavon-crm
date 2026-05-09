@@ -70,16 +70,6 @@ export class AuthController extends Controller {
     }
 
     /**
-     * Admin paneli uchun test marshruti
-     */
-    @Security("jwt", ["admin"])
-    @Get("admin-test")
-    public async adminTest(): Promise<any> {
-        this.setStatus(200);
-        return { message: "Siz adminsiz va bu yo'lga kira olasiz!" };
-    }
-
-    /**
      * Foydalanuvchi tizimdan chiqishi
      */
     @Security("jwt")
