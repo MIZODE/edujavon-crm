@@ -124,7 +124,7 @@ model User {
   phone    String  @unique
   password String // ✅ BCrypt hash (12 rounds)
   fullName String
-  avatar   File?   @relation(fields: [id], references: [id])
+  avatar   String?
 
   // ✅ Role (faqat enum, v1.0 uchun Role model shart emas)
   role UserRole @default(USER)
@@ -578,7 +578,6 @@ model File {
   mimeType  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User?
 }
 
 // ============================================================================
