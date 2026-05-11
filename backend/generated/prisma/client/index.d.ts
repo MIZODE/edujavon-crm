@@ -4668,7 +4668,7 @@ export namespace Prisma {
     phone: string | null
     password: string | null
     fullName: string | null
-    avatar: string | null
+    avatarId: string | null
     role: $Enums.UserRole | null
     telegramId: string | null
     telegramChatId: string | null
@@ -4701,7 +4701,7 @@ export namespace Prisma {
     phone: string | null
     password: string | null
     fullName: string | null
-    avatar: string | null
+    avatarId: string | null
     role: $Enums.UserRole | null
     telegramId: string | null
     telegramChatId: string | null
@@ -4734,7 +4734,7 @@ export namespace Prisma {
     phone: number
     password: number
     fullName: number
-    avatar: number
+    avatarId: number
     role: number
     telegramId: number
     telegramChatId: number
@@ -4781,7 +4781,7 @@ export namespace Prisma {
     phone?: true
     password?: true
     fullName?: true
-    avatar?: true
+    avatarId?: true
     role?: true
     telegramId?: true
     telegramChatId?: true
@@ -4814,7 +4814,7 @@ export namespace Prisma {
     phone?: true
     password?: true
     fullName?: true
-    avatar?: true
+    avatarId?: true
     role?: true
     telegramId?: true
     telegramChatId?: true
@@ -4847,7 +4847,7 @@ export namespace Prisma {
     phone?: true
     password?: true
     fullName?: true
-    avatar?: true
+    avatarId?: true
     role?: true
     telegramId?: true
     telegramChatId?: true
@@ -4967,7 +4967,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar: string | null
+    avatarId: string | null
     role: $Enums.UserRole
     telegramId: string | null
     telegramChatId: string | null
@@ -5019,7 +5019,7 @@ export namespace Prisma {
     phone?: boolean
     password?: boolean
     fullName?: boolean
-    avatar?: boolean
+    avatarId?: boolean
     role?: boolean
     telegramId?: boolean
     telegramChatId?: boolean
@@ -5044,6 +5044,7 @@ export namespace Prisma {
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    avatar?: boolean | User$avatarArgs<ExtArgs>
     staff?: boolean | User$staffArgs<ExtArgs>
     rents?: boolean | User$rentsArgs<ExtArgs>
     reservations?: boolean | User$reservationsArgs<ExtArgs>
@@ -5065,7 +5066,7 @@ export namespace Prisma {
     phone?: boolean
     password?: boolean
     fullName?: boolean
-    avatar?: boolean
+    avatarId?: boolean
     role?: boolean
     telegramId?: boolean
     telegramChatId?: boolean
@@ -5090,6 +5091,7 @@ export namespace Prisma {
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    avatar?: boolean | User$avatarArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5098,7 +5100,7 @@ export namespace Prisma {
     phone?: boolean
     password?: boolean
     fullName?: boolean
-    avatar?: boolean
+    avatarId?: boolean
     role?: boolean
     telegramId?: boolean
     telegramChatId?: boolean
@@ -5123,6 +5125,7 @@ export namespace Prisma {
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    avatar?: boolean | User$avatarArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -5131,7 +5134,7 @@ export namespace Prisma {
     phone?: boolean
     password?: boolean
     fullName?: boolean
-    avatar?: boolean
+    avatarId?: boolean
     role?: boolean
     telegramId?: boolean
     telegramChatId?: boolean
@@ -5158,8 +5161,9 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "password" | "fullName" | "avatar" | "role" | "telegramId" | "telegramChatId" | "telegramUsername" | "telegramLinkedAt" | "telegramVerified" | "dateOfBirth" | "address" | "city" | "isVerified" | "isActive" | "isBlocked" | "blockedReason" | "blockedUntil" | "membershipType" | "membershipExpiry" | "joinDate" | "lastLoginAt" | "booksReadCount" | "currentLevel" | "totalPoints" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "password" | "fullName" | "avatarId" | "role" | "telegramId" | "telegramChatId" | "telegramUsername" | "telegramLinkedAt" | "telegramVerified" | "dateOfBirth" | "address" | "city" | "isVerified" | "isActive" | "isBlocked" | "blockedReason" | "blockedUntil" | "membershipType" | "membershipExpiry" | "joinDate" | "lastLoginAt" | "booksReadCount" | "currentLevel" | "totalPoints" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    avatar?: boolean | User$avatarArgs<ExtArgs>
     staff?: boolean | User$staffArgs<ExtArgs>
     rents?: boolean | User$rentsArgs<ExtArgs>
     reservations?: boolean | User$reservationsArgs<ExtArgs>
@@ -5174,12 +5178,17 @@ export namespace Prisma {
     payments?: boolean | User$paymentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    avatar?: boolean | User$avatarArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    avatar?: boolean | User$avatarArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      avatar: Prisma.$FilePayload<ExtArgs> | null
       staff: Prisma.$StaffPayload<ExtArgs> | null
       rents: Prisma.$RentPayload<ExtArgs>[]
       reservations: Prisma.$ReservationPayload<ExtArgs>[]
@@ -5199,7 +5208,7 @@ export namespace Prisma {
       phone: string
       password: string
       fullName: string
-      avatar: string | null
+      avatarId: string | null
       role: $Enums.UserRole
       telegramId: string | null
       telegramChatId: string | null
@@ -5618,6 +5627,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    avatar<T extends User$avatarArgs<ExtArgs> = {}>(args?: Subset<T, User$avatarArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     staff<T extends User$staffArgs<ExtArgs> = {}>(args?: Subset<T, User$staffArgs<ExtArgs>>): Prisma__StaffClient<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     rents<T extends User$rentsArgs<ExtArgs> = {}>(args?: Subset<T, User$rentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservations<T extends User$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, User$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5664,7 +5674,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly fullName: FieldRef<"User", 'String'>
-    readonly avatar: FieldRef<"User", 'String'>
+    readonly avatarId: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly telegramId: FieldRef<"User", 'String'>
     readonly telegramChatId: FieldRef<"User", 'String'>
@@ -5943,6 +5953,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6013,6 +6027,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6079,6 +6097,25 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.avatar
+   */
+  export type User$avatarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    where?: FileWhereInput
   }
 
   /**
@@ -21717,6 +21754,7 @@ export namespace Prisma {
     mimeType?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | File$userArgs<ExtArgs>
   }, ExtArgs["result"]["file"]>
 
   export type FileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21747,10 +21785,17 @@ export namespace Prisma {
   }
 
   export type FileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "path" | "size" | "mimeType" | "createdAt" | "updatedAt", ExtArgs["result"]["file"]>
+  export type FileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | File$userArgs<ExtArgs>
+  }
+  export type FileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type FileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $FilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "File"
-    objects: {}
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       path: string
@@ -22152,6 +22197,7 @@ export namespace Prisma {
    */
   export interface Prisma__FileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends File$userArgs<ExtArgs> = {}>(args?: Subset<T, File$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22204,6 +22250,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where: FileWhereUniqueInput
@@ -22222,6 +22272,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where: FileWhereUniqueInput
@@ -22239,6 +22293,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * Filter, which File to fetch.
      */
@@ -22288,6 +22346,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where?: FileWhereInput
@@ -22335,6 +22397,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * Filter, which Files to fetch.
      */
@@ -22384,6 +22450,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * The data needed to create a File.
      */
     data: XOR<FileCreateInput, FileUncheckedCreateInput>
@@ -22431,6 +22501,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * The data needed to update a File.
      */
@@ -22498,6 +22572,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * The filter to search for the File to update in case it exists.
      */
     where: FileWhereUniqueInput
@@ -22524,6 +22602,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter which File to delete.
      */
     where: FileWhereUniqueInput
@@ -22544,6 +22626,25 @@ export namespace Prisma {
   }
 
   /**
+   * File.user
+   */
+  export type File$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * File without action
    */
   export type FileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22555,6 +22656,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
   }
 
 
@@ -43200,7 +43305,7 @@ export namespace Prisma {
     phone: 'phone',
     password: 'password',
     fullName: 'fullName',
-    avatar: 'avatar',
+    avatarId: 'avatarId',
     role: 'role',
     telegramId: 'telegramId',
     telegramChatId: 'telegramChatId',
@@ -44094,7 +44199,7 @@ export namespace Prisma {
     phone?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
-    avatar?: StringNullableFilter<"User"> | string | null
+    avatarId?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     telegramId?: StringNullableFilter<"User"> | string | null
     telegramChatId?: StringNullableFilter<"User"> | string | null
@@ -44119,6 +44224,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    avatar?: XOR<FileNullableScalarRelationFilter, FileWhereInput> | null
     staff?: XOR<StaffNullableScalarRelationFilter, StaffWhereInput> | null
     rents?: RentListRelationFilter
     reservations?: ReservationListRelationFilter
@@ -44139,7 +44245,7 @@ export namespace Prisma {
     phone?: SortOrder
     password?: SortOrder
     fullName?: SortOrder
-    avatar?: SortOrderInput | SortOrder
+    avatarId?: SortOrderInput | SortOrder
     role?: SortOrder
     telegramId?: SortOrderInput | SortOrder
     telegramChatId?: SortOrderInput | SortOrder
@@ -44164,6 +44270,7 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    avatar?: FileOrderByWithRelationInput
     staff?: StaffOrderByWithRelationInput
     rents?: RentOrderByRelationAggregateInput
     reservations?: ReservationOrderByRelationAggregateInput
@@ -44182,6 +44289,7 @@ export namespace Prisma {
     id?: string
     email?: string
     phone?: string
+    avatarId?: string
     telegramId?: string
     telegramChatId?: string
     AND?: UserWhereInput | UserWhereInput[]
@@ -44189,7 +44297,6 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
-    avatar?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     telegramUsername?: StringNullableFilter<"User"> | string | null
     telegramLinkedAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -44212,6 +44319,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    avatar?: XOR<FileNullableScalarRelationFilter, FileWhereInput> | null
     staff?: XOR<StaffNullableScalarRelationFilter, StaffWhereInput> | null
     rents?: RentListRelationFilter
     reservations?: ReservationListRelationFilter
@@ -44224,7 +44332,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     sessions?: SessionListRelationFilter
     payments?: PaymentListRelationFilter
-  }, "id" | "email" | "phone" | "telegramId" | "telegramChatId">
+  }, "id" | "email" | "phone" | "avatarId" | "telegramId" | "telegramChatId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -44232,7 +44340,7 @@ export namespace Prisma {
     phone?: SortOrder
     password?: SortOrder
     fullName?: SortOrder
-    avatar?: SortOrderInput | SortOrder
+    avatarId?: SortOrderInput | SortOrder
     role?: SortOrder
     telegramId?: SortOrderInput | SortOrder
     telegramChatId?: SortOrderInput | SortOrder
@@ -44273,7 +44381,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     fullName?: StringWithAggregatesFilter<"User"> | string
-    avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
+    avatarId?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     telegramId?: StringNullableWithAggregatesFilter<"User"> | string | null
     telegramChatId?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -45550,6 +45658,7 @@ export namespace Prisma {
     mimeType?: StringFilter<"File"> | string
     createdAt?: DateTimeFilter<"File"> | Date | string
     updatedAt?: DateTimeFilter<"File"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type FileOrderByWithRelationInput = {
@@ -45559,6 +45668,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
   }
 
   export type FileWhereUniqueInput = Prisma.AtLeast<{
@@ -45571,6 +45681,7 @@ export namespace Prisma {
     mimeType?: StringFilter<"File"> | string
     createdAt?: DateTimeFilter<"File"> | Date | string
     updatedAt?: DateTimeFilter<"File"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type FileOrderByWithAggregationInput = {
@@ -47276,7 +47387,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -47301,6 +47411,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -47321,7 +47432,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -47366,7 +47477,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47391,6 +47501,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -47411,7 +47522,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47456,7 +47567,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -47489,7 +47600,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47522,7 +47632,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48996,6 +49106,7 @@ export namespace Prisma {
     mimeType: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutAvatarInput
   }
 
   export type FileUncheckedCreateInput = {
@@ -49005,6 +49116,7 @@ export namespace Prisma {
     mimeType: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    user?: UserUncheckedCreateNestedOneWithoutAvatarInput
   }
 
   export type FileUpdateInput = {
@@ -49014,6 +49126,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutAvatarNestedInput
   }
 
   export type FileUncheckedUpdateInput = {
@@ -49023,6 +49136,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUncheckedUpdateOneWithoutAvatarNestedInput
   }
 
   export type FileCreateManyInput = {
@@ -50987,6 +51101,11 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type FileNullableScalarRelationFilter = {
+    is?: FileWhereInput | null
+    isNot?: FileWhereInput | null
+  }
+
   export type StaffNullableScalarRelationFilter = {
     is?: StaffWhereInput | null
     isNot?: StaffWhereInput | null
@@ -51113,7 +51232,7 @@ export namespace Prisma {
     phone?: SortOrder
     password?: SortOrder
     fullName?: SortOrder
-    avatar?: SortOrder
+    avatarId?: SortOrder
     role?: SortOrder
     telegramId?: SortOrder
     telegramChatId?: SortOrder
@@ -51152,7 +51271,7 @@ export namespace Prisma {
     phone?: SortOrder
     password?: SortOrder
     fullName?: SortOrder
-    avatar?: SortOrder
+    avatarId?: SortOrder
     role?: SortOrder
     telegramId?: SortOrder
     telegramChatId?: SortOrder
@@ -51185,7 +51304,7 @@ export namespace Prisma {
     phone?: SortOrder
     password?: SortOrder
     fullName?: SortOrder
-    avatar?: SortOrder
+    avatarId?: SortOrder
     role?: SortOrder
     telegramId?: SortOrder
     telegramChatId?: SortOrder
@@ -52297,6 +52416,11 @@ export namespace Prisma {
     capacity?: SortOrder
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type FileCountOrderByAggregateInput = {
     id?: SortOrder
     path?: SortOrder
@@ -53301,11 +53425,6 @@ export namespace Prisma {
     not?: NestedEnumAuditActionFilter<$PrismaModel> | $Enums.AuditAction
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type BookCopyNullableScalarRelationFilter = {
     is?: BookCopyWhereInput | null
     isNot?: BookCopyWhereInput | null
@@ -53478,6 +53597,12 @@ export namespace Prisma {
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type FileCreateNestedOneWithoutUserInput = {
+    create?: XOR<FileCreateWithoutUserInput, FileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FileCreateOrConnectWithoutUserInput
+    connect?: FileWhereUniqueInput
   }
 
   export type StaffCreateNestedOneWithoutUserInput = {
@@ -53680,6 +53805,16 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type FileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FileCreateWithoutUserInput, FileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FileCreateOrConnectWithoutUserInput
+    upsert?: FileUpsertWithoutUserInput
+    disconnect?: FileWhereInput | boolean
+    delete?: FileWhereInput | boolean
+    connect?: FileWhereUniqueInput
+    update?: XOR<XOR<FileUpdateToOneWithWhereWithoutUserInput, FileUpdateWithoutUserInput>, FileUncheckedUpdateWithoutUserInput>
   }
 
   export type StaffUpdateOneWithoutUserNestedInput = {
@@ -55433,6 +55568,38 @@ export namespace Prisma {
     deleteMany?: BookCopyScalarWhereInput | BookCopyScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutAvatarInput = {
+    create?: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAvatarInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUncheckedCreateNestedOneWithoutAvatarInput = {
+    create?: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAvatarInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutAvatarNestedInput = {
+    create?: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAvatarInput
+    upsert?: UserUpsertWithoutAvatarInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAvatarInput, UserUpdateWithoutAvatarInput>, UserUncheckedUpdateWithoutAvatarInput>
+  }
+
+  export type UserUncheckedUpdateOneWithoutAvatarNestedInput = {
+    create?: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAvatarInput
+    upsert?: UserUpsertWithoutAvatarInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAvatarInput, UserUpdateWithoutAvatarInput>, UserUncheckedUpdateWithoutAvatarInput>
+  }
+
   export type UserCreateNestedOneWithoutRentsInput = {
     create?: XOR<UserCreateWithoutRentsInput, UserUncheckedCreateWithoutRentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutRentsInput
@@ -56786,6 +56953,29 @@ export namespace Prisma {
     _max?: NestedEnumAuditActionFilter<$PrismaModel>
   }
 
+  export type FileCreateWithoutUserInput = {
+    id?: string
+    path: string
+    size: number
+    mimeType: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FileUncheckedCreateWithoutUserInput = {
+    id?: string
+    path: string
+    size: number
+    mimeType: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FileCreateOrConnectWithoutUserInput = {
+    where: FileWhereUniqueInput
+    create: XOR<FileCreateWithoutUserInput, FileUncheckedCreateWithoutUserInput>
+  }
+
   export type StaffCreateWithoutUserInput = {
     id?: string
     employeeId: string
@@ -57271,6 +57461,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FileUpsertWithoutUserInput = {
+    update: XOR<FileUpdateWithoutUserInput, FileUncheckedUpdateWithoutUserInput>
+    create: XOR<FileCreateWithoutUserInput, FileUncheckedCreateWithoutUserInput>
+    where?: FileWhereInput
+  }
+
+  export type FileUpdateToOneWithWhereWithoutUserInput = {
+    where?: FileWhereInput
+    data: XOR<FileUpdateWithoutUserInput, FileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StaffUpsertWithoutUserInput = {
     update: XOR<StaffUpdateWithoutUserInput, StaffUncheckedUpdateWithoutUserInput>
     create: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
@@ -57705,7 +57924,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -57730,6 +57948,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -57749,7 +57968,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -57914,7 +58133,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -57939,6 +58157,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -57958,7 +58177,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -58081,7 +58300,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -58106,6 +58324,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -58125,7 +58344,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -58185,7 +58404,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -58210,6 +58428,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -58229,7 +58448,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61268,13 +61487,12 @@ export namespace Prisma {
     data: XOR<BookCopyUpdateManyMutationInput, BookCopyUncheckedUpdateManyWithoutShelfInput>
   }
 
-  export type UserCreateWithoutRentsInput = {
+  export type UserCreateWithoutAvatarInput = {
     id?: string
     email?: string | null
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -61300,6 +61518,199 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     staff?: StaffCreateNestedOneWithoutUserInput
+    rents?: RentCreateNestedManyWithoutUserInput
+    reservations?: ReservationCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    ratings?: RatingCreateNestedManyWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    readingGoals?: ReadingGoalCreateNestedManyWithoutUserInput
+    userAchievements?: UserAchievementCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAvatarInput = {
+    id?: string
+    email?: string | null
+    phone: string
+    password: string
+    fullName: string
+    role?: $Enums.UserRole
+    telegramId?: string | null
+    telegramChatId?: string | null
+    telegramUsername?: string | null
+    telegramLinkedAt?: Date | string | null
+    telegramVerified?: boolean
+    dateOfBirth?: Date | string | null
+    address?: string | null
+    city?: string | null
+    isVerified?: boolean
+    isActive?: boolean
+    isBlocked?: boolean
+    blockedReason?: string | null
+    blockedUntil?: Date | string | null
+    membershipType?: $Enums.MembershipType
+    membershipExpiry?: Date | string | null
+    joinDate?: Date | string
+    lastLoginAt?: Date | string | null
+    booksReadCount?: number
+    currentLevel?: number
+    totalPoints?: number
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    staff?: StaffUncheckedCreateNestedOneWithoutUserInput
+    rents?: RentUncheckedCreateNestedManyWithoutUserInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    readingGoals?: ReadingGoalUncheckedCreateNestedManyWithoutUserInput
+    userAchievements?: UserAchievementUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAvatarInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+  }
+
+  export type UserUpsertWithoutAvatarInput = {
+    update: XOR<UserUpdateWithoutAvatarInput, UserUncheckedUpdateWithoutAvatarInput>
+    create: XOR<UserCreateWithoutAvatarInput, UserUncheckedCreateWithoutAvatarInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAvatarInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAvatarInput, UserUncheckedUpdateWithoutAvatarInput>
+  }
+
+  export type UserUpdateWithoutAvatarInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    telegramId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLinkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    telegramVerified?: BoolFieldUpdateOperationsInput | boolean
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isBlocked?: BoolFieldUpdateOperationsInput | boolean
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    blockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    membershipType?: EnumMembershipTypeFieldUpdateOperationsInput | $Enums.MembershipType
+    membershipExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joinDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    booksReadCount?: IntFieldUpdateOperationsInput | number
+    currentLevel?: IntFieldUpdateOperationsInput | number
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    staff?: StaffUpdateOneWithoutUserNestedInput
+    rents?: RentUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    ratings?: RatingUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    readingGoals?: ReadingGoalUpdateManyWithoutUserNestedInput
+    userAchievements?: UserAchievementUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAvatarInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    telegramId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLinkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    telegramVerified?: BoolFieldUpdateOperationsInput | boolean
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isBlocked?: BoolFieldUpdateOperationsInput | boolean
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    blockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    membershipType?: EnumMembershipTypeFieldUpdateOperationsInput | $Enums.MembershipType
+    membershipExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joinDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    booksReadCount?: IntFieldUpdateOperationsInput | number
+    currentLevel?: IntFieldUpdateOperationsInput | number
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    staff?: StaffUncheckedUpdateOneWithoutUserNestedInput
+    rents?: RentUncheckedUpdateManyWithoutUserNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    readingGoals?: ReadingGoalUncheckedUpdateManyWithoutUserNestedInput
+    userAchievements?: UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutRentsInput = {
+    id?: string
+    email?: string | null
+    phone: string
+    password: string
+    fullName: string
+    role?: $Enums.UserRole
+    telegramId?: string | null
+    telegramChatId?: string | null
+    telegramUsername?: string | null
+    telegramLinkedAt?: Date | string | null
+    telegramVerified?: boolean
+    dateOfBirth?: Date | string | null
+    address?: string | null
+    city?: string | null
+    isVerified?: boolean
+    isActive?: boolean
+    isBlocked?: boolean
+    blockedReason?: string | null
+    blockedUntil?: Date | string | null
+    membershipType?: $Enums.MembershipType
+    membershipExpiry?: Date | string | null
+    joinDate?: Date | string
+    lastLoginAt?: Date | string | null
+    booksReadCount?: number
+    currentLevel?: number
+    totalPoints?: number
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
+    staff?: StaffCreateNestedOneWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
     ratings?: RatingCreateNestedManyWithoutUserInput
@@ -61318,7 +61729,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -61620,7 +62031,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61645,6 +62055,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -61664,7 +62075,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61892,7 +62303,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -61917,6 +62327,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -61936,7 +62347,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -62196,7 +62607,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62221,6 +62631,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -62240,7 +62651,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62632,7 +63043,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -62657,6 +63067,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -62676,7 +63087,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -62820,7 +63231,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62845,6 +63255,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -62864,7 +63275,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63004,7 +63415,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -63029,6 +63439,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -63048,7 +63459,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -63298,7 +63709,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63323,6 +63733,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -63342,7 +63753,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63554,7 +63965,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -63579,6 +63989,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -63598,7 +64009,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -63753,7 +64164,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63778,6 +64188,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -63797,7 +64208,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63942,7 +64353,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -63967,6 +64377,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -63986,7 +64397,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64141,7 +64552,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64166,6 +64576,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -64185,7 +64596,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64330,7 +64741,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64355,6 +64765,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -64374,7 +64785,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64465,7 +64876,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64490,6 +64900,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -64509,7 +64920,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64632,7 +65043,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64657,6 +65067,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -64676,7 +65087,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64769,7 +65180,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64794,6 +65204,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -64813,7 +65224,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64956,7 +65367,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -64981,6 +65391,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -65000,7 +65411,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -65095,7 +65506,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65120,6 +65530,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -65139,7 +65550,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65340,7 +65751,6 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -65365,6 +65775,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    avatar?: FileCreateNestedOneWithoutUserInput
     staff?: StaffCreateNestedOneWithoutUserInput
     rents?: RentCreateNestedManyWithoutUserInput
     reservations?: ReservationCreateNestedManyWithoutUserInput
@@ -65384,7 +65795,7 @@ export namespace Prisma {
     phone: string
     password: string
     fullName: string
-    avatar?: string | null
+    avatarId?: string | null
     role?: $Enums.UserRole
     telegramId?: string | null
     telegramChatId?: string | null
@@ -65624,7 +66035,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65649,6 +66059,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: FileUpdateOneWithoutUserNestedInput
     staff?: StaffUpdateOneWithoutUserNestedInput
     rents?: RentUpdateManyWithoutUserNestedInput
     reservations?: ReservationUpdateManyWithoutUserNestedInput
@@ -65668,7 +66079,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     telegramId?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null

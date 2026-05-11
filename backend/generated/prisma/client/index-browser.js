@@ -126,7 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   phone: 'phone',
   password: 'password',
   fullName: 'fullName',
-  avatar: 'avatar',
+  avatarId: 'avatarId',
   role: 'role',
   telegramId: 'telegramId',
   telegramChatId: 'telegramChatId',
