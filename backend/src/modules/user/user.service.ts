@@ -7,13 +7,12 @@ export class UsersService {
   async create(user: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
+    const { avatar, ...rest } = user;
     const newUser = await prisma.user.create({
       data: {
-        phone: user.phone,
+        ...rest,
         password: hashedPassword,
-        fullName: user.fullName,
-        avatar: user.avatar,
-        role: user.role,
+        ...(avatar ? { avatar: { connect: { id: avatar } } } : {})
       },
     });
 
@@ -54,6 +53,7 @@ export class UsersService {
   }
 
   async update(id: string, data: UpdateUserDto) {
+    const { avatar, ...restData } = data;
     const updatedUser = await prisma.user.update({
       where: { id },
       select: {
@@ -69,7 +69,10 @@ export class UsersService {
         deletedAt: true,
         telegramChatId: true,
       },
-      data,
+      data: {
+        ...restData,
+        ...(avatar ? { avatar: { connect: { id: avatar } } } : {})
+      },
     });
     return updatedUser;
   }

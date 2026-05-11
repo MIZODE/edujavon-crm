@@ -1,154 +1,314 @@
 import { prisma } from '../../config/prisma';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import { cache } from '../../common/service/cache.service';
-import { createAccessToken, createRefreshToken, verifyRefreshToken } from '../../common/service/token.service';
+import { createAccessToken, createRefreshToken, verifyAccessToken, verifyRefreshToken } from '../../common/service/token.service';
 import { sendVerificationCode as botSendCode } from '../bot/bot.service';
 import { AppError } from '../../common/errors/AppError';
+import { LoginDto, RegisterInitDto, RegisterVerifyDto } from './dto/auth.dto';
+import { AuditAction } from '../../../generated/prisma/client';
 
+// helper to sha256 hash token for DB 
+function hashToken(token: string): string {
+    return crypto.createHash('sha256').update(token).digest('hex');
+}
 
-export async function login(data: { phone: string; password: string }) {
+export async function login(data: LoginDto, meta: { ip: string, userAgent: string }) {
     const user = await prisma.user.findUnique({
         where: { phone: data.phone }
     });
 
     if (!user) {
-        throw new Error("Foydalanuvchi topilmadi");
+        throw new AppError("Foydalanuvchi topilmadi", 404);
     }
 
-    const isPasswordValid = await bcrypt.compare(
-        data.password,
-        user.password
-    );
+    if (user.isBlocked) {
+        throw new AppError(`Akkount bloklangan. Sababi: ${user.blockedReason || 'Qoida buzilishi'}`, 403);
+    }
+    
+    if (!user.isVerified) {
+        throw new AppError("Akkount tasdiqlanmagan", 403);
+    }
+
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
     if (!isPasswordValid) {
-        throw new Error("Parol xato");
+        // Log failed login
+        await prisma.auditLog.create({
+            data: {
+                id: crypto.randomUUID(),
+                action: 'FAILED_LOGIN',
+                entity: 'USER',
+                entityId: user.id,
+                userId: user.id,
+                ipAddress: meta.ip?.substring(0, 255),
+                userAgent: meta.userAgent?.substring(0, 255)
+            }
+        }).catch(e => console.error(e));
+        throw new AppError("Parol xato", 401);
     }
 
-    const accessToken = createAccessToken({
-        id: user.id,
-        role: user.role
+    // Update lastLoginAt
+    await prisma.user.update({
+        where: { id: user.id },
+        data: { lastLoginAt: new Date() }
     });
 
-    const refreshToken = createRefreshToken({
-        id: user.id
+    const accessToken = createAccessToken({ id: user.id, role: user.role });
+    const refreshToken = createRefreshToken({ id: user.id });
+
+    const hashedAccessToken = hashToken(accessToken);
+    const hashedRefreshToken = hashToken(refreshToken);
+
+    const expiresInDays = data.rememberMe ? 30 : 7;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + expiresInDays);
+
+    const session = await prisma.session.create({
+        data: {
+            id: crypto.randomUUID(),
+            userId: user.id,
+            token: hashedAccessToken,
+            refreshToken: hashedRefreshToken,
+            device: meta.userAgent?.substring(0, 255),
+            ipAddress: meta.ip?.substring(0, 45),
+            expiresAt
+        }
     });
 
-    const cacheKey = `refresh:${user.id}:${refreshToken}`;
-
-    await cache.set(cacheKey, true, 60 * 60 * 24 * 7 * 1000);
+    await prisma.auditLog.create({
+        data: {
+            id: crypto.randomUUID(),
+            action: 'LOGIN',
+            entity: 'USER',
+            entityId: user.id,
+            userId: user.id,
+            ipAddress: meta.ip?.substring(0, 255),
+            userAgent: meta.userAgent?.substring(0, 255)
+        }
+    }).catch(e => console.error(e));
 
     return {
-        accessToken,
-        refreshToken
+        user: {
+            id: user.id,
+            phone: user.phone,
+            fullName: user.fullName,
+            role: user.role,
+            isVerified: user.isVerified,
+            lastLoginAt: user.lastLoginAt
+        },
+        tokens: {
+            accessToken,
+            refreshToken,
+            expiresIn: 900,
+            refreshExpiresIn: expiresInDays * 24 * 60 * 60,
+            tokenType: "Bearer"
+        },
+        session: {
+            id: session.id,
+            device: session.device,
+            ipAddress: session.ipAddress,
+            createdAt: session.createdAt
+        }
     };
 }
 
-export async function sendVerificationCode(phone: string) {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await cache.set(`verify:${phone}`, code, 5 * 60 * 1000);
-
-    await botSendCode(phone, code);
-
-    return { message: 'Tasdiqlash kodi Telegram bot orqali yuborildi' };
-}
-
-export async function verifyCode(phone: string, code: string) {
-    const cachedCode = (await cache.get(`verify:${phone}`)) as string | null;
-
-    if (!cachedCode) {
-        throw new Error('Kod muddati tugagan yoki yuborilmagan');
-    }
-
-    if (cachedCode !== code) {
-        throw new Error('Kod noto\'g\'ri');
-    }
-
-    // Kod to'g'ri — kodni o'chirib, "verified" belgisini qo'yish
-    await cache.del(`verify:${phone}`);
-    await cache.set(`verified:${phone}`, true, 10 * 60 * 1000); // 10 daqiqa ro'yxatdan o'tishga vaqt
-
-    return { message: 'Kod tasdiqlandi' };
-}
-
-export async function register(data: { phone: string; fullName: string; password: string }) {
-    // Verifikatsiya tekshiruvi
-    const isVerified = (await cache.get(`verified:${data.phone}`)) as boolean | null;
-    if (!isVerified) {
-        throw new Error("Iltimos avval telefon raqamingizni tasdiqlang");
-    }
-
+export async function registerInit(data: RegisterInitDto) {
     const user = await prisma.user.findUnique({
         where: { phone: data.phone }
     });
 
     if (user) {
-        throw new Error("Foydalanuvchi allaqachon mavjud");
+        throw new AppError("Ushbu telefon raqam allaqachon ro'yxatdan o'tgan", 409);
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-
-    // Telegram chatID ni keshdan qidiramiz
-    const chatId = await cache.get(`bot:chatid:${data.phone}`);
-
-    const newUser = await prisma.user.create({
-        data: {
-            phone: data.phone,
-            password: hashedPassword,
-            fullName: data.fullName,
-            role: "USER",
-            telegramChatId: chatId ? String(chatId) : null,
-            isVerified: true
+    if (data.telegramChatId) {
+        const existingTg = await prisma.user.findUnique({
+            where: { telegramChatId: String(data.telegramChatId) }
+        });
+        if (existingTg) {
+            throw new AppError("Ushbu Telegram akkaunt allaqachon boshqa foydalanuvchiga biriktirilgan", 409);
         }
-    });
-
-    // Keshdagi chatId ni o'chirib yuboramiz
-    if (chatId) {
-        await cache.del(`bot:chatid:${data.phone}`);
     }
 
-    // Verified flagni o'chirish
-    await cache.del(`verified:${data.phone}`);
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const tempId = crypto.randomUUID();
 
-    const accessToken = createAccessToken({
-        id: newUser.id,
-        role: newUser.role
-    });
+    // Cache to Redis
+    await cache.set(`bot:chatid:${data.phone}`, data.telegramChatId, 60 * 60 * 1000);
+    await cache.set(`register:${tempId}`, JSON.stringify({ phone: data.phone, code, telegramChatId: data.telegramChatId }), 5 * 60 * 1000);
 
-    const refreshToken = createRefreshToken({
-        id: newUser.id
-    });
-
-    const cacheKey = `refresh:${newUser.id}:${refreshToken}`;
-
-    await cache.set(cacheKey, true, 60 * 60 * 24 * 7 * 1000);
+    await botSendCode(data.phone, code);
 
     return {
-        accessToken,
-        refreshToken
+        message: "Tasdiqlash kodi Telegram bot orqali yuborildi",
+        data: {
+            tempId,
+            expiresIn: 300,
+            resendAfter: 60
+        }
     };
 }
 
-export async function logOut(data: { refreshToken: string}) {
-    if(!data.refreshToken) {
-        throw new AppError("Refresh token kiritilishi kerak", 400);
+export async function registerVerify(data: RegisterVerifyDto, meta: { ip: string, userAgent: string }) {
+    if (data.password !== data.passwordConfirm) {
+        throw new AppError("Parollar mos tushmadi", 400);
     }
 
-    const decoded: any = await new Promise((resolve, reject) => {
-        try {
-            const payload = verifyRefreshToken(data.refreshToken);
-            resolve(payload);
-        } catch (err) {
-            reject(new AppError("Noto'g'ri refresh token", 400));
+    const cachedDataStr = await cache.get(`register:${data.tempId}`);
+    if (!cachedDataStr) {
+        throw new AppError("Kod muddati tugagan yoki noto'g'ri tempId", 410);
+    }
+
+    const cachedData = typeof cachedDataStr === 'string' ? JSON.parse(cachedDataStr) : cachedDataStr;
+
+    if (cachedData.code !== data.code) {
+        throw new AppError("Kod noto'g'ri", 400);
+    }
+
+    const userExists = await prisma.user.findUnique({
+        where: { phone: cachedData.phone }
+    });
+
+    if (userExists) {
+        throw new AppError("Foydalanuvchi allaqachon mavjud", 409);
+    }
+
+    // Hash with 12 rounds per RFC
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+
+    const hasTelegram = !!(cachedData.telegramChatId && String(cachedData.telegramChatId).trim());
+
+    if (hasTelegram) {
+        const existingTg = await prisma.user.findUnique({
+            where: { telegramChatId: String(cachedData.telegramChatId) }
+        });
+        if (existingTg) {
+            throw new AppError("Ushbu Telegram akkaunt allaqachon boshqa foydalanuvchiga biriktirilgan", 409);
+        }
+    }
+
+    const newUser = await prisma.user.create({
+        data: {
+            id: crypto.randomUUID(),
+            phone: cachedData.phone,
+            password: hashedPassword,
+            fullName: data.fullName,
+            role: "USER",
+            isVerified: true,
+            ...(hasTelegram ? {
+                telegramChatId: String(cachedData.telegramChatId),
+                telegramLinkedAt: new Date(),
+                telegramVerified: true,
+            } : {}),
+            ...(data.dateOfBirth ? { dateOfBirth: new Date(data.dateOfBirth) } : {}),
+            ...(data.city && data.city.trim() ? { city: data.city.trim() } : {}),
         }
     });
 
-    const cacheKey = `refresh:${decoded.sub}:${data.refreshToken}`;
+    await cache.del(`register:${data.tempId}`);
+    
+    // Create Audit Log for creation
+    await prisma.auditLog.create({
+        data: {
+            id: crypto.randomUUID(),
+            action: 'CREATE',
+            entity: 'USER',
+            entityId: newUser.id,
+            userId: newUser.id,
+            ipAddress: meta.ip?.substring(0, 255),
+            userAgent: meta.userAgent?.substring(0, 255)
+        }
+    }).catch(e => console.error(e));
 
-    if(!await cache.get(cacheKey)){
-        throw new AppError("Refresh token topilmadi", 404);
+    const accessToken = createAccessToken({ id: newUser.id, role: newUser.role });
+    const refreshToken = createRefreshToken({ id: newUser.id });
+
+    const hashedAccessToken = hashToken(accessToken);
+    const hashedRefreshToken = hashToken(refreshToken);
+
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    const session = await prisma.session.create({
+        data: {
+            id: crypto.randomUUID(),
+            userId: newUser.id,
+            token: hashedAccessToken,
+            refreshToken: hashedRefreshToken,
+            device: meta.userAgent?.substring(0, 255),
+            ipAddress: meta.ip?.substring(0, 45),
+            expiresAt
+        }
+    });
+
+    return {
+        message: "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi",
+        data: {
+            user: {
+                id: newUser.id,
+                phone: newUser.phone,
+                fullName: newUser.fullName,
+                role: newUser.role,
+                isVerified: newUser.isVerified,
+                telegramVerified: newUser.telegramVerified,
+                createdAt: newUser.createdAt
+            },
+            tokens: {
+                accessToken,
+                refreshToken,
+                expiresIn: 900,
+                tokenType: "Bearer"
+            }
+        }
+    };
+}
+
+export async function logOut(rawToken: string, revokeAll?: boolean) {
+    let decoded: any;
+    try {
+        decoded = verifyAccessToken(rawToken);
+    } catch (err) {
+        throw new AppError("Noto'g'ri yoki muddati o'tgan token", 401);
     }
 
-    await cache.del(cacheKey);
-    return { message: "Muvaffaqiyatli chiqish qilindi" };
+    const hashedAccessToken = hashToken(rawToken);
+
+    if (revokeAll) {
+        // Soft delete all active sessions for this user
+        await prisma.session.updateMany({
+            where: { 
+                userId: decoded.sub,
+                deletedAt: null
+            },
+            data: { deletedAt: new Date() }
+        });
+    } else {
+        // Soft delete specific session
+        await prisma.session.updateMany({
+            where: { 
+                token: hashedAccessToken,
+                deletedAt: null
+            },
+            data: { deletedAt: new Date() }
+        });
+    }
+
+    await prisma.auditLog.create({
+        data: {
+            id: crypto.randomUUID(),
+            action: 'LOGOUT',
+            entity: 'USER',
+            entityId: decoded.sub,
+            userId: decoded.sub
+        }
+    }).catch(e => console.error(e));
+
+    return {
+        message: "Muvaffaqiyatli chiqish qilindi",
+        data: {
+            userId: decoded.sub,
+            revokedAll: revokeAll ? true : false
+        }
+    };
 }
