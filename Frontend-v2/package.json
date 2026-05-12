@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@phosphor-icons/react": "^2.1.10",
-    "@tabler/icons-react": "^3.41.1",
     "@tailwindcss/postcss": "^4.2.2",
     "@tanstack/react-query": "^5.96.2",
     "@tanstack/react-table": "^8.21.3",
@@ -20,7 +18,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
-    "lucide-react": "^1.7.0",
+    "iconsax-react": "^0.0.8",
     "postcss": "^8.5.9",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

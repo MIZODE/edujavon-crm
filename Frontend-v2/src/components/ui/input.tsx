@@ -1,6 +1,6 @@
 import { type InputHTMLAttributes, forwardRef, useState } from 'react';
 import { cn } from '../../lib/utils';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeSlash as EyeOff } from 'iconsax-react';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -62,7 +62,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate hover:text-ink transition-colors"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff color="currentColor" size={18} /> : <Eye color="currentColor" size={18} />}
             </button>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNotificationStore } from '../../store/useNotificationStore';
-import { BellRing, ShieldAlert, CheckCircle, Info, CheckCheck } from 'lucide-react';
+import { NotificationBing as BellRing, ShieldCross as ShieldAlert, TickCircle as CheckCircle, InfoCircle as Info, Verify as CheckCheck } from 'iconsax-react';
 import { useRef, useEffect } from 'react';
 
 interface NotificationPanelProps {
@@ -43,14 +43,14 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
         >
           <div className="flex items-center justify-between p-4 border-b border-surface-border bg-surface-2/50 transition-colors duration-500">
             <h3 className="font-bold text-ink flex items-center gap-2">
-              <BellRing size={16} strokeWidth={2} className="text-[#24A1DE]" /> Bildirishnomalar
+              <BellRing color="currentColor" size={20} variant="Bulk" className="text-[#24A1DE]" /> Bildirishnomalar
             </h3>
             {unreadCount > 0 && (
               <button 
                 onClick={markAllAsRead}
-                className="text-[10px] uppercase font-label tracking-widest text-[#24A1DE] hover:text-ink transition-colors flex items-center gap-1 focus:outline-none"
+                className="text-[10px] uppercase cursor-pointer border border-surface-border p-2 rounded-full font-label tracking-widest text-[#24A1DE] hover:text-ink transition-colors flex items-center gap-1 focus:outline-none"
               >
-                <CheckCheck size={12} strokeWidth={2} /> Barchasini o'qish
+                <CheckCheck color="currentColor" size={24} variant="Bulk" /> 
               </button>
             )}
           </div>
@@ -58,7 +58,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
           <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-surface-border flex-col">
             {notifications.length === 0 ? (
               <div className="p-8 text-center text-slate flex flex-col items-center">
-                <BellRing size={32} strokeWidth={2} className="opacity-20 mb-3" />
+                <BellRing color="currentColor" size={32} variant="Bulk" className="opacity-20 mb-3" />
                 <p className="text-sm">Hozircha hech qanday xabarlar yo'q</p>
               </div>
             ) : (
@@ -76,9 +76,9 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
                         notif.type === 'success' ? 'bg-success/10 text-success' :
                         'bg-[#24A1DE]/10 text-[#24A1DE]'
                      }`}>
-                         {notif.type === 'alert' && <ShieldAlert size={16} strokeWidth={2} />}
-                         {notif.type === 'success' && <CheckCircle size={16} strokeWidth={2} />}
-                         {notif.type === 'info' && <Info size={16} strokeWidth={2} />}
+                         {notif.type === 'alert' && <ShieldAlert color="currentColor" size={16} variant="Bulk" />}
+                         {notif.type === 'success' && <CheckCircle color="currentColor" size={16} variant="Bulk" />}
+                         {notif.type === 'info' && <Info color="currentColor" size={16} variant="Bulk" />}
                      </div>
                      <div className="flex-1">
                         <div className="flex justify-between items-start mb-1">

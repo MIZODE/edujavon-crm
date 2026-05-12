@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToastStore } from '../../store/useToastStore';
-import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
+import { TickCircle as CheckCircle, Warning2 as AlertCircle, InfoCircle as Info, CloseSquare as X } from 'iconsax-react';
 
 export function ToastProvider() {
   const { toasts, removeToast } = useToastStore();
@@ -20,9 +20,9 @@ export function ToastProvider() {
               'bg-[#24A1DE]/10 border-[#24A1DE]/30 text-[#24A1DE]'
             }`}
           >
-            {toast.type === 'success' && <CheckCircle size={20} strokeWidth={2} />}
-            {toast.type === 'error' && <AlertCircle size={20} strokeWidth={2} />}
-            {toast.type === 'info' && <Info size={20} strokeWidth={2} />}
+            {toast.type === 'success' && <CheckCircle color="currentColor" size={20} variant="Bulk" />}
+            {toast.type === 'error' && <AlertCircle color="currentColor" size={20} variant="Bulk" />}
+            {toast.type === 'info' && <Info color="currentColor" size={20} variant="Bulk" />}
             
             <span className="flex-1 font-bold text-sm">{toast.message}</span>
             
@@ -30,7 +30,7 @@ export function ToastProvider() {
               onClick={() => removeToast(toast.id)}
               className="p-1 hover:bg-white/10 rounded-full transition-colors opacity-70 hover:opacity-100 focus:outline-none"
             >
-              <X size={14} strokeWidth={2} />
+              <X color="currentColor" size={14} variant="Bulk" />
             </button>
           </motion.div>
         ))}

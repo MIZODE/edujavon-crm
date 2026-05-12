@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Search, AlertCircle, History, Plus } from 'lucide-react';
+import { SearchNormal as Search, Warning2 as AlertCircle, Timer as History, Add as Plus } from 'iconsax-react';
 import { Button } from '../components/ui/button';
 import { useAppStore } from '../store/useAppStore';
 import { useToastStore } from '../store/useToastStore';
@@ -77,17 +77,17 @@ export default function Rents() {
         
         <div className="flex gap-3">
           <Button onClick={() => setIsAdding(true)} variant="primary" className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest shadow-[0_0_20px_rgba(36,161,222,0.4)]">
-            <Plus size={16} strokeWidth={2} className="mr-2" /> Yangi Ijara
+            <Plus color="currentColor" size={16} variant="Bulk" className="mr-2" /> Yangi Ijara
           </Button>
           <Button 
             onClick={() => setFilterType(filterType === 'Overdue' ? 'All' : 'Overdue')}
             variant="outline" 
             className={`border-error/30 text-error rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest hover:bg-error/10 ${filterType === 'Overdue' ? 'bg-error/10' : ''}`}
           >
-            <AlertCircle size={16} strokeWidth={2} className="mr-2" /> Kechikkanlar (<span className="font-bold">{overdueCount}</span>)
+            <AlertCircle color="currentColor" size={16} variant="Bulk" className="mr-2" /> Kechikkanlar (<span className="font-bold">{overdueCount}</span>)
           </Button>
           <Button variant="outline" className="border-surface-light text-ink hover:bg-surface-border rounded-xl h-10 px-4 font-label text-[11px] font-medium uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-            <History size={16} strokeWidth={2} className="mr-2" /> Arxivi
+            <History color="currentColor" size={16} variant="Bulk" className="mr-2" /> Arxivi
           </Button>
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function Rents() {
         className="bg-surface-2/60 backdrop-blur-xl border border-surface-border rounded-2xl p-6 shadow-2xl transition-colors duration-500"
       >
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} strokeWidth={2} />
+          <Search color="currentColor" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} variant="Bulk" />
           <input 
             type="text" 
             value={searchQuery}
