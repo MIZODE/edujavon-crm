@@ -29,11 +29,24 @@ export interface Rent {
 }
 
 export interface AppSettings {
-  systemName: string | number | readonly string[];
+  systemName: string;
   finePerDay: number;
   maxRentsPerUser: number;
   libraryName: string;
   theme: 'dark' | 'light';
+  language: string;
+  currency: string;
+  workingHours: string;
+  contactPhone: string;
+  contactEmail: string;
+  rolesPermissions: Record<string, { canAddBook: boolean, canDeleteUser: boolean }>;
+  notifyNewRent: boolean;
+  notifyOverdueWarning: boolean;
+  notifyFineStarted: boolean;
+  notifyWeeklyReport: boolean;
+  telegramBotToken: string;
+  telegramChatId: string;
+  smsApiKey: string;
 }
 
 interface AppState {
@@ -70,10 +83,29 @@ export const useAppStore = create<AppState>((set) => ({
     { id: 'RN-1190', user: "Olim Olimov", book: "Harry Potter", date: "10 Sen 2025", dueDate: "24 Sen 2025", status: 'Returned', fine: 0 },
   ],
   settings: {
+    systemName: "Edujavon CRM",
     finePerDay: 2000,
     maxRentsPerUser: 5,
     libraryName: "Edujavon HQ",
-    theme: 'dark'
+    theme: 'dark',
+    language: "uz",
+    currency: "UZS",
+    workingHours: "09:00 - 18:00",
+    contactPhone: "+998 90 123 45 67",
+    contactEmail: "admin@edujavon.uz",
+    rolesPermissions: {
+      'SuperAdmin': { canAddBook: true, canDeleteUser: true },
+      'Manager': { canAddBook: true, canDeleteUser: true },
+      'Librarian': { canAddBook: true, canDeleteUser: false },
+      'User': { canAddBook: false, canDeleteUser: false }
+    },
+    notifyNewRent: true,
+    notifyOverdueWarning: true,
+    notifyFineStarted: false,
+    notifyWeeklyReport: true,
+    telegramBotToken: "",
+    telegramChatId: "",
+    smsApiKey: ""
   },
   addBook: (book) => set((state) => ({ books: [book, ...state.books] })),
   addUser: (user) => set((state) => ({ users: [user, ...state.users] })),

@@ -93,10 +93,10 @@
   .light, [data-theme='light'] {
     --color-ink: #111827;
     --color-surface: #FFFFFF;
-    --color-accent: #D4B100; /* Darker yellow for text legibility */
+    --color-accent: #FFD600; /* Vibrant yellow */
     
     --color-sage: #6B7280;
-    --color-gold: #B89A00;
+    --color-gold: #FFD600; /* Vibrant yellow */
     --color-slate: #4B5563;
 
     /* Elevation / Surfaces */

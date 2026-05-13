@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Trophy, Target, Shield, Book, Clock } from 'lucide-react';
+import { ArrowLeft2 as ArrowLeft, Award as Trophy, Radar as Target, ShieldSecurity as Shield, Book1 as Book, Clock as Clock } from 'iconsax-react';
 import { Button } from '../components/ui/button';
 
 export default function UserProfile() {
@@ -16,7 +16,7 @@ export default function UserProfile() {
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
       <div className="flex items-center gap-4">
         <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/10 rounded-full text-white transition-colors">
-          <ArrowLeft size={24} />
+          <ArrowLeft color="currentColor" size={24} />
         </button>
         <div>
           <h1 className="font-heading text-3xl mb-1 text-white">{user.name}</h1>
@@ -48,7 +48,7 @@ export default function UserProfile() {
                   <p className="font-number text-2xl text-accent font-bold">{user.readingScore} <span className="text-sm text-slate font-normal">XP</span></p>
                </div>
                <div className="flex items-center gap-1 text-[#FFD600]">
-                  <Trophy size={16} /> 
+                  <Trophy color="currentColor" size={16} /> 
                   <span className="font-label text-xs font-bold">Lvl 3</span>
                </div>
              </div>
@@ -67,15 +67,15 @@ export default function UserProfile() {
            {/* Badges */}
            <div className="w-full flex justify-between px-2 mb-4">
              <div className="flex flex-col items-center gap-2 group">
-               <div className="w-10 h-10 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 flex items-center justify-center text-[#10B981] group-hover:scale-110 transition-transform"><Book size={18} /></div>
+               <div className="w-10 h-10 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 flex items-center justify-center text-[#10B981] group-hover:scale-110 transition-transform"><Book color="currentColor" size={18} /></div>
                <span className="text-[9px] text-slate font-label uppercase text-center">Tez O'quvchi</span>
              </div>
              <div className="flex flex-col items-center gap-2 group">
-               <div className="w-10 h-10 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform"><Target size={18} /></div>
+               <div className="w-10 h-10 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform"><Target color="currentColor" size={18} /></div>
                <span className="text-[9px] text-slate font-label uppercase text-center">A'lochi</span>
              </div>
              <div className="flex flex-col items-center gap-2 group opacity-40 grayscale">
-               <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white"><Shield size={18} /></div>
+               <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white"><Shield color="currentColor" size={18} /></div>
                <span className="text-[9px] text-slate font-label uppercase text-center">Kitobkuyar</span>
              </div>
            </div>
@@ -96,7 +96,7 @@ export default function UserProfile() {
              <div className="flex-1 p-6">
                {userRents.length === 0 ? (
                  <div className="h-full flex flex-col items-center justify-center text-slate">
-                   <Clock size={48} className="mb-4 opacity-20" />
+                   <Clock color="currentColor" size={48} className="mb-4 opacity-20" />
                    <p>Foydalanuvchida hozircha ijaralar mavjud emas</p>
                  </div>
                ) : (

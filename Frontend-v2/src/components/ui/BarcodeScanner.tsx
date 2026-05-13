@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Scanner } from '@yudiel/react-qr-scanner';
-import { X, Scan } from 'lucide-react';
+import { CloseSquare as X, Scan } from 'iconsax-react';
 import { useState } from 'react';
 
 interface BarcodeScannerProps {
@@ -39,11 +39,11 @@ export function BarcodeScanner({ isOpen, onClose, onScan }: BarcodeScannerProps)
           >
             <div className="p-4 border-b border-surface-border flex justify-between items-center bg-surface-2 transition-colors duration-500">
               <div className="flex items-center gap-2 text-ink">
-                <Scan size={18} strokeWidth={2} className="text-[#24A1DE]" />
+                <Scan color="currentColor" size={18} variant="Bulk" className="text-[#24A1DE]" />
                 <h3 className="font-heading text-lg font-bold">Barkod Skaner</h3>
               </div>
               <button onClick={onClose} className="p-2 text-slate hover:text-ink hover:bg-surface-border rounded-full transition-colors focus:outline-none">
-                <X size={18} strokeWidth={2} />
+                <X color="currentColor" size={18} variant="Bulk" />
               </button>
             </div>
             

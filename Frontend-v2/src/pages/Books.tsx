@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, Scan, BookOpen } from 'lucide-react';
+import { SearchNormal as Search, FilterSearch as Filter, Add as Plus, Scan, Book as BookOpen } from 'iconsax-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useAppStore } from '../store/useAppStore';
@@ -62,17 +62,17 @@ export default function Books() {
         
         <div className="flex gap-3">
           <Button variant="outline" className="border-surface-light text-ink rounded-xl h-10 px-4 font-label text-xs uppercase hover:bg-surface-border">
-            <Filter size={16} strokeWidth={2} className="mr-2" /> Filtr
+            <Filter color="currentColor" size={16} variant="Bulk" className="mr-2" /> Filtr
           </Button>
           <Button onClick={() => setIsScannerOpen(true)} variant="outline" className="border-accent text-accent hover:bg-accent/10 rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_15px_rgba(255,214,0,0.2)]">
-            <Scan size={16} strokeWidth={2} className="mr-2" /> Barkod Skaner
+            <Scan color="currentColor" size={16} variant="Bulk" className="mr-2" /> Barkod Skaner
           </Button>
           <Button 
             onClick={() => setIsAdding(true)}
             variant="primary" 
             className="bg-accent text-black hover:bg-[#E6C200] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(255,214,0,0.4)]"
           >
-            <Plus size={16} strokeWidth={2} className="mr-2" /> Yangi qo'shish
+            <Plus color="currentColor" size={16} variant="Bulk" className="mr-2" /> Yangi qo'shish
           </Button>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function Books() {
         className="bg-surface-2/60 backdrop-blur-xl border border-surface-border rounded-2xl p-6 shadow-2xl transition-colors duration-500"
       >
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} strokeWidth={2} />
+          <Search color="currentColor" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} variant="Bulk" />
           <input 
             type="text" 
             value={searchQuery}
@@ -114,7 +114,7 @@ export default function Books() {
                   <td className="py-4 pr-4 font-ui text-slate text-xs">{book.id}</td>
                   <td className="py-4 px-4 font-bold text-ink flex items-center gap-3">
                     <div className="w-8 h-10 bg-surface-1 border border-surface-light rounded flex items-center justify-center text-accent opacity-50 group-hover:opacity-100 group-hover:border-accent/40 shadow-lg transition-all flex-shrink-0">
-                       <BookOpen size={18} strokeWidth={2} />
+                       <BookOpen color="currentColor" size={18} variant="Bulk" />
                     </div>
                     <div>
                       <p>{book.title}</p>

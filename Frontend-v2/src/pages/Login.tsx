@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
+import { Book as BookOpen } from 'iconsax-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 
@@ -101,7 +101,7 @@ export default function Login() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
           <div className="w-14 h-14 bg-accent inline-flex items-center justify-center mb-8 rounded-xl shadow-[0_0_30px_rgba(255,214,0,0.3)] rotate-3 hover:rotate-0 transition-all duration-300">
-            <BookOpen className="text-black" size={28} strokeWidth={2} />
+            <BookOpen color="currentColor" className="text-black" size={28} variant="Bulk" />
           </div>
           
           <h2 className="font-heading text-4xl text-ink mb-2">Xush kelibsiz</h2>

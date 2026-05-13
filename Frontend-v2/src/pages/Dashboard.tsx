@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, Legend
 } from 'recharts';
+import { useNavigate } from 'react-router-dom';
+import { DocumentDownload as Download } from 'iconsax-react';
 import { useAppStore } from '../store/useAppStore';
 
 const rentDynamicsData = [
@@ -42,6 +45,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function Dashboard() {
   const { books, users, rents } = useAppStore();
+  const navigate = useNavigate();
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = () => {
+    setIsExporting(true);
+    setTimeout(() => {
+      setIsExporting(false);
+      alert("Hisobot muvaffaqiyatli yuklab olindi (Excel)");
+    }, 1500);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -96,13 +109,24 @@ export default function Dashboard() {
   }));
 
   return (
-    <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
+    <div className="relative flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12 min-h-screen">
+      {/* Atmospheric Background Glow - Increased visibility */}
+      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-accent/30 rounded-full blur-[120px] pointer-events-none z-[-1]"></div>
+      <div className="absolute top-[20%] -right-20 w-[500px] h-[500px] bg-[#24A1DE]/30 rounded-full blur-[120px] pointer-events-none z-[-1]"></div>
       
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
           <h1 className="font-heading text-3xl font-bold mb-1 text-ink drop-shadow-md">Dashboard</h1>
           <p className="text-slate font-label text-xs font-medium uppercase tracking-widest">Kutubxona boshqaruv markazi</p>
         </div>
+        <button 
+          onClick={handleExport} 
+          disabled={isExporting}
+          className="flex items-center gap-2 bg-accent/10 hover:bg-accent/20 text-accent px-4 py-2 rounded-lg font-label text-xs uppercase tracking-widest transition-colors"
+        >
+          <Download color="currentColor" className="w-4 h-4" />
+          {isExporting ? "Yuklanmoqda..." : "Hisobotni Yuklash"}
+        </button>
       </div>
 
       <motion.div 
@@ -268,7 +292,12 @@ export default function Dashboard() {
         >
           <div className="flex justify-between items-center mb-6">
             <h2 className="font-heading text-xl font-bold tracking-tight text-ink/95">So'nggi Ijaralar</h2>
-            <button className="text-accent font-label text-[11px] font-medium uppercase tracking-widest hover:underline">Barchasini ko'rish</button>
+            <button 
+              onClick={() => navigate('/rents')}
+              className="text-accent font-label text-[11px] font-medium uppercase tracking-widest hover:underline"
+            >
+              Barchasini ko'rish
+            </button>
           </div>
           
           <div className="overflow-x-auto">

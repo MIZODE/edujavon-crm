@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, Users, CalendarCheck, Settings, LogOut, Bell, Search } from 'lucide-react';
+import { Category as LayoutDashboard, Book as BookOpen, Profile2User as Users, CalendarTick as CalendarCheck, Setting as Settings, Logout as LogOut, Notification as Bell, SearchNormal as Search } from 'iconsax-react';
 import { motion } from 'framer-motion';
 import { CommandPalette } from '../components/ui/CommandPalette';
 import { ToastProvider } from '../components/ui/ToastProvider';
@@ -86,7 +86,7 @@ export default function AppLayout() {
                   }`
                 }
               >
-                <Icon size={18} strokeWidth={2} />
+                <Icon color="currentColor" size={18} variant="Bulk" />
                 <span className="mt-0.5">{item.name}</span>
               </NavLink>
             );
@@ -102,7 +102,7 @@ export default function AppLayout() {
               }`
             }
           >
-            <Settings size={18} strokeWidth={2} />
+            <Settings color="currentColor" size={18} variant="Bulk" />
             <span className="mt-0.5">Sozlamalar</span>
           </NavLink>
           
@@ -110,7 +110,7 @@ export default function AppLayout() {
             onClick={() => navigate('/login')}
             className="flex items-center gap-4 px-4 py-3 mt-2 w-full text-left rounded-xl font-label text-[12px] font-medium uppercase tracking-widest text-error hover:bg-error/10 transition-colors"
           >
-            <LogOut size={18} strokeWidth={2} />
+            <LogOut color="currentColor" size={18} variant="Bulk" />
             <span className="mt-0.5">Tizimdan chiqish</span>
           </button>
         </div>
@@ -126,7 +126,7 @@ export default function AppLayout() {
               onClick={handleKeyboardTrigger}
               className="flex items-center gap-2 bg-surface-2 border border-surface-border rounded-full px-4 h-10 w-full text-[13px] font-label font-medium tracking-wide text-slate cursor-pointer hover:border-accent/50 transition-all group"
             >
-              <Search size={16} strokeWidth={2} className="text-slate group-hover:text-ink transition-colors" />
+              <Search color="currentColor" size={16} variant="Bulk" className="text-slate group-hover:text-ink transition-colors" />
               <span>QIDIRUV...</span>
               <div className="ml-auto flex gap-1">
                 <span className="text-[10px] bg-surface-border px-2 py-0.5 rounded border border-surface-border text-slate group-hover:text-ink transition-colors">Cmd + K</span>
@@ -140,7 +140,7 @@ export default function AppLayout() {
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                 className="relative text-slate hover:text-ink transition-colors p-2"
               >
-                <Bell size={20} strokeWidth={2} />
+                <Bell color="currentColor" size={20} variant="Bulk" />
                 {unreadCount > 0 && (
                   <span className="absolute top-1 right-1 w-4 h-4 bg-error rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)] text-[8px] font-bold text-white flex items-center justify-center">
                     {unreadCount > 9 ? '9+' : unreadCount}

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Search, UserPlus, FileSpreadsheet } from 'lucide-react';
+import { SearchNormal as Search, UserAdd as UserPlus, DocumentText as FileSpreadsheet } from 'iconsax-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useAppStore } from '../store/useAppStore';
@@ -55,14 +55,14 @@ export default function Users() {
         
         <div className="flex gap-3">
           <Button variant="outline" className="border-success/30 text-success rounded-xl h-10 px-4 font-label text-xs uppercase hover:bg-success/10">
-            <FileSpreadsheet size={16} strokeWidth={2} className="mr-2" /> Excel Export
+            <FileSpreadsheet color="currentColor" size={16} variant="Bulk" className="mr-2" /> Excel Export
           </Button>
           <Button 
             onClick={() => setIsAdding(true)}
             variant="primary" 
             className="bg-[#24A1DE] text-white hover:bg-[#1E8BBF] rounded-xl h-10 px-4 font-label text-xs uppercase shadow-[0_0_20px_rgba(36,161,222,0.4)]"
           >
-            <UserPlus size={16} strokeWidth={2} className="mr-2" /> A'zo qo'shish
+            <UserPlus color="currentColor" size={16} variant="Bulk" className="mr-2" /> A'zo qo'shish
           </Button>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function Users() {
         className="bg-surface-2/60 backdrop-blur-xl border border-surface-border rounded-2xl p-6 shadow-2xl transition-colors duration-500"
       >
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} strokeWidth={2} />
+          <Search color="currentColor" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate" size={18} variant="Bulk" />
           <input 
             type="text" 
             value={searchQuery}
