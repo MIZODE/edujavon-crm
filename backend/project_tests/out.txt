@@ -1,0 +1,35 @@
+ERROR CAUGHT
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.create()` invocation in
+D:\Edujavon\backend\test-prisma-2.ts:5:36
+
+  2 
+  3 async function main() {
+  4   try {
+→ 5     const user = await prisma.user.create(
+Null constraint violation on the (not available)
+    at Gr.handleRequestError (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:69:8286)
+    at Gr.handleAndLogRequestError (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:69:7581)
+    at Gr.request (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:69:7288)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:79:6730)
+    at async main (D:\Edujavon\backend\test-prisma-2.ts:5:18) {
+  code: 'P2011',
+  meta: {
+    modelName: 'User',
+    driverAdapterError: DriverAdapterError: NullConstraintViolation
+        at PrismaPgAdapter.onError (D:\Edujavon\backend\node_modules\@prisma\adapter-pg\dist\index.js:687:11)
+        at PrismaPgAdapter.performIO (D:\Edujavon\backend\node_modules\@prisma\adapter-pg\dist\index.js:682:12)
+        at processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async PrismaPgAdapter.queryRaw (D:\Edujavon\backend\node_modules\@prisma\adapter-pg\dist\index.js:602:30)
+        at async e.interpretNode (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:15:44573)
+        at async e.interpretNode (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:15:45017)
+        at async e.interpretNode (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:15:46237)
+        at async e.run (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:15:43287)
+        at async execute (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:61:815)
+        at async jt.request (D:\Edujavon\backend\generated\prisma\client\runtime\client.js:62:2327) {
+      cause: [Object]
+    }
+  },
+  clientVersion: '7.5.0'
+}

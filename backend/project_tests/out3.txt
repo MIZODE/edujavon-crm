@@ -1,0 +1,33 @@
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+prisma:query INSERT INTO "public"."User" ("id","phone","password","fullName","role","telegramVerified","isVerified","isActive","isBlocked","membershipType","joinDate","booksReadCount","currentLevel","totalPoints","createdAt","updatedAt") VALUES ($1,$2,$3,$4,CAST($5::text AS "public"."UserRole"),$6,$7,$8,$9,CAST($10::text AS "public"."MembershipType"),$11,$12,$13,$14,$15,$16) RETURNING "public"."User"."id", "public"."User"."email", "public"."User"."phone", "public"."User"."password", "public"."User"."fullName", "public"."User"."role"::text, "public"."User"."telegramId", "public"."User"."telegramChatId", "public"."User"."telegramUsername", "public"."User"."telegramLinkedAt", "public"."User"."telegramVerified", "public"."User"."dateOfBirth", "public"."User"."address", "public"."User"."city", "public"."User"."isVerified", "public"."User"."isActive", "public"."User"."isBlocked", "public"."User"."blockedReason", "public"."User"."blockedUntil", "public"."User"."membershipType"::text, "public"."User"."membershipExpiry", "public"."User"."joinDate", "public"."User"."lastLoginAt", "public"."User"."booksReadCount", "public"."User"."currentLevel", "public"."User"."totalPoints", "public"."User"."deletedAt", "public"."User"."createdAt", "public"."User"."updatedAt"
+Success {
+  id: '123e4567-e89b-12d3-a456-426614174000',
+  email: null,
+  phone: '+998901112244',
+  password: 'hash',
+  fullName: 'Test',
+  role: 'USER',
+  telegramId: null,
+  telegramChatId: null,
+  telegramUsername: null,
+  telegramLinkedAt: null,
+  telegramVerified: false,
+  dateOfBirth: null,
+  address: null,
+  city: null,
+  isVerified: true,
+  isActive: true,
+  isBlocked: false,
+  blockedReason: null,
+  blockedUntil: null,
+  membershipType: 'STANDARD',
+  membershipExpiry: null,
+  joinDate: 2026-04-02T15:14:05.455Z,
+  lastLoginAt: null,
+  booksReadCount: 0,
+  currentLevel: 1,
+  totalPoints: 0,
+  deletedAt: null,
+  createdAt: 2026-04-02T15:14:05.455Z,
+  updatedAt: 2026-04-02T15:14:05.455Z
+}
