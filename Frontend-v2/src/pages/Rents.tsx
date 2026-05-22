@@ -108,7 +108,8 @@ export default function Rents() {
           />
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop View Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-surface-border text-slate font-label text-[11px] font-medium uppercase tracking-widest">
@@ -164,6 +165,53 @@ export default function Rents() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile View: Touch-friendly Card List */}
+        <div className="grid grid-cols-1 gap-4 md:hidden mt-2">
+          {filteredRents.map((rent, i) => (
+            <div 
+              key={i} 
+              className="bg-surface-1 border border-surface-border p-4 rounded-xl flex flex-col gap-4 border-l-4 group" 
+              style={{ borderLeftColor: rent.status === 'Overdue' ? '#EF4444' : rent.status === 'Active' ? '#24A1DE' : 'transparent' }}
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="font-ui text-slate text-[10px] font-medium block">{rent.id}</span>
+                  <h4 className="font-heading text-sm font-bold text-ink mt-1">{rent.user}</h4>
+                  <p className="text-xs text-slate mt-0.5">{rent.book}</p>
+                </div>
+                <span className={`inline-flex px-2 py-1 rounded text-[9px] uppercase tracking-widest font-black ${
+                  rent.status === 'Active' ? 'bg-[#24A1DE]/15 text-[#24A1DE] border border-[#24A1DE]/20' : 
+                  rent.status === 'Overdue' ? 'bg-error/15 text-error border border-error/20' :
+                  'bg-slate/15 text-slate border border-slate/20'
+                }`}>
+                  {rent.status}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-end border-t border-surface-border/40 pt-3">
+                <div className="text-[10px] text-slate font-label uppercase tracking-widest flex flex-col gap-0.5">
+                  <span>Olingan: {rent.date}</span>
+                  <span className={rent.status === 'Overdue' ? 'text-error font-bold animate-pulse' : ''}>Tugaydi: {rent.dueDate}</span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  {rent.fine > 0 && (
+                    <span className="text-error font-number text-xs font-bold mr-2">{rent.fine.toLocaleString()} UZS</span>
+                  )}
+                  {rent.status !== 'Returned' && (
+                    <button 
+                      onClick={() => handleReturn(rent.id, rent.dueDate)}
+                      className="bg-surface-border/50 hover:bg-surface-border text-ink font-label text-[9px] uppercase tracking-widest px-3 py-1.5 rounded-md border border-surface-border transition-colors focus:outline-none"
+                    >
+                      Qaytarish
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </motion.div>
 

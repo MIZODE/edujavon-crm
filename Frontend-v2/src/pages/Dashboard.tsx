@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -7,6 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { DocumentDownload as Download } from 'iconsax-react';
 import { useAppStore } from '../store/useAppStore';
+import UserDashboard from './UserDashboard';
 
 const rentDynamicsData = [
   { name: 'Yan', ijaralar: 400, qaytarishlar: 240 },
@@ -47,6 +48,16 @@ export default function Dashboard() {
   const { books, users, rents } = useAppStore();
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = useState(false);
+  const [role, setRole] = useState('superadmin');
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem('edu_role');
+    if (storedRole) setRole(storedRole);
+  }, []);
+
+  if (role === 'user') {
+    return <UserDashboard />;
+  }
 
   const handleExport = () => {
     setIsExporting(true);
@@ -343,7 +354,7 @@ export default function Dashboard() {
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-[80px] pointer-events-none"></div>
           <div className="absolute top-6 right-6 z-10 w-16 h-16 bg-surface-2 border border-surface-light rounded-2xl flex items-center justify-center shadow-2xl rotate-12">
-            <span className="text-3xl">🪩</span>
+            <img src="https://em-content.zobj.net/source/apple/354/mirror-ball_1faa9.png" alt="disco" className="w-8 h-8 drop-shadow-md rotate-12" />
           </div>
 
           <div className="relative z-10">

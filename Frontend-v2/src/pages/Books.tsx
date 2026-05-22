@@ -93,7 +93,8 @@ export default function Books() {
           />
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop View Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-surface-border text-slate font-label text-[10px] uppercase tracking-widest">
@@ -134,6 +135,40 @@ export default function Books() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile View: Touch-friendly Card List */}
+        <div className="grid grid-cols-1 gap-4 md:hidden mt-2">
+          {filteredBooks.map((book, i) => (
+            <div 
+              key={i} 
+              onClick={() => navigate(`/books/${book.id}`)}
+              className="bg-surface-1 border border-surface-border p-4 rounded-xl flex items-center justify-between hover:border-accent/30 transition-all cursor-pointer group"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-12 bg-surface-2 border border-surface-light rounded flex items-center justify-center text-accent opacity-60 group-hover:opacity-100 shadow-md flex-shrink-0 transition-transform duration-300">
+                  <BookOpen color="currentColor" size={20} variant="Bulk" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="font-heading text-sm font-bold text-ink truncate">{book.title}</h4>
+                  <p className="text-xs text-slate truncate mt-0.5">{book.author}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-[9px] bg-surface-border px-2 py-0.5 rounded text-slate font-label uppercase tracking-widest font-bold">
+                      {book.category}
+                    </span>
+                    <span className="text-[9px] text-slate font-number">
+                      {book.copies} nusxa
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <span className={`inline-flex px-2 py-1 rounded text-[9px] uppercase tracking-widest font-black flex-shrink-0 ${
+                book.status === 'Mavjud' ? 'bg-success/15 text-success border border-success/20' : 'bg-error/15 text-error border border-error/20'
+              }`}>
+                {book.status}
+              </span>
+            </div>
+          ))}
         </div>
       </motion.div>
 

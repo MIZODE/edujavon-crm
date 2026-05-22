@@ -83,7 +83,8 @@ export default function Users() {
           />
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop View Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-surface-border text-slate font-label text-[10px] uppercase tracking-widest">
@@ -105,7 +106,7 @@ export default function Users() {
                   <td className="py-4 pr-4 pl-4">
                      <div className="flex items-center gap-3">
                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-surface-2 to-surface-0 border border-surface-light flex items-center justify-center font-heading text-ink shadow-lg group-hover:border-[#24A1DE]/50 transition-colors">
-                         {user.name.charAt(0)}
+                          {user.name.charAt(0)}
                        </div>
                        <div>
                          <p className="font-bold text-ink mb-0.5">{user.name}</p>
@@ -135,6 +136,43 @@ export default function Users() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile View: Touch-friendly Card List */}
+        <div className="grid grid-cols-1 gap-4 md:hidden mt-2">
+          {filteredUsers.map((user, i) => (
+            <div 
+              key={i} 
+              onClick={() => navigate(`/users/${user.id}`)}
+              className="bg-surface-1 border border-surface-border p-4 rounded-xl flex items-center justify-between hover:border-accent/30 transition-all cursor-pointer group"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-surface-2 to-surface-0 border border-surface-light flex items-center justify-center font-heading text-ink shadow-lg group-hover:border-[#24A1DE]/50 transition-colors flex-shrink-0">
+                  {user.name.charAt(0)}
+                </div>
+                <div className="min-w-0">
+                  <h4 className="font-heading text-sm font-bold text-ink truncate">{user.name}</h4>
+                  <p className="font-ui text-[10px] text-slate truncate mt-0.5">{user.id}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[8px] font-label uppercase tracking-widest font-black ${
+                      user.role === 'SuperAdmin' ? 'bg-accent/15 text-accent border border-accent/20' : 
+                      user.role === 'Manager' ? 'bg-[#24A1DE]/15 text-[#24A1DE] border border-[#24A1DE]/20' : 
+                      user.role === 'Librarian' ? 'bg-success/15 text-success border border-success/20' : 
+                      'bg-slate/15 text-slate border border-slate/20'
+                    }`}>
+                      {user.role}
+                    </span>
+                    <span className="text-[9px] text-slate font-number">
+                      Score: {user.readingScore}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <span className="text-[10px] text-slate font-ui bg-surface-border/30 px-2 py-1 rounded">
+                Tahrirlash
+              </span>
+            </div>
+          ))}
         </div>
       </motion.div>
 
